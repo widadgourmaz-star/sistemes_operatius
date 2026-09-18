@@ -4,9 +4,9 @@
    <link rel="stylesheet" href="css/estils.css">      (des de l'arrel) */
 
 :root {
-  --mari: #122542;
-  --teal: #0c6e73;
-  --ambre: #c9821f;
+  --mari: #4a148c;
+  --teal: #d6247a;
+  --ambre: #a86eea;
   --tinta: #1b2430;
   --tinta-suau: #57626c;
   --fons: #f5f6f8;
@@ -126,7 +126,7 @@ main { padding-bottom: 50px; }
   border-radius: var(--radi);
   font-weight: 600;
   text-decoration: none !important;
-  margin-top: 8px;
+  margin: 8px 6px 0;
 }
 .boto:hover { background: var(--mari); }
 
