@@ -243,3 +243,95 @@ footer.peu .autoria strong { color: var(--tinta); }
 .bloc-llicencia h3 { margin: 0 0 8px; font-size: 1rem; color: var(--mari); }
 .bloc-llicencia p { margin: 6px 0; font-size: 0.92rem; }
 .bloc-llicencia .badge-cc { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+
+/* ---------- Decoracions exclusives de la portada ---------- */
+.pagina-portada .hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.pagina-portada .hero-nav,
+.pagina-portada .hero-titol {
+  position: relative;
+  z-index: 1;
+}
+
+.blob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(55px);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+  animation: surar-blob 9s ease-in-out infinite;
+}
+.blob-1 { width: 240px; height: 240px; background: #ff6fb5; top: -90px; left: -60px; }
+.blob-2 { width: 200px; height: 200px; background: #ffd166; bottom: -80px; right: 8%; animation-delay: 2.5s; }
+.blob-3 { width: 170px; height: 170px; background: #7bdff2; top: 30%; right: -60px; animation-delay: 5s; }
+
+@keyframes surar-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18px, -22px) scale(1.1); }
+}
+
+.chip-benvinguda {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
+.pagina-portada .hero-titol h1 {
+  background: linear-gradient(90deg, #fff 0%, #ffd6ec 35%, #fff 70%, #ffd6ec 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brillantor-titol 5s linear infinite;
+}
+@keyframes brillantor-titol {
+  to { background-position: -250% center; }
+}
+
+.imatge-portada {
+  animation: surar-imatge 4.5s ease-in-out infinite;
+}
+@keyframes surar-imatge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.pagina-portada .fitxa-alumne {
+  border-left: 4px solid var(--teal);
+  background: linear-gradient(135deg, #fff 55%, #fdf1f8 100%);
+  box-shadow: 0 8px 20px rgba(166, 46, 122, 0.1);
+}
+
+.pila-tecno {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+.pila-tecno span {
+  background: var(--fons);
+  border: 1px solid var(--vora);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.78rem;
+  color: var(--tinta-suau);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob, .imatge-portada, .pagina-portada .hero-titol h1 {
+    animation: none !important;
+  }
+}
