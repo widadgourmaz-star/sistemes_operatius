@@ -225,6 +225,11 @@ h1, h2 { color: var(--mari); }
   padding-top: 0;
   border-top: none;
 }
+#contingut-md h3 {
+  margin: 24px 0 6px;
+  color: var(--teal);
+  font-size: 1.05rem;
+}
 #contingut-md img {
   max-width: 100%;
   border-radius: var(--radi);
