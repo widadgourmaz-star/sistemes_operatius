@@ -19,24 +19,24 @@
 
 /* ---------- Tema Ubuntu (portada.html i sprints-ubuntu.html) ---------- */
 body.tema-ubuntu {
-  --mari: #2c001e;
-  --teal: #e95420;
-  --teal-rgb: 233, 84, 32;
-  --ambre: #f9a66d;
-  --fons: #fdf1ea;
-  --panell: #fffaf5;
-  --vora: #f3ddc4;
+  --mari: #5f2043;
+  --teal: #7d2c55;
+  --teal-rgb: 125, 44, 85;
+  --ambre: #c98aa8;
+  --fons: #f8ecf3;
+  --panell: #fdf6fa;
+  --vora: #eccfe0;
 }
 
 /* ---------- Tema Windows (sprints-windows.html) ---------- */
 body.tema-windows {
-  --mari: #001a33;
-  --teal: #0078d4;
-  --teal-rgb: 0, 120, 212;
-  --ambre: #66c7f4;
-  --fons: #eaf4fb;
-  --panell: #f7fbfe;
-  --vora: #cfe6f5;
+  --mari: #0f3a63;
+  --teal: #2f8fe0;
+  --teal-rgb: 47, 143, 224;
+  --ambre: #6fc24a;
+  --fons: #eaf5ee;
+  --panell: #f6fbf7;
+  --vora: #cfe8d9;
 }
 
 * { box-sizing: border-box; }
