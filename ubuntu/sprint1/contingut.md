@@ -141,6 +141,7 @@ Abans de donar per acabat el sprint, revisa aquest resum:
 - El sistema arrenca sense errors.
 - La xarxa respon correctament als _pings_.
 - **Els usuaris i grups creats coincideixen amb l'enunciat.**
+<img width="522" height="391" alt="image" src="https://github.com/user-attachments/assets/a39eb1f6-9ae2-4e02-8b4f-655ccb43798f" />
 
 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
 fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem
