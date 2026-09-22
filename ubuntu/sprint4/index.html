@@ -29,49 +29,12 @@
       <thead>
         <tr><th>#</th><th>Apartat</th></tr>
       </thead>
-      <tbody>
-        <tr><td>1</td><td><a href="#apartat1">Tasques programades amb cron</a></td></tr>
-        <tr><td>2</td><td><a href="#apartat2">Scripts d'automatització bàsics</a></td></tr>
-        <tr><td>3</td><td><a href="#apartat3">Comprovació final</a></td></tr>
-      </tbody>
+      <tbody></tbody>
     </table>
 
-    <article class="apartat" id="apartat1">
-      <h2>1. Tasques programades amb cron</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. El servei
-         <strong>cron</strong> permet executar ordres o scripts de manera
-         automàtica a intervals regulars, sense intervenció manual.</p>
-      <ul>
-        <li>Consultar les tasques programades amb <code>crontab -l</code>.</li>
-        <li>Afegir una tasca nova amb <code>crontab -e</code>.</li>
-        <li>Entendre el format dels cinc camps de temps d'una entrada cron.</li>
-      </ul>
-      <img src="../../img/exemple.svg" alt="Exemple de captura de pantalla d'una tasca cron">
-      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
-    </article>
-    <article class="apartat" id="apartat2">
-      <h2>2. Scripts d'automatització bàsics</h2>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-         ut aliquip ex ea commodo consequat. Un <strong>script de shell</strong>
-         encadena diverses ordres per automatitzar tasques repetitives.</p>
-      <ul>
-        <li>Crear un arxiu <code>.sh</code> i donar-li permisos d'execució amb <code>chmod +x</code>.</li>
-        <li>Executar el script i revisar la seva sortida.</li>
-      </ul>
-      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
-    </article>
-    <article class="apartat" id="apartat3">
-      <h2>3. Comprovació final</h2>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-         dolore eu fugiat nulla pariatur. Abans de donar per acabat el sprint,
-         revisa aquest resum:</p>
-      <ul>
-        <li>La tasca programada s'executa a l'hora esperada.</li>
-        <li>L'script no dona errors en executar-se.</li>
-        <li><strong>Els registres (logs) confirmen l'execució automàtica.</strong></li>
-      </ul>
-      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
-    </article>
+    <div id="contingut-md">
+      <p class="carregant">Carregant contingut…</p>
+    </div>
   </section>
 </main>
 
@@ -85,5 +48,7 @@
   <p class="autoria">Autor/a: <strong>Widad Gourmaz</strong> · Pràctica 0 · Sistemes Operatius (ISOPJ1)</p>
 </footer>
 
+<script src="../../js/marked.min.js"></script>
+<script src="../../js/sprint.js"></script>
 </body>
 </html>
