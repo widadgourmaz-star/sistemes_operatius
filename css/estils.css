@@ -6,6 +6,7 @@
 :root {
   --mari: #4a148c;
   --teal: #d6247a;
+  --teal-rgb: 214, 36, 122;
   --ambre: #a86eea;
   --tinta: #1b2430;
   --tinta-suau: #6b5468;
@@ -14,6 +15,28 @@
   --blanc: #ffffff;
   --vora: #f0d3e4;
   --radi: 12px;
+}
+
+/* ---------- Tema Ubuntu (portada.html i sprints-ubuntu.html) ---------- */
+body.tema-ubuntu {
+  --mari: #2c001e;
+  --teal: #e95420;
+  --teal-rgb: 233, 84, 32;
+  --ambre: #f9a66d;
+  --fons: #fdf1ea;
+  --panell: #fffaf5;
+  --vora: #f3ddc4;
+}
+
+/* ---------- Tema Windows (sprints-windows.html) ---------- */
+body.tema-windows {
+  --mari: #001a33;
+  --teal: #0078d4;
+  --teal-rgb: 0, 120, 212;
+  --ambre: #66c7f4;
+  --fons: #eaf4fb;
+  --panell: #f7fbfe;
+  --vora: #cfe6f5;
 }
 
 * { box-sizing: border-box; }
@@ -91,7 +114,7 @@ main { padding-bottom: 50px; }
 .panell {
   background: var(--panell);
   border-radius: var(--radi);
-  box-shadow: 0 12px 32px rgba(166, 46, 122, 0.16);
+  box-shadow: 0 12px 32px rgba(var(--teal-rgb), 0.16);
   margin-top: -42px;
   padding: 32px 34px;
   position: relative;
@@ -148,7 +171,7 @@ main { padding-bottom: 50px; }
   transition: box-shadow 0.15s, transform 0.15s;
 }
 .targeta:hover {
-  box-shadow: 0 4px 14px rgba(214, 36, 122, 0.2);
+  box-shadow: 0 4px 14px rgba(var(--teal-rgb), 0.2);
   transform: translateY(-2px);
   text-decoration: none;
 }
