@@ -1,19 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 260" width="480" height="260">
   <defs>
-    <linearGradient id="fons" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#4a148c"/>
-      <stop offset="55%" stop-color="#d6247a"/>
-      <stop offset="100%" stop-color="#a86eea"/>
+    <linearGradient id="gradUbuntu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2c001e"/>
+      <stop offset="100%" stop-color="#e95420"/>
+    </linearGradient>
+    <linearGradient id="gradWindows" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#001a33"/>
+      <stop offset="100%" stop-color="#0078d4"/>
     </linearGradient>
   </defs>
-  <rect x="0" y="0" width="400" height="260" rx="18" fill="url(#fons)"/>
-  <rect x="30" y="30" width="340" height="200" rx="10" fill="#0b0f14"/>
-  <circle cx="52" cy="50" r="6" fill="#ff5f56"/>
-  <circle cx="72" cy="50" r="6" fill="#ffbd2e"/>
-  <circle cx="92" cy="50" r="6" fill="#27c93f"/>
-  <text x="52" y="95" font-family="Consolas, monospace" font-size="15" fill="#27c93f">$ whoami</text>
-  <text x="52" y="120" font-family="Consolas, monospace" font-size="15" fill="#e6e6e6">alumne_iesebre</text>
-  <text x="52" y="150" font-family="Consolas, monospace" font-size="15" fill="#27c93f">$ cat sprint1.md</text>
-  <text x="52" y="175" font-family="Consolas, monospace" font-size="15" fill="#e6e6e6">Instal·lant el SO...</text>
-  <text x="52" y="205" font-family="Consolas, monospace" font-size="15" fill="#27c93f">$ _</text>
+
+  <!-- Pantalla Ubuntu -->
+  <rect x="4" y="10" width="228" height="240" rx="16" fill="url(#gradUbuntu)"/>
+  <circle cx="26" cy="30" r="5" fill="#ff5f56"/>
+  <circle cx="42" cy="30" r="5" fill="#ffbd2e"/>
+  <circle cx="58" cy="30" r="5" fill="#27c93f"/>
+  <circle cx="196" cy="29" r="9" fill="none" stroke="#ffffff" stroke-width="1.6" opacity="0.9"/>
+  <circle cx="196" cy="22" r="2.3" fill="#ffffff"/>
+  <circle cx="190" cy="34" r="2.3" fill="#ffffff"/>
+  <circle cx="202" cy="34" r="2.3" fill="#ffffff"/>
+  <rect x="20" y="48" width="200" height="164" rx="10" fill="#0b0f14"/>
+  <text x="34" y="80" font-family="Consolas, monospace" font-size="15" fill="#e95420">$ lsb_release -d</text>
+  <text x="34" y="105" font-family="Consolas, monospace" font-size="15" fill="#e6e6e6">Ubuntu 26.04 LTS</text>
+  <text x="34" y="135" font-family="Consolas, monospace" font-size="15" fill="#e95420">$ whoami</text>
+  <text x="34" y="160" font-family="Consolas, monospace" font-size="15" fill="#e6e6e6">alumne_iesebre</text>
+  <text x="34" y="190" font-family="Consolas, monospace" font-size="15" fill="#e95420">$ _</text>
+  <text x="118" y="230" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Ubuntu</text>
+
+  <!-- Pantalla Windows -->
+  <rect x="248" y="10" width="228" height="240" rx="16" fill="url(#gradWindows)"/>
+  <circle cx="270" cy="30" r="5" fill="#ff5f56"/>
+  <circle cx="286" cy="30" r="5" fill="#ffbd2e"/>
+  <circle cx="302" cy="30" r="5" fill="#27c93f"/>
+  <rect x="432" y="22" width="8" height="8" fill="#ffffff"/>
+  <rect x="442" y="22" width="8" height="8" fill="#ffffff"/>
+  <rect x="432" y="32" width="8" height="8" fill="#ffffff"/>
+  <rect x="442" y="32" width="8" height="8" fill="#ffffff"/>
+  <rect x="264" y="48" width="200" height="164" rx="10" fill="#012456"/>
+  <text x="278" y="80" font-family="Consolas, monospace" font-size="15" fill="#66c7f4">PS C:\&gt; winver</text>
+  <text x="278" y="105" font-family="Consolas, monospace" font-size="15" fill="#ffffff">Windows 11 Pro</text>
+  <text x="278" y="135" font-family="Consolas, monospace" font-size="15" fill="#66c7f4">PS C:\&gt; whoami</text>
+  <text x="278" y="160" font-family="Consolas, monospace" font-size="15" fill="#ffffff">alumne_iesebre</text>
+  <text x="278" y="190" font-family="Consolas, monospace" font-size="15" fill="#66c7f4">PS C:\&gt; _</text>
+  <text x="362" y="230" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Windows</text>
 </svg>
