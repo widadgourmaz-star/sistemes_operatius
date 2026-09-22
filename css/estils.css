@@ -8,10 +8,11 @@
   --teal: #d6247a;
   --ambre: #a86eea;
   --tinta: #1b2430;
-  --tinta-suau: #57626c;
-  --fons: #f5f6f8;
+  --tinta-suau: #6b5468;
+  --fons: #fdeef6;
+  --panell: #fff7fb;
   --blanc: #ffffff;
-  --vora: #dde2e7;
+  --vora: #f0d3e4;
   --radi: 12px;
 }
 
@@ -88,9 +89,9 @@ a:hover { text-decoration: underline; }
 main { padding-bottom: 50px; }
 
 .panell {
-  background: var(--blanc);
+  background: var(--panell);
   border-radius: var(--radi);
-  box-shadow: 0 12px 32px rgba(18, 37, 66, 0.16);
+  box-shadow: 0 12px 32px rgba(166, 46, 122, 0.16);
   margin-top: -42px;
   padding: 32px 34px;
   position: relative;
@@ -147,7 +148,7 @@ main { padding-bottom: 50px; }
   transition: box-shadow 0.15s, transform 0.15s;
 }
 .targeta:hover {
-  box-shadow: 0 4px 14px rgba(12, 110, 115, 0.18);
+  box-shadow: 0 4px 14px rgba(214, 36, 122, 0.2);
   transform: translateY(-2px);
   text-decoration: none;
 }
@@ -344,7 +345,7 @@ footer.peu .autoria strong { color: var(--tinta); }
 
 .pagina-portada .fitxa-alumne {
   border-left: 4px solid var(--teal);
-  background: linear-gradient(135deg, #fff 55%, #fdf1f8 100%);
+  background: linear-gradient(135deg, #fff9fc 55%, #fbdcee 100%);
   box-shadow: 0 8px 20px rgba(166, 46, 122, 0.1);
 }
 
