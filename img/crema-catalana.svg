@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" width="300" height="220">
-  <rect width="300" height="220" fill="#fdeef6"/>
-  <ellipse cx="150" cy="150" rx="120" ry="30" fill="#a5552a"/>
-  <ellipse cx="150" cy="140" rx="100" ry="24" fill="#f7e6c4"/>
-  <ellipse cx="150" cy="138" rx="80" ry="18" fill="#e3a832"/>
-  <text x="150" y="200" font-family="Arial, sans-serif" font-size="16" fill="#6b3a1a" text-anchor="middle">Crema catalana</text>
-</svg>
