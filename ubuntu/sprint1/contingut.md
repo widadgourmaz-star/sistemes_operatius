@@ -27,47 +27,47 @@ Es reserven **6064 MB de RAM** i **4 CPU** per a la màquina virtual: prou
 recursos perquè Ubuntu funcioni amb fluïdesa sense deixar l'ordinador
 amfitrió sense memòria.
 
-![Pas "Specify virtual hardware" de l'assistent, amb 6064 MB de memòria base i 4 CPU assignades](captures/03-maquinari-virtual-ram-cpu.png)
+![Pas de l'assistent on es defineix el maquinari virtual, amb 6064 MB de memòria base i 4 CPU assignades](captures/03-maquinari-virtual-ram-cpu.png)
 
 VirtualBox detecta automàticament, a partir de la imatge ISO seleccionada,
 que es tracta d'Ubuntu i proposa el tipus de sistema operatiu
 corresponent.
 
-![Pas "Virtual machine name and operating system", amb el nom ubuntu26original, la ISO d'Ubuntu seleccionada i el tipus Linux/Ubuntu detectat](captures/04-configuracio-nom-i-iso.png)
+![Pas de l'assistent on es defineix el nom i el sistema operatiu, amb el nom ubuntu26original, la ISO d'Ubuntu seleccionada i el tipus Linux/Ubuntu detectat](captures/04-configuracio-nom-i-iso.png)
 
 ### 3. Primeres passes de l'instal·lador d'Ubuntu
 
 Un cop arrencada la màquina virtual amb la ISO, s'inicia l'assistent
 gràfic d'instal·lació d'Ubuntu. El primer pas és triar l'idioma:
 
-![Pantalla inicial de l'instal·lador d'Ubuntu demanant l'idioma, amb "English" seleccionat per defecte](captures/05-installador-idioma.png)
+![Pantalla inicial de l'instal·lador d'Ubuntu demanant l'idioma, amb l'anglès seleccionat per defecte](captures/05-installador-idioma.png)
 
-![La mateixa pantalla d'idioma, ara amb "Español" seleccionat](captures/06-installador-idioma-espanyol.png)
+![La mateixa pantalla d'idioma, ara amb el castellà seleccionat](captures/06-installador-idioma-espanyol.png)
 
 A continuació es tria la disposició del teclat:
 
-![Pantalla de disposició del teclat amb "Español" seleccionat i un camp per provar-la](captures/07-installador-teclat.png)
+![Pantalla de disposició del teclat, amb el castellà seleccionat i un camp per provar-la](captures/07-installador-teclat.png)
 
 I es configura la connexió a Internet, en aquest cas per cable:
 
-![Pantalla "Conéctese a Internet" amb l'opció "Utilizar conexión por cable" seleccionada](captures/08-installador-connexio-xarxa.png)
+![Pantalla de connexió a Internet, amb l'opció de connexió per cable seleccionada](captures/08-installador-connexio-xarxa.png)
 
 ### 4. Tipus d'instal·lació i selecció d'aplicacions
 
 L'instal·lador pregunta si es vol **instal·lar Ubuntu** o només
 **provar-lo** sense fer canvis; en aquest cas es tria instal·lar-lo:
 
-![Pantalla "¿Qué quiere hacer con Ubuntu?" amb l'opció "Instalar Ubuntu" seleccionada](captures/09-installador-instal-o-provar.png)
+![Pantalla que pregunta què vols fer amb Ubuntu, amb l'opció d'instal·lar-lo seleccionada](captures/09-installador-instal-o-provar.png)
 
 Es tria la instal·lació **interactiva** (pas a pas), en lloc d'una
 instal·lació automatitzada amb un arxiu de configuració:
 
-![Pantalla "Tipo de instalación" amb "Instalación interactiva" seleccionada](captures/10-installador-tipus-instal-lacio.png)
+![Pantalla de tipus d'instal·lació, amb la instal·lació interactiva seleccionada](captures/10-installador-tipus-instal-lacio.png)
 
 I es deixa la **selecció predeterminada** d'aplicacions (només el
 navegador i les utilitats bàsiques):
 
-![Pantalla "Aplicaciones" amb "Selección predeterminada" seleccionada](captures/11-installador-aplicacions.png)
+![Pantalla de selecció d'aplicacions, amb la selecció predeterminada marcada](captures/11-installador-aplicacions.png)
 
 ### 5. Configuració del disc i particionament manual
 
@@ -75,13 +75,13 @@ En comptes de deixar que l'instal·lador esborri el disc automàticament,
 es tria la **instal·lació manual** per poder definir les particions a
 mida:
 
-![Pantalla "Configuración del disco" amb "Instalación manual" seleccionada](captures/12-installador-configuracio-disc.png)
+![Pantalla de configuració del disc, amb la instal·lació manual seleccionada](captures/12-installador-configuracio-disc.png)
 
 Es crea manualment cada partició indicant la mida, el sistema de fitxers
 i el punt de muntatge; en aquest exemple, una partició de 30 GB en
 format Ext4 muntada a `/home`:
 
-![Diàleg "Crear partición" definint una partició de 30000 MB en Ext4 muntada a /home](captures/13-particionament-crear-particio.png)
+![Diàleg de creació de partició, definint una partició de 30000 MB en Ext4 muntada a /home](captures/13-particionament-crear-particio.png)
 
 El resultat final és un disc amb tres particions: `/home` (30 GB), `/boot`
 (500 MB) i `/` (23,18 GB), totes en Ext4:
@@ -93,13 +93,13 @@ El resultat final és un disc amb tres particions: `/home` (30 GB), `/boot`
 Es crea el compte de l'usuari que administrarà el sistema, amb el seu
 nom, el nom de l'equip i una contrasenya:
 
-![Pantalla "Cree su cuenta" amb el nom widad, l'equip widad-VirtualBox i la contrasenya introduïda](captures/15-crear-compte-usuari.png)
+![Pantalla de creació del compte d'usuari, amb el nom widad, l'equip widad-VirtualBox i la contrasenya introduïda](captures/15-crear-compte-usuari.png)
 
 Finalment, l'instal·lador mostra un resum de totes les opcions triades
 (instal·lació manual, disc VBOX HARDDISK, sense xifratge, i les tres
-particions creades) abans de prémer **Instalar**:
+particions creades) abans de prémer el botó d'**instal·lar**:
 
-![Pantalla "Listo para instalar" amb el resum de la instal·lació i les particions creades](captures/16-resum-llest-per-instal-lar.png)
+![Pantalla de resum final, amb totes les opcions de la instal·lació i les particions creades](captures/16-resum-llest-per-instal-lar.png)
 
 Un cop confirmat, l'instal·lador copia els arxius del sistema al disc
 virtual i, en reiniciar la màquina, ja arrenca Ubuntu instal·lat.
