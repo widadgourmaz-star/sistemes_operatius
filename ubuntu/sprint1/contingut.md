@@ -106,43 +106,30 @@ virtual i, en reiniciar la màquina, ja arrenca Ubuntu instal·lat.
 
 ## Configuració de xarxa bàsica
 
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-ut aliquip ex ea commodo consequat. La configuració de xarxa és
-**imprescindible** per poder actualitzar el sistema i instal·lar
-programari nou.
+La configuració de xarxa és **imprescindible** per poder actualitzar
+el sistema i instal·lar programari nou.
 
 - Comprovar l'adreça IP assignada amb `ip a`.
 - Configurar una IP estàtica si el servei ho requereix.
 - Verificar la connectivitat amb `ping`.
 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+*(Apartat pendent d'ampliar amb la pràctica real i captures.)*
 
 ## Creació d'usuaris i grups
 
-At vero eos et accusamus et iusto odio dignissimos ducimus qui
-blanditiis praesentium voluptatum deleniti atque corrupti. Cada usuari
-nou s'hauria d'assignar al **grup mínim necessari** segons les tasques
-que ha de fer.
-
-![Exemple de captura de pantalla de la gestió d'usuaris](../../img/exemple.svg)
+Cada usuari nou s'hauria d'assignar al **grup mínim necessari** segons
+les tasques que ha de fer.
 
 - Crear l'usuari amb `useradd`.
 - Assignar contrasenya amb `passwd`.
 - Afegir l'usuari als grups necessaris amb `usermod -aG`.
 
+![Captura del resultat de la gestió d'usuaris](https://github.com/user-attachments/assets/a39eb1f6-9ae2-4e02-8b4f-655ccb43798f)
+
 ## Comprovació final
 
-Et harum quidem rerum facilis est et expedita distinctio. Nam libero
-tempore, cum soluta nobis est eligendi optio cumque nihil impedit.
 Abans de donar per acabat el sprint, revisa aquest resum:
 
 - El sistema arrenca sense errors.
 - La xarxa respon correctament als _pings_.
 - **Els usuaris i grups creats coincideixen amb l'enunciat.**
-<img width="522" height="391" alt="image" src="https://github.com/user-attachments/assets/a39eb1f6-9ae2-4e02-8b4f-655ccb43798f" />
-
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem
-sequi nesciunt.
