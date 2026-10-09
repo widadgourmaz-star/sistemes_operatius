@@ -185,6 +185,8 @@ també tots els arxius de configuració del paquet.
 (versió, descripció, dependències...); si el paquet no està
 instal·lat, t'ho indica igualment.
 
+![Substitueix per la teva captura: terminal executant aptitude install i aptitude show](../../img/exemple.svg)
+
 ### dpkg
 
 Eina de més baix nivell que `apt`: treballa directament amb arxius
