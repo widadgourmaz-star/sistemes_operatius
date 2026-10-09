@@ -110,6 +110,8 @@ La configuració de xarxa és **imprescindible** per poder actualitzar
 el sistema i instal·lar programari nou.
 
 - Comprovar l'adreça IP assignada amb `ip a`.
+  <img width="742" height="256" alt="image" src="https://github.com/user-attachments/assets/31985562-77f8-4a07-8c9b-eef308bb4a16" />
+
 - Configurar una IP estàtica si el servei ho requereix.
 - Verificar la connectivitat amb `ping`.
 
@@ -150,9 +152,15 @@ la seva darrera versió disponible, però **no instal·la paquets
 nous**. És la manera segura de mantenir el sistema al dia sense
 sorpreses.
 
+<img width="661" height="438" alt="image" src="https://github.com/user-attachments/assets/a6a2d967-c8e5-44d0-baef-ae2a7695142f" />
+
 **`apt install paquet`** — Instal·la un paquet nou (per exemple,
 `apt install synaptic`), descarregant-lo i instal·lant automàticament
 totes les seves dependències.
+<img width="653" height="437" alt="image" src="https://github.com/user-attachments/assets/3fddb466-b46f-44ad-a334-4708be26e45b" />
+
+<img width="608" height="190" alt="image" src="https://github.com/user-attachments/assets/d99d0599-0e0e-47aa-9e6d-d13948506f24" />
+
 
 **`apt remove paquet`** — Desinstal·la un paquet, però deixa els seus
 arxius de configuració al sistema per si el tornes a instal·lar més
@@ -163,7 +171,8 @@ automàticament com a dependència d'un altre paquet i que ara ja no fa
 servir ningú; és bo executar-lo de tant en tant per netejar el
 sistema.
 
-![Substitueix per la teva captura: terminal executant apt update i apt install](../../img/exemple.svg)
+<img width="658" height="303" alt="image" src="https://github.com/user-attachments/assets/e583a1a6-3279-482d-81cc-4e903fd04ea1" />
+
 
 ### aptitude
 
