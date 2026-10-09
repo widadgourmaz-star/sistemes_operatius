@@ -135,53 +135,79 @@ a menys automàtiques.
 ### apt / apt-get
 
 `apt` és el *frontend* modern del gestor de paquets `dpkg` (amb
-millores respecte `apt-get`, l'eina més antiga):
+millores respecte `apt-get`, l'eina més antiga).
 
-```
-apt update              # actualitza la llista de paquets (mira /etc/apt/sources.list)
-apt upgrade              # actualitza els paquets ja instal·lats, NO n'instal·la de nous
-apt dist-upgrade         # igual que upgrade, però també instal·la paquets nous si cal
-apt install paquet       # instal·la un paquet
-apt remove paquet        # esborra un paquet
-apt purge paquet         # esborra un paquet i les seves configuracions
-apt autoremove           # esborra paquets que ja no s'utilitzen
-apt clean                # esborra els paquets descarregats (cache)
-apt build-dep paquet     # instal·la les dependències d'un paquet, no el paquet
-apt -f install           # arregla instal·lacions a mitges o paquets trencats
-apt-cache depends paquet # mostra les dependències d'un paquet
-apt-rdepends paquet      # mostra les dependències de les dependències
-apt-cache policy paquet  # veure els candidats d'instal·lació (pinning, a /etc/apt/preferences.d/)
-```
+**`apt update`** — Actualitza la llista de paquets disponibles,
+mirant les adreces dels repositoris definides a
+`/etc/apt/sources.list`. No instal·la ni actualitza res per si sol;
+cal executar-lo sempre abans d'instal·lar o actualitzar, perquè el
+sistema sàpiga quines versions existeixen.
+
+**`apt upgrade`** — Actualitza els paquets que ja tens instal·lats a
+la seva darrera versió disponible, però **no instal·la paquets
+nous**. És la manera segura de mantenir el sistema al dia sense
+sorpreses.
+
+**`apt install paquet`** — Instal·la un paquet nou (per exemple,
+`apt install synaptic`), descarregant-lo i instal·lant automàticament
+totes les seves dependències.
+
+**`apt remove paquet`** — Desinstal·la un paquet, però deixa els seus
+arxius de configuració al sistema per si el tornes a instal·lar més
+endavant.
+
+**`apt autoremove`** — Esborra els paquets que es van instal·lar
+automàticament com a dependència d'un altre paquet i que ara ja no fa
+servir ningú; és bo executar-lo de tant en tant per netejar el
+sistema.
 
 ![Substitueix per la teva captura: terminal executant apt update i apt install](../../img/exemple.svg)
 
 ### aptitude
 
 Alternativa a `apt` (també té interfície gràfica a més de comandes).
-Instal·la les dependències automàticament i les recorda: si després
-desinstal·les el paquet, també esborra les dependències que ja no
-faci servir cap altre paquet.
+La seva diferència principal és que **recorda les dependències** que
+va instal·lar per a cada paquet: si després el desinstal·les, esborra
+també aquestes dependències, sempre que cap altre paquet les faci
+servir.
 
-```
-aptitude install paquet
-aptitude remove paquet
-aptitude purge paquet
-aptitude show paquet    # el mostra; si no està instal·lat, t'ho indica
-```
+**`aptitude install paquet`** — Instal·la un paquet nou, igual que
+`apt install`, però recordant quines dependències s'han instal·lat
+només per culpa d'aquest paquet.
+
+**`aptitude remove paquet`** — Desinstal·la el paquet i, si cap altre
+en depèn, també les dependències que va instal·lar automàticament.
+
+**`aptitude purge paquet`** — Fa el mateix que `remove`, però esborra
+també tots els arxius de configuració del paquet.
+
+**`aptitude show paquet`** — Mostra la informació d'un paquet
+(versió, descripció, dependències...); si el paquet no està
+instal·lat, t'ho indica igualment.
 
 ### dpkg
 
-Eina de més baix nivell: treballa directament amb arxius `.deb` i no
-resol dependències per tu.
+Eina de més baix nivell que `apt`: treballa directament amb arxius
+`.deb` ja descarregats i **no resol dependències** per tu (si en
+falta alguna, dóna error i cal instal·lar-la a mà amb `apt`).
 
-```
-dpkg -i arxiu.deb        # instal·la un paquet des d'un arxiu .deb
-dpkg -r paquet            # desinstal·la el paquet (deixa la configuració)
-dpkg -P paquet             # purga el paquet (esborra també la configuració)
-dpkg -s paquet             # mostra la prioritat del paquet (required, important, standard, optional, extra)
-dpkg-reconfigure paquet    # torna a configurar un paquet ja instal·lat
-dpkg --get-selections | grep paquet   # comprova si un paquet està instal·lat
-```
+**`dpkg -i arxiu.deb`** — Instal·la un paquet a partir d'un arxiu
+`.deb` que ja tens al disc (per exemple, descarregat manualment des
+d'una pàgina web).
+
+**`dpkg -r paquet`** — Desinstal·la el paquet, deixant-ne la
+configuració al sistema.
+
+**`dpkg -P paquet`** — Purga el paquet: el desinstal·la i esborra
+també tota la seva configuració.
+
+**`dpkg -s paquet`** — Mostra l'estat i la prioritat del paquet
+(`required`, `important`, `standard`, `optional` o `extra`), útil per
+comprovar si un paquet concret està instal·lat.
+
+**`dpkg --get-selections | grep paquet`** — Filtra la llista de tots
+els paquets coneguts pel sistema per buscar-ne un en concret; si no
+apareix cap resultat, és que no està instal·lat.
 
 ![Substitueix per la teva captura: terminal amb dpkg -i o dpkg -s](../../img/exemple.svg)
 
