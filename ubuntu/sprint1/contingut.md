@@ -126,6 +126,65 @@ les tasques que ha de fer.
 
 ![Captura del resultat de la gestió d'usuaris](https://github.com/user-attachments/assets/a39eb1f6-9ae2-4e02-8b4f-655ccb43798f)
 
+## Gestió de paquets
+
+Un cop instal·lat el sistema, cal saber instal·lar, actualitzar i
+eliminar programari. A Ubuntu hi ha diverses eines per fer-ho, de més
+a menys automàtiques.
+
+### apt / apt-get
+
+`apt` és el *frontend* modern del gestor de paquets `dpkg` (amb
+millores respecte `apt-get`, l'eina més antiga):
+
+```
+apt update              # actualitza la llista de paquets (mira /etc/apt/sources.list)
+apt upgrade              # actualitza els paquets ja instal·lats, NO n'instal·la de nous
+apt dist-upgrade         # igual que upgrade, però també instal·la paquets nous si cal
+apt install paquet       # instal·la un paquet
+apt remove paquet        # esborra un paquet
+apt purge paquet         # esborra un paquet i les seves configuracions
+apt autoremove           # esborra paquets que ja no s'utilitzen
+apt clean                # esborra els paquets descarregats (cache)
+apt build-dep paquet     # instal·la les dependències d'un paquet, no el paquet
+apt -f install           # arregla instal·lacions a mitges o paquets trencats
+apt-cache depends paquet # mostra les dependències d'un paquet
+apt-rdepends paquet      # mostra les dependències de les dependències
+apt-cache policy paquet  # veure els candidats d'instal·lació (pinning, a /etc/apt/preferences.d/)
+```
+
+![Substitueix per la teva captura: terminal executant apt update i apt install](../../img/exemple.svg)
+
+### aptitude
+
+Alternativa a `apt` (també té interfície gràfica a més de comandes).
+Instal·la les dependències automàticament i les recorda: si després
+desinstal·les el paquet, també esborra les dependències que ja no
+faci servir cap altre paquet.
+
+```
+aptitude install paquet
+aptitude remove paquet
+aptitude purge paquet
+aptitude show paquet    # el mostra; si no està instal·lat, t'ho indica
+```
+
+### dpkg
+
+Eina de més baix nivell: treballa directament amb arxius `.deb` i no
+resol dependències per tu.
+
+```
+dpkg -i arxiu.deb        # instal·la un paquet des d'un arxiu .deb
+dpkg -r paquet            # desinstal·la el paquet (deixa la configuració)
+dpkg -P paquet             # purga el paquet (esborra també la configuració)
+dpkg -s paquet             # mostra la prioritat del paquet (required, important, standard, optional, extra)
+dpkg-reconfigure paquet    # torna a configurar un paquet ja instal·lat
+dpkg --get-selections | grep paquet   # comprova si un paquet està instal·lat
+```
+
+![Substitueix per la teva captura: terminal amb dpkg -i o dpkg -s](../../img/exemple.svg)
+
 ## Comprovació final
 
 Abans de donar per acabat el sprint, revisa aquest resum:
