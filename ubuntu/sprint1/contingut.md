@@ -110,6 +110,8 @@ La configuració de xarxa és **imprescindible** per poder actualitzar
 el sistema i instal·lar programari nou.
 
 - Comprovar l'adreça IP assignada amb `ip a`.
+  <img width="661" height="343" alt="image" src="https://github.com/user-attachments/assets/00fcfabe-b217-4575-bcdd-c784d1bc1133" />
+
 - Configurar una IP estàtica si el servei ho requereix.
 - Verificar la connectivitat amb `ping`.
 
@@ -133,3 +135,7 @@ Abans de donar per acabat el sprint, revisa aquest resum:
 - El sistema arrenca sense errors.
 - La xarxa respon correctament als _pings_.
 - **Els usuaris i grups creats coincideixen amb l'enunciat.**
+<img width="646" height="438" alt="image" src="https://github.com/user-attachments/assets/6475e8c8-2205-4ff6-ac10-94c0fae982a0" />
+<img width="659" height="446" alt="image" src="https://github.com/user-attachments/assets/f7f238f4-5fbc-474f-b2b9-cefa59b6f56f" />
+
+
