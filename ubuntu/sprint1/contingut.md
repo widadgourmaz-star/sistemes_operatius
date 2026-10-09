@@ -143,6 +143,8 @@ mirant les adreces dels repositoris definides a
 cal executar-lo sempre abans d'instal·lar o actualitzar, perquè el
 sistema sàpiga quines versions existeixen.
 
+<img width="648" height="414" alt="image" src="https://github.com/user-attachments/assets/f1ed753a-51bc-4b55-a8af-11e8a9ed8d9e" />
+
 **`apt upgrade`** — Actualitza els paquets que ja tens instal·lats a
 la seva darrera versió disponible, però **no instal·la paquets
 nous**. És la manera segura de mantenir el sistema al dia sense
