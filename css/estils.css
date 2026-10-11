@@ -260,6 +260,13 @@ h1, h2 { color: var(--mari); }
   border: 1px solid var(--vora);
   margin: 14px 0;
 }
+#contingut-md video {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--radi);
+  border: 1px solid var(--vora);
+  margin: 14px 0;
+}
 #contingut-md ul { padding-left: 22px; }
 #contingut-md li { margin: 4px 0; }
 #contingut-md code {

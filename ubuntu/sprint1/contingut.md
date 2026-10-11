@@ -222,7 +222,25 @@ comprovar si un paquet concret està instal·lat.
 els paquets coneguts pel sistema per buscar-ne un en concret; si no
 apareix cap resultat, és que no està instal·lat.
 
-![Substitueix per la teva captura: terminal amb dpkg -i o dpkg -s](../../img/exemple.svg)
+**Exemple pràctic amb el paquet `sl`** (un petit programa que dibuixa
+un tren al terminal):
+
+1. Es descarrega l'arxiu `.deb` sense instal·lar-lo amb
+   `apt download sl`, es comprova que és a la carpeta personal amb
+   `ls *.deb` i s'instal·la amb `sudo dpkg -i sl_*.deb`:
+
+   <video controls muted preload="metadata" src="videos/01-dpkg-instal-lar-sl.webm"></video>
+
+2. Amb `dpkg -s sl` es comprova l'estat del paquet. Si el paquet ja
+   s'ha desinstal·lat, `dpkg` avisa que **no està instal·lat** i, en
+   intentar executar `sl`, el terminal respon que l'arxiu no existeix:
+
+   <video controls muted preload="metadata" src="videos/02-dpkg-comprovar-sl.webm"></video>
+
+3. Amb el paquet instal·lat, en escriure `sl` apareix el tren
+   travessant el terminal, que confirma que la instal·lació funciona:
+
+   <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
 ## Comprovació final
 
