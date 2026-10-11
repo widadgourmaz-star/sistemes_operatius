@@ -334,19 +334,23 @@ reparar de dues maneres diferents: amb **Super Grub2 Disk** i amb
    sudo su
    grub-install /dev/sda
    
-   <img width="652" height="89" alt="Captura de pantalla de 2026-10-11 21-48-50" src="https://github.com/user-attachments/assets/50aa53bd-d8f7-45a0-9001-a0823aba1352" />
+<img width="645" height="81" alt="image" src="https://github.com/user-attachments/assets/6dc07057-31b5-4db9-b62d-02d0e22713ed" />
+
 
    update-grub2
    
-   <img width="654" height="324" alt="Captura de pantalla de 2026-10-11 21-49-24" src="https://github.com/user-attachments/assets/f610c9d6-3a02-44b8-9e2f-beece9c90792" />
+  <img width="653" height="312" alt="image" src="https://github.com/user-attachments/assets/8b34fb2b-5da1-4ea2-9ad5-a47addf9d24e" />
+ 
 
    apt-get install grub2
    
-   ``<img width="662" height="376" alt="Captura de pantalla de 2026-10-11 21-49-55" src="https://github.com/user-attachments/assets/b14e9eaa-e1a5-41aa-9105-fa85588c1f42" />
-`
+   <img width="654" height="369" alt="image" src="https://github.com/user-attachments/assets/02a592e9-8aa6-4698-a5df-f949dff77f3a" />
+
+   `
    - Amb `grub-install /dev/sda` vaig tornar a instal·lar el gestor
      d'arrencada al disc principal, i això va tornar a crear la
      carpeta `/boot/grub`.
+   
    - Amb `update-grub2` vaig generar el menú d'arrencada
      (`grub.cfg`), que busca els nuclis que hi ha instal·lats.
    - Amb `apt-get install grub2` em vaig assegurar que el paquet de
