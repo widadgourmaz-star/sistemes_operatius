@@ -47,11 +47,20 @@ d'escriure comandaments).
 
 ### Mètode 1 · Súper Grub2 Disk
 
-1. Entra com a administrador a la carpeta `/boot` des del terminal i
-   elimina la subcarpeta `grub/`. Aquest pas esborra el gestor
+1. Entra com a administrador i vés a la carpeta `/boot`. Amb `ls` pots
+   veure que hi ha la carpeta `grub` (en blau), al costat dels nuclis
+   de Linux (`vmlinuz-...`) i dels fitxers `initrd`:
+   ```
+   sudo su
+   cd /boot
+   ls
+   ```
+
+   ![Terminal a /boot mostrant la carpeta grub, els nuclis vmlinuz i els fitxers initrd abans d'esborrar res](captures/01-boot-abans-esborrar-grub.png)
+
+   Ara elimina la subcarpeta `grub/`. Aquest pas esborra el gestor
    d'arrencada expressament:
    ```
-   cd /boot
    sudo rm -r grub/
    ```
 
