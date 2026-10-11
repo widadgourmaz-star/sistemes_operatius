@@ -253,9 +253,11 @@ que dibuixa un tren al terminal.
 2. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
    passant pel terminal. Així vaig veure que la instal·lació havia
    funcionat:
-<img width="650" height="408" alt="Enregistrament de pantalla del 2026-10-11 18-41-42" src="https://github.com/user-attachments/assets/ed617c56-1189-41ff-8a75-3d47583e9b8e" />
+[Enregistrament de pantalla del 2026-10-11 18-41-42.webm](https://github.com/user-attachments/assets/c39921cc-fc17-4f18-9db0-50d42f3d4f14)
 
-   <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
+file:///home/alumnat/V%C3%ADdeos/Enregistraments%20de%20pantalla/Enregistrament%20de%20pantalla%20del%202026-10-11%2018-41-42.webm
+
+ <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
 ## Gestor d'arrencada (GRUB2)
 
