@@ -190,19 +190,25 @@ només per culpa d'aquest paquet.
 
 <img width="654" height="353" alt="image" src="https://github.com/user-attachments/assets/03146170-b867-4110-ba88-5c1b8eff1762" />
 
+<img width="632" height="165" alt="image" src="https://github.com/user-attachments/assets/d83c3fbb-1a12-4121-b91d-a7a1883ad44c" />
+
 **`aptitude remove paquet`** — Desinstal·la el paquet i, si cap altre
 en depèn, també les dependències que va instal·lar automàticament.
 
+<img width="653" height="271" alt="image" src="https://github.com/user-attachments/assets/83d75910-5747-4830-a64c-c8020d7fa7e4" />
+
 **`aptitude purge paquet`** — Fa el mateix que `remove`, però esborra
 també tots els arxius de configuració del paquet.
+
+<img width="648" height="236" alt="image" src="https://github.com/user-attachments/assets/529ed5e6-eecb-4740-a371-49143b02266a" />
+
 
 **`aptitude show paquet`** — Mostra la informació d'un paquet
 (versió, descripció, dependències...); si el paquet no està
 instal·lat, t'ho indica igualment.
 
-![Substitueix per la teva captura: terminal executant aptitude install i aptitude show](../../img/exemple.svg)
+<img width="641" height="445" alt="image" src="https://github.com/user-attachments/assets/cfb44adf-08f9-43f3-bf86-dd4664b4014c" />
 
-### dpkg
 
 Eina de més baix nivell que `apt`: treballa directament amb arxius
 `.deb` ja descarregats i **no resol dependències** per tu (si en
@@ -212,8 +218,12 @@ falta alguna, dóna error i cal instal·lar-la a mà amb `apt`).
 `.deb` que ja tens al disc (per exemple, descarregat manualment des
 d'una pàgina web).
 
+<img width="654" height="229" alt="image" src="https://github.com/user-attachments/assets/128ded2f-1206-4da8-a12e-b3fbc7151ba5" />
+
 **`dpkg -r paquet`** — Desinstal·la el paquet, deixant-ne la
 configuració al sistema.
+
+<img width="662" height="106" alt="image" src="https://github.com/user-attachments/assets/128420d5-1a48-4968-82ce-fa6f417705a6" />
 
 **`dpkg -P paquet`** — Purga el paquet: el desinstal·la i esborra
 també tota la seva configuració.
@@ -222,9 +232,13 @@ també tota la seva configuració.
 (`required`, `important`, `standard`, `optional` o `extra`), útil per
 comprovar si un paquet concret està instal·lat.
 
+<img width="561" height="319" alt="image" src="https://github.com/user-attachments/assets/a85a47b6-f265-4d30-aa82-081c6d3e42fd" />
+
 **`dpkg --get-selections | grep paquet`** — Filtra la llista de tots
 els paquets coneguts pel sistema per buscar-ne un en concret; si no
 apareix cap resultat, és que no està instal·lat.
+
+<img width="590" height="423" alt="image" src="https://github.com/user-attachments/assets/8b71e444-ed40-4baa-996b-104168efdf10" />
 
 **Pràctica amb el paquet `sl`**
 
