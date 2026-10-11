@@ -115,7 +115,6 @@ el sistema i instal·lar programari nou.
 - Configurar una IP estàtica si el servei ho requereix.
 - Verificar la connectivitat amb `ping`.
 
-*(Apartat pendent d'ampliar amb la pràctica real i captures.)*
 
 ## Creació d'usuaris i grups
 
@@ -251,11 +250,10 @@ que dibuixa un tren al terminal.
    l'arxiu era a la meva carpeta personal i el vaig instal·lar amb
    `sudo dpkg -i sl_*.deb`:
 
-  
-
-3. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
+2. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
    passant pel terminal. Així vaig veure que la instal·lació havia
    funcionat:
+<img width="650" height="408" alt="Enregistrament de pantalla del 2026-10-11 18-41-42" src="https://github.com/user-attachments/assets/ed617c56-1189-41ff-8a75-3d47583e9b8e" />
 
    <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
