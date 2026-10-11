@@ -155,8 +155,9 @@ sorpreses.
 <img width="661" height="438" alt="image" src="https://github.com/user-attachments/assets/a6a2d967-c8e5-44d0-baef-ae2a7695142f" />
 
 **`apt install paquet`** — Instal·la un paquet nou (per exemple,
-`apt install synaptic`), descarregant-lo i instal·lant automàticament
+`apt install cowsay`), descarregant-lo i instal·lant automàticament
 totes les seves dependències.
+
 <img width="653" height="437" alt="image" src="https://github.com/user-attachments/assets/3fddb466-b46f-44ad-a334-4708be26e45b" />
 
 <img width="608" height="190" alt="image" src="https://github.com/user-attachments/assets/d99d0599-0e0e-47aa-9e6d-d13948506f24" />
