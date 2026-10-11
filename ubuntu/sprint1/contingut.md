@@ -222,23 +222,27 @@ comprovar si un paquet concret està instal·lat.
 els paquets coneguts pel sistema per buscar-ne un en concret; si no
 apareix cap resultat, és que no està instal·lat.
 
-**Exemple pràctic amb el paquet `sl`** (un petit programa que dibuixa
-un tren al terminal):
+**Pràctica amb el paquet `sl`**
 
-1. Es descarrega l'arxiu `.deb` sense instal·lar-lo amb
-   `apt download sl`, es comprova que és a la carpeta personal amb
-   `ls *.deb` i s'instal·la amb `sudo dpkg -i sl_*.deb`:
+Per provar `dpkg` vaig fer servir el paquet `sl`, un programa petit
+que dibuixa un tren al terminal.
+
+1. Primer vaig descarregar l'arxiu `.deb` sense instal·lar-lo amb
+   `apt download sl`. Després vaig comprovar amb `ls *.deb` que
+   l'arxiu era a la meva carpeta personal i el vaig instal·lar amb
+   `sudo dpkg -i sl_*.deb`:
 
    <video controls muted preload="metadata" src="videos/01-dpkg-instal-lar-sl.webm"></video>
 
-2. Amb `dpkg -s sl` es comprova l'estat del paquet. Si el paquet ja
-   s'ha desinstal·lat, `dpkg` avisa que **no està instal·lat** i, en
-   intentar executar `sl`, el terminal respon que l'arxiu no existeix:
+2. Després de desinstal·lar-lo, vaig comprovar-ho amb `dpkg -s sl`.
+   Em va sortir que el paquet **no estava instal·lat** i, quan vaig
+   escriure `sl`, el terminal em va dir que l'arxiu no existia:
 
    <video controls muted preload="metadata" src="videos/02-dpkg-comprovar-sl.webm"></video>
 
-3. Amb el paquet instal·lat, en escriure `sl` apareix el tren
-   travessant el terminal, que confirma que la instal·lació funciona:
+3. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
+   passant pel terminal. Així vaig veure que la instal·lació havia
+   funcionat:
 
    <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
@@ -250,26 +254,21 @@ que deixa triar entre diferents sistemes si n'hi ha més d'un
 instal·lat. Per organitzar l'espai del disc dur hi ha dues opcions:
 **MBR** (antic, només funciona amb discos de fins a 2 TB) i **GPT**
 (més modern, admet discos més grans i és més segur). Si en arrencar
-apareix l'error **"Gestor d'arrencada pendent"** (o *grub rescue*),
-vol dir que el sistema no sap com arrencar; es pot solucionar
-reinstal·lant el gestor amb un USB o una imatge ISO.
+apareix l'error *grub rescue*, vol dir que el sistema no sap com
+arrencar, i es pot solucionar reinstal·lant el gestor amb un USB o una
+imatge ISO.
 
-> ⚠️ **Abans de començar**: aquest exercici trenca el gestor
-> d'arrencada expressament per després reparar-lo. Fes-ho només en una
-> **màquina virtual** i, si pots, crea abans una instantània (snapshot)
-> per poder tornar enrere si alguna cosa surt malament.
-
-Hi ha dues eines habituals per reparar GRUB2 quan es trenca: **Super
-Grub2 Disk** (deixa arrencar el sistema de forma temporal encara que
-GRUB estigui trencat, per després reinstal·lar-lo tu mateix) i
-**Boot-Repair** (repara el gestor de manera automàtica, sense haver
-d'escriure comandaments).
+En aquesta pràctica vaig trencar el GRUB expressament i després el vaig
+reparar de dues maneres diferents: amb **Super Grub2 Disk** i amb
+**Boot-Repair**. Ho vaig fer a la meva màquina virtual
+`ubuntu26original`, perquè així no posava en perill l'ordinador real.
 
 ### Mètode 1 · Súper Grub2 Disk
 
-1. Entra com a administrador a la carpeta `/boot` des del terminal. Amb
-   `ls` es veu que hi ha la carpeta `grub` (en blau), al costat dels
-   nuclis de Linux (`vmlinuz-7.0.0-...`) i de les imatges `initrd`:
+1. Primer vaig entrar com a administrador i vaig anar a la carpeta
+   `/boot`. Amb `ls` vaig veure que hi havia la carpeta `grub` (en
+   blau), al costat dels nuclis de Linux (`vmlinuz-7.0.0-...`) i dels
+   fitxers `initrd`:
    ```
    sudo su
    cd /boot
@@ -278,109 +277,110 @@ d'escriure comandaments).
 
    ![Terminal com a root a /boot: ls mostra la carpeta grub juntament amb els fitxers vmlinuz, initrd, config i System.map](captures/grub-01-boot-abans-esborrar-grub.png)
 
-2. Esborra la subcarpeta `grub/`. Aquest pas trenca el gestor
-   d'arrencada expressament:
+2. Després vaig esborrar la carpeta `grub/`, que és on hi ha el gestor
+   d'arrencada:
    ```
    rm -r grub/
    ```
 
    ![Terminal executant rm -r grub/ dins de /boot](captures/grub-02-esborrar-carpeta-grub.png)
 
-   Si tornes a fer `ls`, veuràs que la carpeta `grub` ja no hi és. Els
-   nuclis i les imatges `initrd` continuen al seu lloc; només falta el
+   Vaig tornar a fer `ls` i vaig comprovar que la carpeta `grub` ja no
+   hi era. Els nuclis i els `initrd` seguien allà; només faltava el
    programa que els carrega:
 
    ![Terminal amb ls a /boot després d'esborrar grub: ja no apareix la carpeta grub](captures/grub-03-boot-sense-grub.png)
 
-3. Reinicia la màquina. Com que GRUB no troba els seus arxius, surt
-   l'error `file '/boot/grub/i386-pc/normal.mod' not found` i el
-   sistema entra en **mode rescat** (`grub rescue>`), sense poder
-   arrencar Ubuntu:
+3. Quan vaig reiniciar la màquina, em va sortir l'error
+   `file '/boot/grub/i386-pc/normal.mod' not found` i el sistema es va
+   quedar en **mode rescat** (`grub rescue>`), sense poder arrencar
+   Ubuntu:
 
    ![Pantalla negra amb l'error normal.mod not found, Entering rescue mode i el prompt grub rescue](captures/grub-04-grub-rescue.png)
 
-4. Apaga la màquina virtual, obre **Configuració → Emmagatzematge** i
-   afegeix la imatge ISO de **Super Grub2 Disk**
-   (`super_grub2_disk_hybrid_2.02s3.iso`) al lector òptic del
-   controlador **IDE**.
+4. Vaig apagar la màquina virtual, vaig anar a **Configuració →
+   Emmagatzematge** i vaig posar la imatge ISO de **Super Grub2 Disk**
+   (`super_grub2_disk_hybrid_2.02s3.iso`) al lector de CD:
 
    ![Configuració d'emmagatzematge de VirtualBox amb la ISO de Super Grub2 Disk carregada al controlador IDE](captures/grub-05-iso-super-grub2-configuracio.png)
 
-   > 💡 La BIOS de VirtualBox només arrenca del CD que hi ha al
-   > controlador **IDE**. Si hi tens la ISO de les *Guest Additions*,
-   > canvia-la per la de Super Grub2 o la màquina tornarà a arrencar
-   > del disc dur i al `grub rescue`.
+   Un problema que vaig tenir és que la màquina no arrencava des de la
+   ISO i tornava a sortir el `grub rescue`. Vaig descobrir que la
+   BIOS de VirtualBox només arrenca del CD que està al controlador
+   **IDE**, i allà hi tenia la ISO de les *Guest Additions*. Per això
+   la ISO s'ha de posar al controlador IDE.
 
-5. Arrenca la màquina amb la ISO muntada. Al menú de Super Grub2,
-   selecciona **"Detect and show boot methods"**. Després tria el
-   nucli de Linux que apareix a la llista (per exemple
-   `/vmlinuz-7.0.0-...-generic`) i prem **Enter** per iniciar Ubuntu de
-   forma temporal.
+5. Quan va arrencar Super Grub2, vaig triar l'opció **"Detect and show
+   boot methods"**. Després vaig seleccionar el nucli de Linux que
+   sortia a la llista (`/vmlinuz-7.0.0-...-generic`) i vaig prémer
+   **Enter**. Així vaig poder entrar a Ubuntu de forma temporal.
 
-6. Ja dins d'Ubuntu, obre un terminal, converteix-te en superusuari i
-   reinstal·la GRUB definitivament:
+6. Ja dins d'Ubuntu, vaig obrir un terminal, em vaig fer superusuari i
+   vaig reinstal·lar el GRUB:
    ```
    sudo su
    grub-install /dev/sda
    update-grub2
    apt-get install grub2
    ```
-   - `grub-install /dev/sda` torna a escriure el gestor d'arrencada al
-     disc principal i recrea la carpeta `/boot/grub`.
-   - `update-grub2` busca els nuclis instal·lats i genera el menú
-     d'arrencada (`grub.cfg`).
-   - `apt-get install grub2` assegura que el paquet de GRUB està
-     instal·lat correctament.
+   - Amb `grub-install /dev/sda` vaig tornar a instal·lar el gestor
+     d'arrencada al disc principal, i això va tornar a crear la
+     carpeta `/boot/grub`.
+   - Amb `update-grub2` vaig generar el menú d'arrencada
+     (`grub.cfg`), que busca els nuclis que hi ha instal·lats.
+   - Amb `apt-get install grub2` em vaig assegurar que el paquet de
+     GRUB estava ben instal·lat.
 
-7. Apaga la màquina, treu la ISO del lector i torna-la a engegar:
-   l'ordinador hauria d'arrencar de manera normal, amb GRUB ja reparat.
+7. Finalment vaig apagar la màquina, vaig treure la ISO i la vaig
+   tornar a engegar. Ubuntu va arrencar normal, amb el GRUB reparat.
 
 ### Mètode 2 · Boot-Repair
 
-1. Repeteix el trencament: `cd /boot` i `sudo rm -r grub/`. En reiniciar
-   torna a sortir el missatge `grub rescue`:
+1. Per provar el segon mètode vaig tornar a trencar el GRUB de la
+   mateixa manera:
    ```
    cd /boot
    sudo rm -r grub/
    ```
+   En reiniciar em va tornar a sortir el `grub rescue`:
 
    ![Pantalla de grub rescue amb l'error normal.mod not found](captures/grub-06-grub-rescue-boot-repair.png)
 
-2. Apaga la màquina virtual i, aquesta vegada, posa la imatge ISO de
-   **Boot-Repair** (`boot-repair-disk-64bit.iso`) al lector òptic del
-   controlador IDE, en lloc de la de Super Grub2.
+2. Vaig apagar la màquina virtual i aquesta vegada vaig posar la ISO
+   de **Boot-Repair** (`boot-repair-disk-64bit.iso`) al lector de CD
+   del controlador IDE, en lloc de la de Super Grub2.
 
-3. Arrenca amb la ISO. Boot-Repair-Disk carrega un escriptori en mode
-   *live* i obre automàticament el programa **Boot Repair**, que
-   analitza el disc. A la finestra principal, tria **"Recommended
-   repair"** (reparació recomanada), que sol ser suficient per
-   resoldre els problemes més habituals de GRUB:
+3. En engegar la màquina, Boot-Repair-Disk va carregar un escriptori
+   *live* i es va obrir sol el programa **Boot Repair**. Vaig triar
+   **"Recommended repair"** (la reparació recomanada):
 
    ![Escriptori de Boot-Repair-Disk amb la finestra Boot Repair i els botons Recommended repair i Create a BootInfo summary](captures/grub-07-boot-repair-recommended-repair.png)
 
-4. Durant el procés, Boot-Repair pregunta si vols pujar l'informe a
-   internet (*"Upload the report to a pastebin?"*). No és necessari:
-   es pot respondre **No** i l'informe es desa igualment dins de la
-   màquina, a `/var/log/boot-repair/`.
+4. Durant la reparació em va preguntar si volia pujar l'informe a
+   internet (*"Upload the report to a pastebin?"*). Vaig dir que
+   **No**, perquè no feia falta: l'informe es guarda igualment a
+   `/var/log/boot-repair/`.
 
    ![Diàleg Boot-Info preguntant Upload the report to a pastebin? amb els botons No i Yes](captures/grub-08-boot-repair-pastebin.png)
 
-5. En acabar apareix el missatge **"Boot successfully repaired"**, que
-   confirma que GRUB s'ha reinstal·lat:
+5. Quan va acabar, em va sortir el missatge **"Boot successfully
+   repaired"**, que vol dir que el GRUB s'havia reparat bé:
 
    ![Missatge de Boot Repair: Boot successfully repaired, You can now reboot your computer](captures/grub-09-boot-repair-reparat.png)
 
-6. Apaga la màquina, treu la ISO de Boot-Repair de la configuració i
-   torna-la a engegar. El sistema ja no s'atura a `grub rescue`:
-   arrenca Ubuntu amb normalitat i arriba a la pantalla d'inici de
-   sessió.
+6. Vaig apagar la màquina, vaig treure la ISO de Boot-Repair i la vaig
+   tornar a engegar. Aquesta vegada ja no es va quedar al `grub
+   rescue`: Ubuntu va arrencar normal i em va sortir la pantalla per
+   iniciar sessió:
 
    ![Pantalla d'inici de sessió d'Ubuntu amb l'usuari widad després de reparar GRUB](captures/grub-10-ubuntu-arrenca-normal.png)
 
-**Diferència clau entre els dos mètodes**: amb Super Grub2 Disk
-arrenques de manera temporal i després reinstal·les GRUB tu mateix
-amb comandaments (`grub-install`, `update-grub2`); amb Boot-Repair
-tot el procés de reparació és automàtic i només cal prémer un botó.
+**Diferència entre els dos mètodes**: amb Super Grub2 Disk vaig haver
+d'arrencar Ubuntu de forma temporal i després reinstal·lar el GRUB jo
+amb comandaments (`grub-install`, `update-grub2`). En canvi,
+amb Boot-Repair tot es va fer automàticament i només vaig haver de
+prémer un botó. Per a mi, Boot-Repair és més fàcil, però amb Super
+Grub2 entens millor què està passant.
 
 ## Comprovació final
 
