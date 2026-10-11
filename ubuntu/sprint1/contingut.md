@@ -180,11 +180,15 @@ Alternativa a `apt` (també té interfície gràfica a més de comandes).
 La seva diferència principal és que **recorda les dependències** que
 va instal·lar per a cada paquet: si després el desinstal·les, esborra
 també aquestes dependències, sempre que cap altre paquet les faci
-servir.
+servir. Aqui em diu que ja tinc instal·lada
+
+<img width="620" height="74" alt="image" src="https://github.com/user-attachments/assets/1af96cda-3ded-4959-b7c4-ee92c98cea8b" />
 
 **`aptitude install paquet`** — Instal·la un paquet nou, igual que
 `apt install`, però recordant quines dependències s'han instal·lat
 només per culpa d'aquest paquet.
+
+<img width="654" height="353" alt="image" src="https://github.com/user-attachments/assets/03146170-b867-4110-ba88-5c1b8eff1762" />
 
 **`aptitude remove paquet`** — Desinstal·la el paquet i, si cap altre
 en depèn, també les dependències que va instal·lar automàticament.
@@ -232,13 +236,7 @@ que dibuixa un tren al terminal.
    l'arxiu era a la meva carpeta personal i el vaig instal·lar amb
    `sudo dpkg -i sl_*.deb`:
 
-   <video controls muted preload="metadata" src="videos/01-dpkg-instal-lar-sl.webm"></video>
-
-2. Després de desinstal·lar-lo, vaig comprovar-ho amb `dpkg -s sl`.
-   Em va sortir que el paquet **no estava instal·lat** i, quan vaig
-   escriure `sl`, el terminal em va dir que l'arxiu no existia:
-
-   <video controls muted preload="metadata" src="videos/02-dpkg-comprovar-sl.webm"></video>
+  
 
 3. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
    passant pel terminal. Així vaig veure que la instal·lació havia
