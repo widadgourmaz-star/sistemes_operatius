@@ -333,9 +333,17 @@ reparar de dues maneres diferents: amb **Super Grub2 Disk** i amb
    ```
    sudo su
    grub-install /dev/sda
+   
+   <img width="652" height="89" alt="Captura de pantalla de 2026-10-11 21-48-50" src="https://github.com/user-attachments/assets/50aa53bd-d8f7-45a0-9001-a0823aba1352" />
+
    update-grub2
+   
+   <img width="654" height="324" alt="Captura de pantalla de 2026-10-11 21-49-24" src="https://github.com/user-attachments/assets/f610c9d6-3a02-44b8-9e2f-beece9c90792" />
+
    apt-get install grub2
-   ```
+   
+   ``<img width="662" height="376" alt="Captura de pantalla de 2026-10-11 21-49-55" src="https://github.com/user-attachments/assets/b14e9eaa-e1a5-41aa-9105-fa85588c1f42" />
+`
    - Amb `grub-install /dev/sda` vaig tornar a instal·lar el gestor
      d'arrencada al disc principal, i això va tornar a crear la
      carpeta `/boot/grub`.
