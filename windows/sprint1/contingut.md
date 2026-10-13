@@ -37,7 +37,14 @@ S'hi instal·larà Windows a partir d'una imatge ISO, repartint el disc en parti
 1. Crear a VirtualBox una màquina anomenada **Windows-NomCognom** amb **4 GB de RAM** i un
    disc de **50 GB**. 📸 *(1.1)*
 2. A **Configuració → Xarxa**, comprovar que l'**Adaptador 1** està habilitat i en mode **NAT**. 📸 *(1.2)*
-3. Carregar la ISO de Windows 10 i començar la instal·lació (idioma, usuari amb el nom propi i contrasenya).
+3. Carregar la ISO de Windows 11 i començar la instal·lació (idioma, usuari amb el nom propi i contrasenya).
+
+> **Requisits propis de Windows 11 a VirtualBox:** a diferència de Windows 10, Windows 11
+> exigeix **TPM 2.0** i **Secure Boot**, que VirtualBox no activa per defecte. Abans d'engegar
+> la màquina cal activar-ho a **Configuració → Sistema → Placa base** (marcar **Habilita EFI**)
+> i a **Configuració → Sistema → Processador/Xip de seguretat** (triar **TPM 2.0**). Si no es
+> fa, l'instal·lador de Windows 11 es queda aturat amb l'avís que l'equip no compleix els
+> requisits mínims.
 4. A la pantalla de particions, crear una partició de **30 GB** per a Windows i deixar els
    altres **20 GB sense assignar**. 📸 *(1.4)*
 5. Un cop arrencat Windows, obrir `diskmgmt.msc` i, amb l'espai lliure, crear una partició
