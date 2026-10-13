@@ -35,6 +35,15 @@
     <div id="contingut-md">
       <p class="carregant">Carregant contingut…</p>
     </div>
+    <script>
+      setTimeout(function () {
+        var c = document.getElementById('contingut-md');
+        if (c && c.querySelector('.carregant')) {
+          c.innerHTML = '<p class="error-contingut">No s\'ha pogut carregar el contingut d\'aquest sprint. ' +
+            'Comprova la connexió o torna-ho a provar més tard.</p>';
+        }
+      }, 8000);
+    </script>
   </section>
 </main>
 
@@ -45,7 +54,7 @@
     </a>
     <span>Contingut sota llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a></span>
   </p>
-  <p class="autoria">Autor/a: <strong>Widad Gourmaz</strong> · Pràctica 0 · Sistemes Operatius (ISOPJ1)</p>
+  <p class="autoria">Autor/a: <strong>Widad Gourmaz</strong> · Portafolis · Sistemes Operatius (ISOPJ1)</p>
 </footer>
 
 <script src="../../js/marked.min.js"></script>
