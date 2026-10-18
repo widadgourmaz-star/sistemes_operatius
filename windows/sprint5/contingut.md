@@ -1,19 +1,3 @@
-## Connexió remota amb OpenSSH
+## Aquest sprint encara no té contingut
 
-El **client i servidor OpenSSH** de Windows permeten accedir de manera
-remota i xifrada a un altre equip des de la línia d'ordres.
-
-- Instal·lar la característica opcional "OpenSSH Server".
-- Comprovar que el servei `sshd` està actiu.
-- Connectar-s'hi des d'un altre equip amb `ssh usuari@ip`.
-
-![Exemple de captura de pantalla d'una connexió SSH](../../img/exemple.svg)
-
-## Compartició de carpetes en xarxa
-
-Compartir una carpeta per xarxa (SMB) permet que altres equips hi
-accedeixin sense haver de copiar els arxius manualment.
-
-- Triar la carpeta i activar "Compartir" des de les propietats.
-- Definir quins usuaris hi tenen accés i amb quins permisos.
-- Comprovar l'accés des d'un altre equip de la xarxa.
+Aquest sprint encara no s'ha documentat amb la pràctica real i les captures corresponents. El contingut es publicarà quan es completi l'activitat.

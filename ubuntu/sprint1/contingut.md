@@ -180,7 +180,7 @@ Alternativa a `apt` (també té interfície gràfica a més de comandes).
 La seva diferència principal és que **recorda les dependències** que
 va instal·lar per a cada paquet: si després el desinstal·les, esborra
 també aquestes dependències, sempre que cap altre paquet les faci
-servir. Aqui em diu que ja tinc instal·lada
+servir. Aquí em diu que ja tinc instal·lada:
 
 <img width="620" height="74" alt="image" src="https://github.com/user-attachments/assets/1af96cda-3ded-4959-b7c4-ee92c98cea8b" />
 
@@ -255,9 +255,7 @@ que dibuixa un tren al terminal.
    funcionat:
 [Enregistrament de pantalla del 2026-10-11 18-41-42.webm](https://github.com/user-attachments/assets/c39921cc-fc17-4f18-9db0-50d42f3d4f14)
 
-file:///home/alumnat/V%C3%ADdeos/Enregistraments%20de%20pantalla/Enregistrament%20de%20pantalla%20del%202026-10-11%2018-41-42.webm
-
- <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
+<video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
 ## Gestor d'arrencada (GRUB2)
 
@@ -276,7 +274,7 @@ reparar de dues maneres diferents: amb **Super Grub2 Disk** i amb
 **Boot-Repair**. Ho vaig fer a la meva màquina virtual
 `ubuntu26original`, perquè així no posava en perill l'ordinador real.
 
-### Mètode 1 · Súper Grub2 Disk
+### Mètode 1 · Super Grub2 Disk
 
 1. Primer vaig entrar com a administrador i vaig anar a la carpeta
    `/boot`. Amb `ls` vaig veure que hi havia la carpeta `grub` (en
