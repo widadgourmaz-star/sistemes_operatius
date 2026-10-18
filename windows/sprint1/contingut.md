@@ -1,8 +1,8 @@
-> **Estat d'aquest sprint:** encara no s'ha fet la pràctica. El que ve a continuació és la
-> **guia pas a pas** a seguir, adaptada de l'enunciat i de la guia pràctica de l'assignatura.
-> Cada punt marcat amb 📸 necessita una captura de pantalla: quan la facis, desa-la a
-> `windows/sprint1/captures/` amb el nom indicat (número de part i de pas, per exemple `1.1.png`)
-> i substitueix aquest avís pel relat de com ho has fet, amb les imatges enllaçades.
+> **Estat d'aquest sprint:** en procés. La part 1 (màquina virtual, instal·lació i
+> particions) ja està feta i documentada amb captures reals més avall. Les parts 2 a 5
+> encara són la **guia pas a pas** a seguir, adaptada de l'enunciat i de la guia pràctica
+> de l'assignatura: cada punt marcat amb 📸 necessita una captura de pantalla que encara
+> falta fer.
 
 ## Enunciat i objectius d'aquest sprint
 
@@ -29,30 +29,109 @@ recuperació de Windows (WinRE, `bootrec`, `bcdedit`).
 
 Una màquina virtual és un ordinador simulat que funciona dins del teu: tu decideixes
 quanta memòria, quant disc i quina xarxa té, i el que hi facis no afecta l'equip real.
-S'hi instal·larà Windows a partir d'una imatge ISO, repartint el disc en particions
+Hi vaig instal·lar Windows 11 a partir d'una imatge ISO, repartint el disc en particions
 (unitats separades que el sistema veu de manera independent).
 
-**Passos:**
+### Creació de la màquina virtual
 
-1. Crear a VirtualBox una màquina anomenada **Windows-NomCognom** amb **4 GB de RAM** i un
-   disc de **50 GB**. 📸 *(1.1)*
-2. A **Configuració → Xarxa**, comprovar que l'**Adaptador 1** està habilitat i en mode **NAT**. 📸 *(1.2)*
-3. Carregar la ISO de Windows 11 i començar la instal·lació (idioma, usuari amb el nom propi i contrasenya).
+Vaig crear a VirtualBox una màquina anomenada **Windows11widad**, amb **2 processadors**,
+**4942 MB de RAM** (uns 4,8 GB) i un disc dur virtual de mida dinàmica de **50,67 GB**.
+Com que és Windows 11, vaig activar l'opció **Enable EFI** ja durant l'assistent de
+creació.
 
-> **Requisits propis de Windows 11 a VirtualBox:** a diferència de Windows 10, Windows 11
-> exigeix **TPM 2.0** i **Secure Boot**, que VirtualBox no activa per defecte. Abans d'engegar
-> la màquina cal activar-ho a **Configuració → Sistema → Placa base** (marcar **Habilita EFI**)
-> i a **Configuració → Sistema → Processador/Xip de seguretat** (triar **TPM 2.0**). Si no es
-> fa, l'instal·lador de Windows 11 es queda aturat amb l'avís que l'equip no compleix els
-> requisits mínims.
-4. A la pantalla de particions, crear una partició de **30 GB** per a Windows i deixar els
-   altres **20 GB sense assignar**. 📸 *(1.4)*
-5. Un cop arrencat Windows, obrir `diskmgmt.msc` i, amb l'espai lliure, crear una partició
-   **NTFS** amb la lletra **D:** i el nom **DADES**. 📸 *(1.5)*
+![Resum de la creació de la màquina virtual Windows11widad, amb 4942 MB de RAM, 2 processadors, EFI activat i disc de 50,67 GB](captures/01-resum-creacio-maquina-virtual.png)
 
-> **Atenció a les particions:** no s'ha de fer servir tot el disc per a Windows: si no es
-> deixen els 20 GB lliures, no es podrà fer el pas 5. Windows crearà també unes particions
-> petites per al sistema; és normal.
+![Pas de maquinari de l'assistent, amb els lliscadors de memòria base i processadors, i la casella Enable EFI marcada](captures/02-maquinari-ram-cpu-efi.png)
+
+![Pas de disc dur virtual de l'assistent, amb un disc nou de mida dinàmica de 50,67 GB](captures/03-disc-virtual-50gb.png)
+
+Un cop creada, vaig anar a **Configuració → Sistema → Placa mare** i vaig confirmar que
+hi havia **TPM v2.0**, **Activa EFI** i **Enable Secure Boot** marcats: Windows 11 (a
+diferència de Windows 10) exigeix aquests tres requisits, i si no estan actius
+l'instal·lador es queda aturat dient que l'equip no compleix els requisits mínims.
+
+![Configuració de Sistema de la VM amb TPM v2.0 seleccionat, Activa EFI marcat i Enable Secure Boot marcat](captures/04-configuracio-tpm-secureboot-efi.png)
+
+### Primeres passes de l'instal·lador
+
+Vaig muntar la ISO de Windows 11 i vaig engegar la màquina. El primer pas de l'assistent
+va ser triar l'idioma i el format d'hora i moneda (Español, España, internacional):
+
+![Pantalla de l'instal·lador demanant l'idioma per instal·lar i el format d'hora i moneda, amb Español (España, internacional) seleccionat als dos camps](captures/05-instal-lador-seleccio-idioma.png)
+
+### Incidència trobada: el disc no complia els requisits mínims
+
+En arribar a la pantalla de particions, amb els 50,7 GB sense assignar seleccionats,
+l'instal·lador em va mostrar l'avís **"Windows 11 no se puede instalar en esta
+unidad"**, sense deixar continuar:
+
+![Pantalla de selecció d'ubicació amb Disco 0 Espacio sin asignar (50,7 GB) seleccionat i l'avís Windows 11 no se puede instalar en esta unidad](captures/06-error-inicial-disc-no-valid.png)
+
+Per investigar-ho, vaig obrir una línia d'ordres dins del mateix instal·lador (**Mayús +
+F10**) i vaig comprovar amb `diskpart` la mida real del disc:
+```
+diskpart
+list disk
+```
+
+![Finestra de DiskPart dins de l'instal·lador mostrant Disco 0, En línea, 50 GB](captures/07-diskpart-list-disk-50gb.png)
+
+El disc era efectivament de 50 GB. Vaig tornar a l'assistent gràfic i vaig clicar
+**"Mostrar detalles"** sota l'avís, i allà vaig trobar el motiu exacte:
+
+![Diàleg d'error indicant: La unidad del sistema debe tener al menos 52 GB o más](captures/08-error-minim-52gb.png)
+
+**"La unidad del sistema debe tener al menos 52 GB o más."** És a dir: tot i que la guia
+de la pràctica demanava un disc de 50 GB, aquesta ISO en concret de Windows 11 necessita
+com a mínim 52 GB per poder-hi instal·lar el sistema.
+
+### Resolució de la incidència
+
+Vaig apagar la màquina virtual completament i, des d'un terminal del meu Linux (fora de
+la VM), vaig localitzar el fitxer de disc i l'vaig ampliar a 64 GB per tenir marge:
+```
+VBoxManage list hdds
+VBoxManage modifymedium disk "/home/alumnat/VirtualBox VMs/Windows11widad/Windows11widad.vdi" --resize 65536
+```
+
+Vaig tornar a engegar la màquina, vaig entrar una altra vegada per `diskpart` i vaig
+netejar el disc perquè l'instal·lador reconstruís la taula de particions amb la mida
+nova:
+```
+diskpart
+select disk 0
+clean
+convert gpt
+exit
+exit
+```
+
+Després de clicar **Actualizar**, l'espai sense assignar ja mostrava **64 GB** i l'avís
+d'error havia desaparegut:
+
+![Pantalla de selecció d'ubicació amb Disco 0 Espacio sin asignar de 64,0 GB i sense cap avís d'error](captures/09-disc-ampliat-64gb-sense-assignar.png)
+
+### Creació de la partició de Windows
+
+Amb l'espai sense assignar seleccionat, vaig clicar **Crear partición** i hi vaig
+escriure **30000** (MB) per deixar-ne la resta lliure per a una futura unitat `D:`. Al
+primer intent se'm va quedar massa petita (uns 2,9 GB, per un error en teclejar la
+mida), així que vaig esborrar aquella partició i la vaig tornar a crear, aquesta vegada
+comprovant bé el número abans de confirmar. El resultat final va ser:
+
+![Llista final de particions: Sistema 200 MB, MSR 16 MB, Principal 29,3 GB i Espacio sin asignar 34,5 GB](captures/10-particions-finals-30gb-windows.png)
+
+- **Partició 1 — Sistema**: 200 MB (creada automàticament per a l'arrencada EFI)
+- **Partició 2 — MSR (reservado)**: 16 MB (reservada pel sistema)
+- **Partició 3 — Principal**: 29,3 GB, on es va instal·lar Windows
+- **Espai sense assignar**: 34,5 GB, reservats per crear-hi la unitat `D:` més endavant
+
+Vaig seleccionar la Partició 3 i vaig prémer **Siguiente** per començar la instal·lació
+de debò.
+
+> **Pendent de completar en aquest apartat:** acabar la instal·lació (configuració del
+> compte d'usuari) i crear la partició `D:` amb `diskmgmt.msc` a partir dels 34,5 GB
+> sense assignar, amb la captura corresponent.
 
 ## 2. Llicències
 
