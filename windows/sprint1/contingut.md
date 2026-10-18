@@ -1,5 +1,5 @@
 > **Estat d'aquest sprint:** en procés. La part 1 (màquina virtual, instal·lació i
-> particions) ja està feta i documentada amb captures reals més avall. Les parts 2 a 5
+> particions) ja està **feta i documentada** amb captures reals més avall. Les parts 2 a 5
 > encara són la **guia pas a pas** a seguir, adaptada de l'enunciat i de la guia pràctica
 > de l'assignatura: cada punt marcat amb 📸 necessita una captura de pantalla que encara
 > falta fer.
@@ -124,7 +124,7 @@ comprovant bé el número abans de confirmar. El resultat final va ser:
 - **Partició 1 — Sistema**: 200 MB (creada automàticament per a l'arrencada EFI)
 - **Partició 2 — MSR (reservado)**: 16 MB (reservada pel sistema)
 - **Partició 3 — Principal**: 29,3 GB, on es va instal·lar Windows
-- **Espai sense assignar**: 34,5 GB, reservats per crear-hi la unitat `D:` més endavant
+- **Espai sense assignar**: 34,5 GB, reservats per crear-hi una unitat de dades més endavant
 
 Vaig seleccionar la Partició 3 i vaig prémer **Siguiente** per començar la instal·lació
 de debò. L'assistent va copiar els arxius i es va reiniciar sol unes quantes vegades
@@ -143,8 +143,18 @@ cantonada inferior dreta que és l'edició **Windows 11 Enterprise Evaluation**)
 
 ![Escriptori de Windows 11 amb el menú Inici obert, mostrant les aplicacions anclades](captures/12-escriptori-windows11-instal-lat.webp)
 
-> **Pendent de completar en aquest apartat:** crear la partició `D:` amb
-> `diskmgmt.msc` a partir dels 34,5 GB sense assignar, amb la captura corresponent.
+### Creació de la unitat de dades
+
+Per acabar, vaig obrir `diskmgmt.msc` per convertir els 34,5 GB sense assignar en una
+segona unitat. Com que les lletres **D:** i **E:** ja estaven ocupades per les dues
+unitats òptiques virtuals (una buida i una altra amb la ISO de Windows muntada), vaig
+deixar que l'assistent assignés la primera lletra lliure, que va ser la **F:**, amb
+sistema de fitxers **NTFS** i el nom de volum **DADES**:
+
+![Finestra d'Administración de discos amb totes les particions creades: C: de 28,57 GB, la partició de 200 MB, la de recuperació de 748 MB, i DADES (F:) de 34,49 GB](captures/13-particio-dades-f-creada.webp)
+
+Amb això la part 1 del sprint (màquina virtual, instal·lació i particions) ja està
+completa.
 
 ## 2. Llicències
 
