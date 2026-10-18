@@ -127,11 +127,24 @@ comprovant bé el número abans de confirmar. El resultat final va ser:
 - **Espai sense assignar**: 34,5 GB, reservats per crear-hi la unitat `D:` més endavant
 
 Vaig seleccionar la Partició 3 i vaig prémer **Siguiente** per començar la instal·lació
-de debò.
+de debò. L'assistent va copiar els arxius i es va reiniciar sol unes quantes vegades
+fins arribar a la configuració inicial (idioma, país, teclat i compte d'usuari local
+**widad**).
 
-> **Pendent de completar en aquest apartat:** acabar la instal·lació (configuració del
-> compte d'usuari) i crear la partició `D:` amb `diskmgmt.msc` a partir dels 34,5 GB
-> sense assignar, amb la captura corresponent.
+### Instal·lació completada
+
+Un cop acabada la configuració inicial, Windows 11 ja arrenca normal amb la pantalla
+d'inici de sessió de l'usuari **widad**:
+
+![Pantalla d'inici de sessió de Windows 11 amb l'usuari widad](captures/11-inici-sessio-widad.webp)
+
+I, en entrar-hi, l'escriptori i el menú Inici ja funcionen amb normalitat (es veu a la
+cantonada inferior dreta que és l'edició **Windows 11 Enterprise Evaluation**):
+
+![Escriptori de Windows 11 amb el menú Inici obert, mostrant les aplicacions anclades](captures/12-escriptori-windows11-instal-lat.webp)
+
+> **Pendent de completar en aquest apartat:** crear la partició `D:` amb
+> `diskmgmt.msc` a partir dels 34,5 GB sense assignar, amb la captura corresponent.
 
 ## 2. Llicències
 
