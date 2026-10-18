@@ -1,9 +1,3 @@
-> **Estat d'aquest sprint:** en procés. La part 1 (màquina virtual, instal·lació i
-> particions) ja està **feta i documentada** amb captures reals més avall. Les parts 2 a 5
-> encara són la **guia pas a pas** a seguir, adaptada de l'enunciat i de la guia pràctica
-> de l'assignatura: cada punt marcat amb 📸 necessita una captura de pantalla que encara
-> falta fer.
-
 ## Enunciat i objectius d'aquest sprint
 
 Cal crear una màquina virtual per allotjar un Windows i fer-ne la instal·lació completa,
@@ -163,75 +157,78 @@ diferents tipus: **Retail** (es compra a part i es pot passar a un altre equip),
 (ve amb l'ordinador i hi queda lligada) i **de volum** (per a empreses i centres). Als
 servidors, a més, hi ha les **CAL**.
 
-**Passos:**
+Vaig anar a **Configuración → Sistema → Activación** per veure l'edició instal·lada i
+l'estat d'activació: **Windows 11 Enterprise Evaluation**, amb l'estat **Activo**.
 
-1. Anar a **Configuració → Sistema → Activació** i anotar l'edició de Windows i si està
-   activat. 📸 *(2.1)*
-2. Al `cmd`, executar `slmgr /xpr` (estat de l'activació) i `slmgr /dli` (tipus de
-   llicència). 📸 *(2.2)*
-3. Buscar el preu de Windows 11 Home i Pro a la botiga oficial de Microsoft i a una altra
-   botiga. 📸 *(2.3)*
-4. Buscar què és una **CAL** (Client Access License) a la web de Microsoft. 📸 *(2.4)*
+![Pantalla de Configuración, Sistema, Activación amb Windows 11 Enterprise Evaluation i estado de activación Activo](captures/15-configuracio-activacion-grafica.png)
+
+Des del `cmd`, vaig comprovar-ho també per comandes. Amb `slmgr /xpr` es veu quan caduca
+l'activació temporal (16/01/2027):
+
+![Finestra de Windows Script Host amb el resultat de slmgr /xpr, EnterpriseEval edition, activació amb límit de temps](captures/14-slmgr-xpr-activacio.png)
+
+I amb `slmgr /dli` es veu el tipus de llicència concret: canal **TIMEBASED_EVAL**, amb
+129408 minuts (90 dies) fins que caduca:
+
+![Finestra de Windows Script Host amb el resultat de slmgr /dli: nom, descripció, clau de producte parcial i expiració](captures/16-slmgr-dli-tipus-llicencia.png)
+
+Després vaig buscar els preus de Windows 11 a la botiga oficial de Microsoft:
+**Windows 11 Home** val 145,00 €...
+
+![Pàgina de Microsoft amb el preu de Windows 11 Home, 145,00 euros](captures/17-preu-windows11-home-microsoft.png)
+
+...i **Windows 11 Pro** val 259,00 €:
+
+![Pàgina de Microsoft amb el preu de Windows 11 Pro, 259,00 euros](captures/18-preu-windows11-pro-microsoft.png)
+
+A una altra botiga (Softlite) vaig trobar Windows 11 Pro dins d'un paquet combinat amb
+Office 2024 i Illustrator per 35,00 € en oferta (preu normal 54,00 €) — molt més barat
+que a Microsoft, però perquè va inclòs amb altre programari, no és Windows 11 Pro sol:
+
+![Pàgina de Softlite amb el paquet Windows 11 Pro + Office 2024 + Illustrator a 35 euros](captures/19-preu-windows11-pro-softlite.png)
 
 ## 3. Comandes bàsiques
 
 La línia de comandes permet donar ordres a l'ordinador escrivint, sense finestres ni
 ratolí. És més ràpida per a moltes tasques i és l'eina habitual per administrar sistemes.
-Tots els passos es fan des del **Símbol del sistema (cmd)**, en ordre.
+Des del **Símbol del sistema (cmd)**, el pla és:
 
-**Passos:**
-
-1. Entrar a l'Escriptori amb `cd Desktop`, crear una carpeta amb `mkdir practica` i
-   entrar-hi amb `cd practica`. 📸 *(3.1)*
-2. Crear un fitxer amb `echo hola > nota.txt` i comprovar que hi és amb `dir`. 📸 *(3.2)*
-3. Fer-ne una còpia amb `copy nota.txt copia.txt` i comprovar-ho amb `dir`. 📸 *(3.3)*
-4. Crear la carpeta `mkdir arxiu` i moure-hi la còpia amb `move copia.txt arxiu`. 📸 *(3.4)*
-5. Canviar el nom d'un fitxer amb `ren nota.txt notes.txt`, i d'una carpeta amb
-   `ren arxiu backup`, i comprovar-ho amb `dir`. 📸 *(3.5)*
-6. Entrar a la carpeta amb `cd backup`, mirar què hi ha amb `dir` i sortir amb `cd ..`. 📸 *(3.6)*
-7. Mostrar l'estructura amb `tree /f`. 📸 *(3.7)*
-8. Esborrar el fitxer amb `del notes.txt` i comprovar-ho amb `dir`. 📸 *(3.8)*
-9. Netejar la pantalla amb `cls`.
+- Entrar a l'Escriptori amb `cd Desktop`, crear una carpeta amb `mkdir practica` i
+  entrar-hi amb `cd practica`.
+- Crear un fitxer amb `echo hola > nota.txt` i comprovar que hi és amb `dir`.
+- Fer-ne una còpia amb `copy nota.txt copia.txt` i comprovar-ho amb `dir`.
+- Crear la carpeta `mkdir arxiu` i moure-hi la còpia amb `move copia.txt arxiu`.
+- Canviar el nom d'un fitxer amb `ren nota.txt notes.txt`, i d'una carpeta amb
+  `ren arxiu backup`, i comprovar-ho amb `dir`.
+- Entrar a la carpeta amb `cd backup`, mirar què hi ha amb `dir` i sortir amb `cd ..`.
+- Mostrar l'estructura amb `tree /f`.
+- Esborrar el fitxer amb `del notes.txt` i comprovar-ho amb `dir`.
+- Netejar la pantalla amb `cls`.
 
 ## 4. Aplicacions i punts de restauració
 
 Un punt de restauració és una còpia de l'estat del sistema (programes, configuració i
 registre) en un moment concret. Si després d'instal·lar alguna cosa el sistema falla, es
-pot tornar a aquell punt; els documents personals no s'esborren. Es provarà instal·lant
-Google Chrome.
+pot tornar a aquell punt; els documents personals no s'esborren. Ho provaré instal·lant
+Google Chrome:
 
-**Passos:**
-
-1. Buscar **Crear un punt de restauració**, activar la protecció del sistema al disc
-   **C:** i crear un punt anomenat **Abans de Chrome**. 📸 *(4.1)*
-2. Descarregar Chrome de la web oficial de Google, instal·lar-lo i obrir-lo. 📸 *(4.2)*
-3. Anar a **Restaurar sistema**, triar el punt creat i prémer **Cerca programes afectats**:
-   hi ha d'aparèixer Chrome. 📸 *(4.3)*
-4. Restaurar el sistema i comprovar que Chrome ja no hi és. 📸 *(4.4)*
+- Crear un punt de restauració, activant la protecció del sistema al disc `C:`, amb el
+  nom "Abans de Chrome".
+- Descarregar Chrome de la web oficial de Google, instal·lar-lo i obrir-lo.
+- Anar a Restaurar sistema, triar el punt creat i comprovar que detecta Chrome com a
+  programa afectat.
+- Restaurar el sistema i comprovar que Chrome ja no hi és.
 
 ## 5. Xarxa
 
 Per tenir Internet, l'equip necessita una adreça IP, una connexió activa i un servidor
 DNS, que tradueix noms com `google.com` a adreces IP. Fent `ping` a un nom i a una IP es
-pot saber si hi ha connexió i on falla. Es canviarà l'adaptador de la màquina virtual per
-veure què passa.
+pot saber si hi ha connexió i on falla. El pla és canviar l'adaptador de la màquina
+virtual per veure què passa en cada cas:
 
-**Passos:**
-
-1. Amb l'adaptador en **NAT**, executar `ipconfig`, `ping google.com` i `ping 8.8.8.8`. 📸 *(5.1)*
-2. A VirtualBox, **Dispositius → Xarxa**, desmarcar **Connecta el cable** i repetir els dos
-   `ping`. 📸 *(5.2)*
-3. Tornar a connectar el cable i canviar l'adaptador a **Adaptador pont**. Repetir
-   `ipconfig` i els dos `ping`. 📸 *(5.3)*
-4. A Windows, posar el DNS manual **1.2.3.4** i repetir els dos `ping`. Després tornar a
-   posar el DNS en automàtic. 📸 *(5.4)*
-
-## Comprovació final
-
-Abans de donar per acabat el sprint, revisa aquest resum:
-
-- La màquina virtual arrenca Windows correctament, amb les particions `C:` i `D:` creades.
-- La llicència i el seu tipus queden identificats i justificats.
-- Totes les comandes bàsiques del punt 3 s'han provat i comprovat amb `dir`.
-- El punt de restauració desfà la instal·lació de Chrome correctament.
-- Els quatre escenaris de xarxa del punt 5 queden documentats amb el resultat del `ping`.
+- Amb l'adaptador en NAT, executar `ipconfig`, `ping google.com` i `ping 8.8.8.8`.
+- Desconnectar el cable virtual de xarxa i repetir els dos `ping`.
+- Tornar a connectar el cable i canviar l'adaptador a mode pont, repetint `ipconfig` i
+  els dos `ping`.
+- Posar un DNS manual (1.2.3.4) i repetir els dos `ping`, i després tornar el DNS a
+  automàtic.
