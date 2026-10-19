@@ -198,19 +198,42 @@ exemple, per compartir arxius o impressores).
 
 La línia de comandes permet donar ordres a l'ordinador escrivint, sense finestres ni
 ratolí. És més ràpida per a moltes tasques i és l'eina habitual per administrar sistemes.
-Des del **Símbol del sistema (cmd)**, el pla és:
+Ho vaig fer tot des del **Símbol del sistema (cmd)**.
 
-- Entrar a l'Escriptori amb `cd Desktop`, crear una carpeta amb `mkdir practica` i
-  entrar-hi amb `cd practica`.
-- Crear un fitxer amb `echo hola > nota.txt` i comprovar que hi és amb `dir`.
-- Fer-ne una còpia amb `copy nota.txt copia.txt` i comprovar-ho amb `dir`.
-- Crear la carpeta `mkdir arxiu` i moure-hi la còpia amb `move copia.txt arxiu`.
-- Canviar el nom d'un fitxer amb `ren nota.txt notes.txt`, i d'una carpeta amb
-  `ren arxiu backup`, i comprovar-ho amb `dir`.
-- Entrar a la carpeta amb `cd backup`, mirar què hi ha amb `dir` i sortir amb `cd ..`.
-- Mostrar l'estructura amb `tree /f`.
-- Esborrar el fitxer amb `del notes.txt` i comprovar-ho amb `dir`.
-- Netejar la pantalla amb `cls`.
+Primer vaig entrar a l'Escriptori i vaig crear una carpeta de proves:
+```
+cd Desktop
+mkdir practica
+cd practica
+```
+
+Dins seu vaig crear un fitxer de text amb `echo` i vaig comprovar amb `dir` que s'havia
+creat (al primer intent vaig oblidar-me el `> nota.txt` i no es va crear res; repetint-ho
+bé ja va sortir el fitxer amb 7 bytes):
+
+![Terminal amb echo hola > nota.txt i el dir mostrant nota.txt creat](captures/22-cmd-echo-dir-nota.png)
+
+Després en vaig fer una còpia amb `copy` i vaig tornar a comprovar-ho amb `dir`:
+
+![Terminal amb copy nota.txt copia.txt i el dir mostrant els dos fitxers](captures/23-cmd-copy-dir-copia.png)
+
+A continuació vaig crear una carpeta `arxiu`, hi vaig moure la còpia, i vaig canviar el
+nom tant del fitxer com de la carpeta:
+```
+mkdir arxiu
+move copia.txt arxiu
+ren nota.txt notes.txt
+ren arxiu backup
+```
+
+![Terminal amb mkdir, move i els dos ren, i el dir final mostrant backup i notes.txt](captures/24-cmd-mkdir-move-ren.png)
+
+Vaig entrar a la carpeta `backup` per comprovar que hi havia la còpia:
+
+![Terminal entrant a la carpeta backup i fent dir, mostrant copia.txt](captures/25-cmd-cd-backup-dir.png)
+
+Encara em falta sortir amb `cd ..`, mostrar l'estructura amb `tree /f`, esborrar
+`notes.txt` amb `del` i comprovar-ho amb `dir`, i netejar la pantalla amb `cls`.
 
 ## 4. Aplicacions i punts de restauració
 
