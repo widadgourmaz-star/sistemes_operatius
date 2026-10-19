@@ -187,6 +187,13 @@ que a Microsoft, però perquè va inclòs amb altre programari, no és Windows 1
 
 ![Pàgina de Softlite amb el paquet Windows 11 Pro + Office 2024 + Illustrator a 35 euros](captures/19-preu-windows11-pro-softlite.png)
 
+Finalment vaig buscar què és una **CAL** a la pàgina oficial de llicenciament de
+Microsoft: és una llicència d'accés de client, no un programa en si, que dona dret a
+un usuari o dispositiu a connectar-se als serveis d'un servidor de la xarxa (per
+exemple, per compartir arxius o impressores).
+
+![Pàgina de Microsoft sobre llicències d'accés de client (CAL) i llicències d'administració (ML)](captures/20-que-es-una-cal-microsoft.png)
+
 ## 3. Comandes bàsiques
 
 La línia de comandes permet donar ordres a l'ordinador escrivint, sense finestres ni
