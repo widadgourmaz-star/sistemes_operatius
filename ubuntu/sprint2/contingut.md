@@ -97,18 +97,36 @@ ls -lh disc.img
 
 ![Terminal amb dd creant disc.img de 200 MB i ls -lh confirmant la mida](captures/03-recuperacio-disc-img-creat.png)
 
+### Formatar, muntar i copiar-hi els fitxers
+
+Vaig formatar el disc virtual amb ext4:
+```
+mkfs.ext4 disc.img
+```
+
+![Terminal amb mkfs.ext4 formatant disc.img](captures/04-recuperacio-mkfs-ext4.png)
+
+Després el vaig muntar i hi vaig copiar els tres fitxers:
+```
+sudo mkdir -p /mnt/prova
+sudo mount -o loop disc.img /mnt/prova
+sudo cp foto.jpg apunts.pdf notes.txt /mnt/prova/
+ls -l /mnt/prova
+```
+
+![Terminal muntant el disc, copiant-hi els fitxers i fent ls -l mostrant els tres fitxers i lost+found](captures/05-recuperacio-mount-copy-ls.png)
+
 Pla per a la resta de la pràctica:
 
-1. Formatar aquest disc amb ext4, muntar-lo i copiar-hi els tres fitxers.
-2. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
+1. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
    comprovar que el contingut sembla haver desaparegut (només queda
    `lost+found`).
-3. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
+2. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
    comprovar amb `sha256sum` que els fitxers recuperats són idèntics als
    originals, byte a byte.
-4. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
+3. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
    ja que `photorec` no reconeix fitxers de text sense capçalera.
-5. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
+4. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
    `photorec` i la cerca de text: aquesta vegada no ha de trobar res.
 
 Cal lliurar:
