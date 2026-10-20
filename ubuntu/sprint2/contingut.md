@@ -66,11 +66,23 @@ Cal lliurar:
 Pràctica independent per comprovar que formatar un disc no esborra els fitxers
 de seguida: només esborra l'índex que diu on és cadascun.
 
-Pla:
+### Preparació: tres fitxers de prova
 
-1. Crear tres fitxers de prova (`foto.jpg`, `apunts.pdf`, `notes.txt`) i calcular
-   el seu hash (`sha256sum`) per poder comparar-los després.
-2. Crear un disc virtual de 200 MB (`dd` + `/dev/zero`), formatar-lo amb ext4,
+Vaig crear la carpeta `~/practica` i hi vaig posar tres fitxers: una foto i un PDF
+copiats amb l'aplicació Fitxers, i un text creat directament des del terminal amb
+`echo`:
+```
+echo "El meu secret és que m'encanta la pizza amb pinya" > notes.txt
+```
+
+![Terminal amb ls -l mostrant apunts.pdf, foto.jpg i notes.txt dins de la carpeta practica](captures/01-recuperacio-ls-tres-fitxers.png)
+
+Encara em falta calcular el hash (`sha256sum`) d'aquests tres fitxers per poder-los
+comparar més endavant.
+
+Pla per a la resta de la pràctica:
+
+1. Crear un disc virtual de 200 MB (`dd` + `/dev/zero`), formatar-lo amb ext4,
    muntar-lo i copiar-hi els tres fitxers.
 3. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
    comprovar que el contingut sembla haver desaparegut (només queda
