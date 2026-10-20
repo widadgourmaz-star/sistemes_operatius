@@ -232,8 +232,15 @@ Vaig entrar a la carpeta `backup` per comprovar que hi havia la còpia:
 
 ![Terminal entrant a la carpeta backup i fent dir, mostrant copia.txt](captures/25-cmd-cd-backup-dir.png)
 
-Encara em falta sortir amb `cd ..`, mostrar l'estructura amb `tree /f`, esborrar
-`notes.txt` amb `del` i comprovar-ho amb `dir`, i netejar la pantalla amb `cls`.
+Després de sortir amb `cd ..`, vaig mostrar tota l'estructura de carpetes i fitxers amb
+`tree /f`: només queda `notes.txt` a l'arrel i `copia.txt` dins de `backup`.
+
+![Terminal amb dir i tree /f mostrant notes.txt a l'arrel i backup/copia.txt](captures/26-cmd-tree-net.png)
+
+Finalment vaig esborrar `notes.txt` amb `del` i vaig comprovar amb `dir` que ja no hi
+era (només queda la carpeta `backup`), i vaig netejar la pantalla amb `cls`:
+
+![Terminal amb del notes.txt i el dir final mostrant només la carpeta backup](captures/27-cmd-del-dir-final.png)
 
 ## 4. Aplicacions i punts de restauració
 
