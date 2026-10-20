@@ -246,15 +246,20 @@ era (només queda la carpeta `backup`), i vaig netejar la pantalla amb `cls`:
 
 Un punt de restauració és una còpia de l'estat del sistema (programes, configuració i
 registre) en un moment concret. Si després d'instal·lar alguna cosa el sistema falla, es
-pot tornar a aquell punt; els documents personals no s'esborren. Ho provaré instal·lant
-Google Chrome:
+pot tornar a aquell punt; els documents personals no s'esborren. Ho vaig provar
+instal·lant Google Chrome.
 
-- Crear un punt de restauració, activant la protecció del sistema al disc `C:`, amb el
-  nom "Abans de Chrome".
-- Descarregar Chrome de la web oficial de Google, instal·lar-lo i obrir-lo.
-- Anar a Restaurar sistema, triar el punt creat i comprovar que detecta Chrome com a
-  programa afectat.
-- Restaurar el sistema i comprovar que Chrome ja no hi és.
+Primer vaig activar la protecció del sistema al disc `C:` (la unitat `DADES (F:)` la
+vaig deixar desactivada, ja que no cal protegir-la):
+
+![Finestra de Protecció del sistema per al Disco local C: amb l'opció Activar protecció del sistema seleccionada](captures/28-proteccio-sistema-disc-c.png)
+
+Després vaig crear un punt de restauració amb el nom **"Abans de chrome"**:
+
+![Finestra de crear un punt de restauració amb el nom Abans de chrome escrit](captures/29-crear-punt-restauracio-abans-chrome.png)
+
+Encara em falta descarregar i instal·lar Chrome, comprovar que la restauració el
+detecta com a programa afectat, i restaurar el sistema per comprovar que desapareix.
 
 ## 5. Xarxa
 
