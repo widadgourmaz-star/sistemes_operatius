@@ -86,10 +86,20 @@ cat originals.sha
 
 ![Terminal amb sha256sum i cat originals.sha mostrant els tres hashes](captures/02-recuperacio-hashes-originals.png)
 
+### Creació del disc virtual
+
+Vaig crear un fitxer de 200 MB ple de zeros, que fa de disc durant tota la
+pràctica:
+```
+dd if=/dev/zero of=disc.img bs=1M count=200 status=progress
+ls -lh disc.img
+```
+
+![Terminal amb dd creant disc.img de 200 MB i ls -lh confirmant la mida](captures/03-recuperacio-disc-img-creat.png)
+
 Pla per a la resta de la pràctica:
 
-1. Crear un disc virtual de 200 MB (`dd` + `/dev/zero`), formatar-lo amb ext4,
-   muntar-lo i copiar-hi els tres fitxers.
+1. Formatar aquest disc amb ext4, muntar-lo i copiar-hi els tres fitxers.
 2. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
    comprovar que el contingut sembla haver desaparegut (només queda
    `lost+found`).
