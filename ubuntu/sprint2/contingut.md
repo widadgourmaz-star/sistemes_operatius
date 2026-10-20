@@ -116,17 +116,34 @@ ls -l /mnt/prova
 
 ![Terminal muntant el disc, copiant-hi els fitxers i fent ls -l mostrant els tres fitxers i lost+found](captures/05-recuperacio-mount-copy-ls.png)
 
+### Formateig d'alt nivell
+
+Vaig desmuntar el disc i el vaig tornar a formatar (com si volgués reutilitzar un
+USB), confirmant l'avís perquè ja tenia un sistema de fitxers:
+```
+sudo umount /mnt/prova
+mkfs.ext4 -E nodiscard disc.img
+```
+Després vaig muntar-lo de nou per veure què hi quedava:
+```
+sudo mount -o loop disc.img /mnt/prova
+ls -l /mnt/prova
+sudo umount /mnt/prova
+```
+
+![Terminal reformatant disc.img i mostrant que només queda lost+found](captures/06-recuperacio-reformat-disc-buit.png)
+
+Els fitxers han desaparegut de l'índex i el disc sembla buit, però encara hi
+són físicament — això ho vaig comprovar al pas següent amb `photorec`.
+
 Pla per a la resta de la pràctica:
 
-1. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
-   comprovar que el contingut sembla haver desaparegut (només queda
-   `lost+found`).
-2. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
+1. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
    comprovar amb `sha256sum` que els fitxers recuperats són idèntics als
    originals, byte a byte.
-3. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
+2. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
    ja que `photorec` no reconeix fitxers de text sense capçalera.
-4. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
+3. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
    `photorec` i la cerca de text: aquesta vegada no ha de trobar res.
 
 Cal lliurar:
