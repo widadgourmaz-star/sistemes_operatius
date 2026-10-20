@@ -77,22 +77,28 @@ echo "El meu secret és que m'encanta la pizza amb pinya" > notes.txt
 
 ![Terminal amb ls -l mostrant apunts.pdf, foto.jpg i notes.txt dins de la carpeta practica](captures/01-recuperacio-ls-tres-fitxers.png)
 
-Encara em falta calcular el hash (`sha256sum`) d'aquests tres fitxers per poder-los
-comparar més endavant.
+Després en vaig calcular el hash amb `sha256sum`, per poder comprovar més endavant
+que els fitxers recuperats són exactament els mateixos:
+```
+sha256sum foto.jpg apunts.pdf notes.txt > originals.sha
+cat originals.sha
+```
+
+![Terminal amb sha256sum i cat originals.sha mostrant els tres hashes](captures/02-recuperacio-hashes-originals.png)
 
 Pla per a la resta de la pràctica:
 
 1. Crear un disc virtual de 200 MB (`dd` + `/dev/zero`), formatar-lo amb ext4,
    muntar-lo i copiar-hi els tres fitxers.
-3. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
+2. Desmuntar el disc i tornar-lo a formatar (formateig d'alt nivell), i
    comprovar que el contingut sembla haver desaparegut (només queda
    `lost+found`).
-4. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
+3. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
    comprovar amb `sha256sum` que els fitxers recuperats són idèntics als
    originals, byte a byte.
-5. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
+4. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
    ja que `photorec` no reconeix fitxers de text sense capçalera.
-6. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
+5. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
    `photorec` i la cerca de text: aquesta vegada no ha de trobar res.
 
 Cal lliurar:
