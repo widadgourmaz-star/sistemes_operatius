@@ -136,11 +136,30 @@ sudo umount /mnt/prova
 Els fitxers han desaparegut de l'índex i el disc sembla buit, però encara hi
 són físicament — això ho vaig comprovar al pas següent amb `photorec`.
 
+### Recuperació amb photorec
+
+Vaig executar `photorec` sobre el disc, sense necessitar l'índex que s'havia
+esborrat:
+```
+photorec /d recup /cmd disc.img options,fileopt,everything,enable,search
+```
+
+Com que vaig activar la recuperació de **tots** els tipus de fitxer
+(`everything`), `photorec` també va interpretar com a vàlids molts blocs buits
+del disc (zeros) com si fossin capçaleres d'un format de correu (`.dovecot`),
+cosa que va generar milers de falsos positius. A més, `photorec` crea una
+carpeta nova cada cert nombre de fitxers trobats, així que en comptes d'una sola
+carpeta `recup.1` en van sortir sis:
+```
+ls -d recup.*
+```
+
+![Terminal amb ls -d recup.* mostrant les carpetes recup.1 a recup.6](captures/07-recuperacio-ls-recup-carpetes.png)
+
 Pla per a la resta de la pràctica:
 
-1. Recuperar els fitxers amb `photorec` sense necessitar l'índex esborrat, i
-   comprovar amb `sha256sum` que els fitxers recuperats són idèntics als
-   originals, byte a byte.
+1. Localitzar la foto i el PDF reals entre tots els falsos positius, i
+   comprovar amb `sha256sum` que són idèntics als originals, byte a byte.
 2. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
    ja que `photorec` no reconeix fitxers de text sense capçalera.
 3. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
