@@ -174,3 +174,43 @@ Cal lliurar:
 - Captura de `photorec` sense cap fitxer i de `grep` sense resultat, després
   d'omplir el disc de zeros.
 - Respostes a les sis preguntes de la pràctica.
+
+## Gestió de processos
+
+Missió «El servidor va lent»: com a administrador d'un servidor Ubuntu, cal
+trobar quins processos sospitosos hi ha, investigar-los amb `ps`, passar la
+descàrrega legítima a segon pla, donar-li prioritat i neutralitzar els intrusos.
+
+Conceptes clau: un **procés** és un programa mentre s'executa, amb un **PID**
+(identificador únic) i un **PPID** (el PID del seu procés pare); si el pare
+acaba abans, el procés queda orfe i l'adopta `systemd`. Un procés en **primer
+pla** ocupa el terminal; en **segon pla** (`&`) el deixa lliure. Els **senyals**
+(`SIGTERM`, `SIGKILL`, `SIGSTOP`, `SIGCONT`...) serveixen per demanar-li a un
+procés que acabi, que es pari o que continuï. La **prioritat** (`nice`/`renice`)
+decideix quant de CPU rep un procés quan n'hi ha diversos competint.
+
+Pla de la missió, en vuit nivells:
+
+1. **Preparar el cas**: crear la carpeta `~/missio` i cinc scripts (`minador`,
+   `espia`, `backup_nocturn`, `descarrega.sh`, `sospitosos.sh`), donar-los
+   permís d'execució i engegar el sabotatge.
+2. **Reconeixement**: veure els processos propis i de tot el sistema amb `ps` i
+   `pstree`, i localitzar els sospitosos penjant de `systemd`.
+3. **Qui consumeix més**: usar `top` per trobar que els dos `minador` es
+   reparteixen tota la CPU.
+4. **Interrogatori amb ps**: filtrar la llista amb `grep`/`pgrep` per obtenir
+   els PID de cada sospitós i les seves dades (`PPID`, estat, `%CPU`...).
+5. **La descàrrega urgent**: moure `descarrega.sh` entre primer pla, pausa
+   (`Ctrl+Z`) i segon pla (`bg`/`fg`) mentre es vigila el progrés en un segon
+   terminal.
+6. **Prioritat a la descàrrega**: pujar-li la prioritat amb `sudo renice` per
+   fer-la acabar abans que els `minador`.
+7. **Neutralitzar els intrusos**: aturar els `minador` amb `kill`, l'`espia`
+   amb `kill -9` (ignora `SIGTERM`), i pausar/reprendre el `backup_nocturn` amb
+   `kill -STOP`/`kill -CONT`.
+8. **Que la descàrrega no es perdi**: comprovar que tancar el terminal mata la
+   descàrrega (rep `SIGHUP`), i que executant-la amb `nohup ... &` sobreviu i
+   l'adopta `systemd`.
+
+Cal lliurar vuit captures (una per nivell, segons indica la guia de la missió)
+i, en acabar, aturar tots els processos de la missió que quedin engegats.
