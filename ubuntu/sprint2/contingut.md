@@ -331,21 +331,34 @@ llegir; la resta d'usuaris no hi té cap accés. `/root` és `700`
 (`rwx------`): només el propietari (`root`) hi pot entrar, llistar-ne el
 contingut o escriure-hi — ni tan sols el grup hi té cap permís.
 
+### Nivell 2 · chmod numèric
+
+Vaig posar `750` a `codi` (amb `-R`, perquè s'apliqui també al fitxer de
+dins), `755` a `art` i `640` al fitxer privat `proves/informe.txt`:
+```
+sudo chmod -R 750 /srv/pixelforge/codi
+ls -ld /srv/pixelforge/codi
+ls -l /srv/pixelforge/codi
+sudo chmod 755 /srv/pixelforge/art
+sudo chmod 640 /srv/pixelforge/proves/informe.txt
+ls -l /srv/pixelforge/proves
+```
+
+![Terminal amb codi a 750 (carpeta i joc.py), i informe.txt a 640](captures/11-permisos-nivell2-chmod-numeric.png)
+
 Pla per a la resta de la missió:
 
-1. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
-   `proves/informe.txt`.
-2. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
+1. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
    `u+w`, `o=` i `g+rx,o-w`.
-3. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
+2. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
    `testers`, i comprovar que en Pau hi pot escriure però no a `proves`.
-4. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
+3. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
    del grup `programadors` en lloc del grup personal de qui els crea.
-5. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+4. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
    ningú pugui esborrar els dels altres.
-6. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+5. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-7. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+6. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
