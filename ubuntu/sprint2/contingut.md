@@ -317,6 +317,20 @@ El fitxer és `644` (`rw-r--r--`): el propietari hi pot llegir i escriure, el
 grup i la resta només llegir. La carpeta és `755` (`rwxr-xr-x`): tothom hi
 pot entrar i llistar, però només `root` hi pot crear o esborrar fitxers.
 
+**Repte 1**: vaig comprovar els permisos de dos fitxers crítics del sistema:
+```
+ls -l /etc/shadow
+ls -ld /root
+```
+
+![Terminal amb ls -l /etc/shadow (640, grup shadow) i ls -ld /root (700)](captures/10-permisos-repte1-shadow-root.png)
+
+`/etc/shadow` és `640` (`rw-r-----`), propietari `root` i grup `shadow`:
+només `root` (i els processos del grup `shadow`, com `passwd`) el poden
+llegir; la resta d'usuaris no hi té cap accés. `/root` és `700`
+(`rwx------`): només el propietari (`root`) hi pot entrar, llistar-ne el
+contingut o escriure-hi — ni tan sols el grup hi té cap permís.
+
 Pla per a la resta de la missió:
 
 1. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
