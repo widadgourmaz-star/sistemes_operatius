@@ -423,13 +423,30 @@ Amb l'SGID actiu (la `s` a la zona del grup), el fitxer nou `so.py` ja surt
 del grup `programadors`; el fitxer antic `mapa.py` es queda amb el grup
 `nvidal` perquè l'SGID només afecta els fitxers creats després.
 
+### Nivell 6 · Sticky bit a la carpeta compartida
+
+Primer vaig preparar `compartit` amb permisos `777` perquè tothom hi pogués
+escriure, i vaig comprovar el problema: sense sticky bit, qualsevol pot
+esborrar els fitxers dels altres (`rm` només demana confirmació):
+```
+sudo chmod 777 /srv/pixelforge/compartit
+su - pau
+touch /srv/pixelforge/compartit/de_pau.txt
+exit
+su - marc
+rm /srv/pixelforge/compartit/de_pau.txt
+```
+
+![Terminal amb compartit a 777, pau creant un fitxer, i marc podent esborrar-lo (rm demana confirmació)](captures/17-permisos-nivell6-abans-sticky.png)
+
+Encara em falta posar el sticky bit (`chmod +t`) i repetir la prova per
+veure que, aquesta vegada, en Marc no pot esborrar el fitxer d'en Pau.
+
 Pla per a la resta de la missió:
 
-1. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
-   ningú pugui esborrar els dels altres.
-2. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+1. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-3. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+2. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
