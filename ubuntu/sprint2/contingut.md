@@ -346,19 +346,34 @@ ls -l /srv/pixelforge/proves
 
 ![Terminal amb codi a 750 (carpeta i joc.py), i informe.txt a 640](captures/11-permisos-nivell2-chmod-numeric.png)
 
+### Nivell 3 · chmod simbòlic
+
+Amb lletres, vaig canviar permisos un a un sense recalcular tot el número:
+```
+sudo chmod u-w /srv/pixelforge/art
+ls -ld /srv/pixelforge/art
+sudo chmod u+w /srv/pixelforge/art
+sudo chmod o= /srv/pixelforge/art
+ls -ld /srv/pixelforge/art
+sudo chmod g+rx,o-w /srv/pixelforge/art
+```
+
+![Terminal amb ls -ld d'art després de u-w (dr-xr-xr-x) i després de o= (drwxr-x---)](captures/12-permisos-nivell3-chmod-simbolic.png)
+
+Amb `u-w` ha desaparegut la `w` del propietari sense tocar la resta; amb
+`o=` la resta d'usuaris s'ha quedat sense cap permís.
+
 Pla per a la resta de la missió:
 
-1. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
-   `u+w`, `o=` i `g+rx,o-w`.
-2. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
+1. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
    `testers`, i comprovar que en Pau hi pot escriure però no a `proves`.
-3. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
+2. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
    del grup `programadors` en lloc del grup personal de qui els crea.
-4. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+3. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
    ningú pugui esborrar els dels altres.
-5. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+4. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-6. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+5. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
