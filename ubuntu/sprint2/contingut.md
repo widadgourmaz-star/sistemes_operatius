@@ -300,23 +300,38 @@ ls -l /srv/pixelforge
 Totes les carpetes són de `root root` perquè les he creat amb `sudo`; als
 nivells següents els donaré a cada equip.
 
+### Nivell 1 · Llegir permisos
+
+Abans de tocar res, vaig comprovar que sabia llegir els permisos: els del
+fitxer `joc.py`, els de la carpeta `codi` mateixa (amb `-d`) i els mateixos
+en lletres i en número amb `stat`:
+```
+ls -l /srv/pixelforge/codi/joc.py
+ls -ld /srv/pixelforge/codi
+stat /srv/pixelforge/codi/joc.py
+```
+
+![Terminal amb ls -l del fitxer (644), ls -ld de la carpeta (755) i stat mostrant Access 0644](captures/09-permisos-nivell1-llegir.png)
+
+El fitxer és `644` (`rw-r--r--`): el propietari hi pot llegir i escriure, el
+grup i la resta només llegir. La carpeta és `755` (`rwxr-xr-x`): tothom hi
+pot entrar i llistar, però només `root` hi pot crear o esborrar fitxers.
+
 Pla per a la resta de la missió:
 
-1. **Llegir permisos**: interpretar la sortida de `ls -l`, `ls -ld` i `stat`
-   sense canviar res encara.
-2. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
+1. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
    `proves/informe.txt`.
-3. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
+2. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
    `u+w`, `o=` i `g+rx,o-w`.
-4. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
+3. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
    `testers`, i comprovar que en Pau hi pot escriure però no a `proves`.
-5. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
+4. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
    del grup `programadors` en lloc del grup personal de qui els crea.
-6. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+5. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
    ningú pugui esborrar els dels altres.
-7. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+6. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-8. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+7. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
