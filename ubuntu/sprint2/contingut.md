@@ -143,6 +143,7 @@ esborrat:
 ```
 photorec /d recup /cmd disc.img options,fileopt,everything,enable,search
 ```
+<img width="689" height="467" alt="image" src="https://github.com/user-attachments/assets/69690463-0634-48b2-b380-8169c445c617" />
 
 Com que vaig activar la recuperació de **tots** els tipus de fitxer
 (`everything`), `photorec` també va interpretar com a vàlids molts blocs buits
