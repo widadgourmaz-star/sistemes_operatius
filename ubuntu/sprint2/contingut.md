@@ -391,15 +391,45 @@ exit
 En Pau, com a propietari de `codi`, hi pot crear fitxers sense problema; a
 `proves` no té cap permís i li surt `Permission denied`.
 
+### Nivell 5 · SGID a `codi`
+
+Primer vaig donar permís d'escriptura al grup i vaig comprovar el problema:
+quan la Núria (`nvidal`), que és del grup `programadors`, crea un fitxer, el
+grup del fitxer és el seu grup personal (`nvidal`), no `programadors`:
+```
+sudo chmod g+w /srv/pixelforge/codi
+ls -ld /srv/pixelforge/codi
+su - nvidal
+touch /srv/pixelforge/codi/mapa.py
+ls -l /srv/pixelforge/codi
+exit
+```
+
+![Terminal mostrant mapa.py creat per nvidal amb grup nvidal, dins de codi amb permís 770](captures/15-permisos-nivell5-sgid-abans.png)
+
+Després vaig posar el bit SGID a la carpeta i vaig repetir la prova:
+```
+sudo chmod g+s /srv/pixelforge/codi
+ls -ld /srv/pixelforge/codi
+su - nvidal
+touch /srv/pixelforge/codi/so.py
+ls -l /srv/pixelforge/codi
+exit
+```
+
+![Terminal amb la s a ls -ld codi (drwxrws---) i so.py ja amb grup programadors](captures/16-permisos-nivell5-sgid-despres.png)
+
+Amb l'SGID actiu (la `s` a la zona del grup), el fitxer nou `so.py` ja surt
+del grup `programadors`; el fitxer antic `mapa.py` es queda amb el grup
+`nvidal` perquè l'SGID només afecta els fitxers creats després.
+
 Pla per a la resta de la missió:
 
-1. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
-   del grup `programadors` en lloc del grup personal de qui els crea.
-2. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+1. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
    ningú pugui esborrar els dels altres.
-3. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+2. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-4. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+3. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
