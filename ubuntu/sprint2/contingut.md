@@ -214,3 +214,95 @@ Pla de la missió, en vuit nivells:
 
 Cal lliurar vuit captures (una per nivell, segons indica la guia de la missió)
 i, en acabar, aturar tots els processos de la missió que quedin engegats.
+
+## Gestió de permisos
+
+Missió «PixelForge» (3a part): l'estudi de videojocs ja té els usuaris i els
+equips creats, però els permisos estan mal configurats — tothom pot llegir i
+esborrar els fitxers de tothom, i el codi del joc ha quedat obert a tot
+l'estudi. Cal donar a cada equip la seva carpeta, fer que els fitxers nous
+siguin del grup correcte, protegir una carpeta compartida i donar accés
+puntual a algú de fora de l'equip.
+
+### Resum de teoria
+
+Cada fitxer i cada carpeta té tres **permisos** (`r` llegir, `w` escriure,
+`x` executar/entrar) que es poden donar a tres **destinataris**: `u`
+(propietari), `g` (grup) i `o` (resta). En una carpeta, `x` és el que permet
+entrar-hi (`cd`) i accedir als fitxers de dins; amb `r` però sense `x` només
+es veuen els noms.
+
+Una línia de `ls -l` com `-rwxr-xr--` es llegeix: tipus (`-` fitxer, `d`
+carpeta, `l` enllaç), després tres grups de `rwx` per a propietari, grup i
+resta.
+
+Els permisos també es poden escriure en número, sumant els valors de cada
+grup (`r`=4, `w`=2, `x`=1): `rwx`=7, `r-x`=5, `rw-`=6, `r--`=4, etc. Així
+`chmod 750` vol dir propietari `rwx`, grup `r-x`, resta `---`. Els més
+habituals: `755` (programes i carpetes públiques), `750` (carpeta d'un
+equip), `644` (fitxers normals), `640` (fitxers privats d'un equip).
+
+A més hi ha tres **permisos especials**, amb un quart dígit davant del
+número o com a lletra extra als permisos normals:
+
+- **SUID** (4, `u+s`): el programa s'executa amb la identitat del propietari,
+  no de qui el llança. Es veu com una `s` a la zona de l'usuari.
+- **SGID** (2, `g+s`): en una carpeta, els fitxers nous hereten el grup de
+  la carpeta. Es veu com una `s` a la zona del grup.
+- **Sticky bit** (1, `+t`): en una carpeta compartida, tothom hi pot crear
+  fitxers però cadascú només pot esborrar els seus. Es veu com una `t` al
+  final. El cas més conegut és `/tmp`.
+
+Ordres principals: `ls -l`/`ls -la` (llista amb permisos), `ls -ld carpeta`
+(permisos de la carpeta mateixa, no del que conté), `stat fitxer` (permisos
+en lletres i número), `getfacl fitxer` (permisos ACL); `chmod` (numèric o
+simbòlic, amb `u`/`g`/`o`/`a` i `+`/`-`/`=`); `chown usuari:grup` i `chgrp
+grup` (canviar propietari/grup, només amb `sudo`); `setfacl -m u:usuari:rwx`
+i `setfacl -x u:usuari` (donar/treure accés ACL a una persona concreta sense
+canviar-la de grup); `umask` (la màscara que decideix els permisos per
+defecte dels fitxers nous: es resta de 666 per a fitxers i 777 per a
+carpetes).
+
+### Pla de la pràctica
+
+Com que encara no tinc creats els usuaris i grups de PixelForge, primer cal
+crear-los:
+```
+sudo groupadd programadors
+sudo groupadd artistes
+sudo groupadd testers
+sudo adduser nvidal
+sudo adduser pau
+sudo adduser marc
+sudo adduser biel
+sudo usermod -aG programadors nvidal
+sudo usermod -aG programadors pau
+sudo usermod -aG testers marc
+```
+
+Després, la missió es fa en nou nivells, dins de `/srv/pixelforge`:
+
+1. **Muntar l'estudi**: crear `/srv/pixelforge` amb les carpetes `codi`,
+   `art`, `proves` i `compartit`, i un fitxer d'exemple a cada carpeta
+   d'equip.
+2. **Llegir permisos**: interpretar la sortida de `ls -l`, `ls -ld` i `stat`
+   sense canviar res encara.
+3. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
+   `proves/informe.txt`.
+4. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
+   `u+w`, `o=` i `g+rx,o-w`.
+5. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
+   `testers`, i comprovar que en Pau hi pot escriure però no a `proves`.
+6. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
+   del grup `programadors` en lloc del grup personal de qui els crea.
+7. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+   ningú pugui esborrar els dels altres.
+8. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+   posar-lo al grup `programadors`, i treure-l'hi després.
+9. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+   `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
+
+Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
+captures (una per nivell, amb els reptes inclosos) i, en acabar, es pot
+esborrar la carpeta de proves (`sudo rm -r /srv/pixelforge`) però no els
+usuaris ni els grups.
