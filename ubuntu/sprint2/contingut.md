@@ -281,26 +281,42 @@ sudo usermod -aG programadors pau
 sudo usermod -aG testers marc
 ```
 
-Després, la missió es fa en nou nivells, dins de `/srv/pixelforge`:
+Després, la missió es fa en nou nivells, dins de `/srv/pixelforge`.
 
-1. **Muntar l'estudi**: crear `/srv/pixelforge` amb les carpetes `codi`,
-   `art`, `proves` i `compartit`, i un fitxer d'exemple a cada carpeta
-   d'equip.
-2. **Llegir permisos**: interpretar la sortida de `ls -l`, `ls -ld` i `stat`
+### Nivell 0 · Muntar l'estudi
+
+Vaig crear la carpeta de l'estudi amb les quatre carpetes (una per equip i
+una de compartida) i un fitxer d'exemple a cada carpeta d'equip:
+```
+sudo mkdir -p /srv/pixelforge
+cd /srv/pixelforge
+sudo mkdir codi art proves compartit
+sudo touch codi/joc.py art/logo.png proves/informe.txt
+ls -l /srv/pixelforge
+```
+
+![Terminal mostrant ls -l /srv/pixelforge amb les quatre carpetes art, codi, compartit i proves, totes de root root](captures/08-permisos-nivell0-muntar-estudi.png)
+
+Totes les carpetes són de `root root` perquè les he creat amb `sudo`; als
+nivells següents els donaré a cada equip.
+
+Pla per a la resta de la missió:
+
+1. **Llegir permisos**: interpretar la sortida de `ls -l`, `ls -ld` i `stat`
    sense canviar res encara.
-3. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
+2. **chmod numèric**: posar `750` a `codi`, `755` a `art` i `640` a
    `proves/informe.txt`.
-4. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
+3. **chmod simbòlic**: treure i tornar a posar permisos a `art` amb `u-w`,
    `u+w`, `o=` i `g+rx,o-w`.
-5. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
+4. **chown i chgrp**: donar `codi` a `pau:programadors` i `proves` al grup
    `testers`, i comprovar que en Pau hi pot escriure però no a `proves`.
-6. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
+5. **SGID a `codi`**: fer que els fitxers nous que hi creï l'equip surtin
    del grup `programadors` en lloc del grup personal de qui els crea.
-7. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
+6. **Sticky bit a `compartit`**: permetre que tothom hi deixi fitxers però
    ningú pugui esborrar els dels altres.
-8. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
+7. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
    posar-lo al grup `programadors`, i treure-l'hi després.
-9. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
+8. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
 Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
