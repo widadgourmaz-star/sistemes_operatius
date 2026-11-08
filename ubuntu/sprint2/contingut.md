@@ -211,14 +211,36 @@ vaig crear:
 sudo groupadd programadors
 sudo groupadd artistes
 sudo groupadd testers
+```
+
+![Terminal creant els grups programadors, artistes i testers amb groupadd](captures/18-permisos-prep-groupadd.png)
+
+```
 sudo adduser nvidal
+```
+
+![Terminal creant l'usuari nvidal amb adduser, amb la contrasenya i les dades opcionals](captures/19-permisos-prep-adduser-nvidal.png)
+
+```
 sudo adduser pau
 sudo adduser marc
+```
+
+![Terminal creant els usuaris pau i marc amb adduser](captures/20-permisos-prep-adduser-pau.png)
+
+```
 sudo adduser biel
+```
+
+![Terminal creant l'usuari biel amb adduser](captures/21-permisos-prep-adduser-marc-biel.png)
+
+```
 sudo usermod -aG programadors nvidal
 sudo usermod -aG programadors pau
 sudo usermod -aG testers marc
 ```
+
+![Terminal afegint nvidal i pau al grup programadors, i marc al grup testers](captures/22-permisos-prep-usermod-grups.png)
 
 Després, la missió es fa en nou nivells, dins de `/srv/pixelforge`.
 
@@ -380,14 +402,7 @@ rm /srv/pixelforge/compartit/de_pau.txt
 
 Encara em falta posar el sticky bit (`chmod +t`) i repetir la prova per
 veure que, aquesta vegada, en Marc no pot esborrar el fitxer d'en Pau.
-
-Pla per a la resta de la missió:
-
-1. **ACL per a en Marc**: donar-li accés puntual de lectura a `codi` sense
-   posar-lo al grup `programadors`, i treure-l'hi després.
-2. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
-   `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
-
-Cada nivell té un repte per fer sola, a més del pas guiat. En acabar, es pot
-esborrar la carpeta de proves (`sudo rm -r /srv/pixelforge`) però no els
-usuaris ni els grups.
+Després em queden per fer l'ACL per donar accés puntual a en Marc a `codi`
+sense posar-lo al grup `programadors`, i comparar els permisos per defecte
+amb `umask` i el bit SUID de `/usr/bin/passwd`. També em falten els reptes
+2 a 8, un per cada nivell.
