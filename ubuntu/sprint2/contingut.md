@@ -350,6 +350,33 @@ rm /srv/pixelforge/compartit/de_pau.txt
 
 ![Terminal amb marc intentant esborrar de_pau.txt i rebent Operación no permitida](captures/24-permisos-nivell6-marc-operation-not-permitted.png)
 
-Em queden els nivells 7 (ACL per a en Marc a `codi`, sense posar-lo al
-grup) i 8 (`umask` i el SUID de
-`/usr/bin/passwd`), i els reptes 2 a 8.
+**Nivell 7.** En Marc, dels testers, havia de poder entrar un moment a
+`codi` sense posar-lo al grup `programadors`. Primer vaig comprovar que no
+hi podia entrar (`Permiso denegado`), i després li vaig donar accés amb una
+ACL:
+```
+su - marc
+ls /srv/pixelforge/codi
+exit
+sudo setfacl -m u:marc:rx /srv/pixelforge/codi
+ls -ld /srv/pixelforge/codi
+getfacl /srv/pixelforge/codi
+```
+
+![Terminal amb marc sense accés abans, i després setfacl, ls -ld amb el + i getfacl amb user:marc:r-x](captures/25-permisos-nivell7-acl-afegida.png)
+
+Amb l'ACL posada, en Marc ja podia llistar `codi`. Un cop acabada la
+revisió, li vaig treure l'accés i vaig comprovar que l'entrada havia
+desaparegut de `getfacl`:
+```
+su - marc
+ls /srv/pixelforge/codi
+exit
+sudo setfacl -x u:marc /srv/pixelforge/codi
+getfacl /srv/pixelforge/codi
+```
+
+![Terminal amb marc entrant a codi, i després setfacl -x i getfacl sense l'entrada de marc](captures/26-permisos-nivell7-acl-treta.png)
+
+Em queda el nivell 8 (`umask` i el SUID de `/usr/bin/passwd`), i els
+reptes 2 a 8.
