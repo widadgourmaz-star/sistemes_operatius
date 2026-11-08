@@ -306,6 +306,17 @@ exit
 
 ![Terminal com a pau creant nivell1.py a codi correctament i rebent Permission denied a proves](captures/14-permisos-nivell4-prova-pau.png)
 
+**Repte 4.** Vaig posar en Biel al grup `artistes` i li vaig donar la
+carpeta `art`:
+```
+sudo usermod -aG artistes biel
+sudo chown -R biel:artistes /srv/pixelforge/art
+id biel
+ls -ld /srv/pixelforge/art
+```
+
+![Terminal amb usermod, chown, id biel mostrant el grup artistes i ls -ld art de biel:artistes](captures/32-permisos-repte4-biel-artistes.png)
+
 **Nivell 5.** El problema de l'SGID: amb `codi` ja amb permís d'escriptura
 pel grup, quan la Núria (`nvidal`, del grup `programadors`) hi crea un
 fitxer, surt del seu grup personal (`nvidal`), no de `programadors`:
