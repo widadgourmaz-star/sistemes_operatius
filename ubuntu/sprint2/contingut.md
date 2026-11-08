@@ -445,6 +445,15 @@ getfacl /srv/pixelforge/codi
 
 ![Terminal amb marc entrant a codi, i després setfacl -x i getfacl sense l'entrada de marc](captures/26-permisos-nivell7-acl-treta.png)
 
+**Repte 7.** Vaig posar una ACL per defecte a `compartit` perquè el grup
+`artistes` tingui sempre `rwx` sobre els fitxers nous que s'hi creïn:
+```
+sudo setfacl -d -m g:artistes:rwx /srv/pixelforge/compartit
+getfacl /srv/pixelforge/compartit
+```
+
+![Terminal amb setfacl -d i getfacl mostrant default:group:artistes:rwx](captures/36-permisos-repte7-acl-defecte-artistes.png)
+
 **Nivell 8, part A.** Amb la màscara per defecte (`0002`), un fitxer nou
 surt `664` i una carpeta `775` — el grup hi pot escriure perquè el meu
 grup personal només sóc jo. Canviant la màscara a `027`, en canvi, el
@@ -482,4 +491,4 @@ find /usr/bin -perm -4000 2>/dev/null
 ![Terminal amb ls -l /usr/bin/passwd mostrant la s, i find llistant tots els programes amb SUID](captures/29-permisos-nivell8-suid-passwd.png)
 
 Amb això ja he acabat els nou nivells de la missió; només em queden els
-reptes 7 i 8.
+repte 8.
