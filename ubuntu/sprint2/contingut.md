@@ -401,6 +401,22 @@ rm /srv/pixelforge/compartit/de_pau.txt
 
 ![Terminal amb marc intentant esborrar de_pau.txt i rebent Operación no permitida](captures/24-permisos-nivell6-marc-operation-not-permitted.png)
 
+**Repte 6.** Al fer el repte 2 vaig tocar els permisos de `compartit` i, sense
+voler, vaig perdre el `777` + sticky bit que havia posat en aquest nivell.
+Ho vaig haver de restaurar (`chmod 1777`, que és `777` amb sticky bit en un
+sol pas) abans de poder demostrar que en Marc sí que pot esborrar un fitxer
+seu:
+```
+sudo chmod 1777 /srv/pixelforge/compartit
+ls -ld /srv/pixelforge/compartit
+su - marc
+touch /srv/pixelforge/compartit/de_marc.txt
+rm /srv/pixelforge/compartit/de_marc.txt
+exit
+```
+
+![Terminal restaurant compartit a 1777 i marc creant i esborrant el seu propi fitxer sense problema](captures/35-permisos-repte6-marc-propi-fitxer.png)
+
 **Nivell 7.** En Marc, dels testers, havia de poder entrar un moment a
 `codi` sense posar-lo al grup `programadors`. Primer vaig comprovar que no
 hi podia entrar (`Permiso denegado`), i després li vaig donar accés amb una
@@ -466,4 +482,4 @@ find /usr/bin -perm -4000 2>/dev/null
 ![Terminal amb ls -l /usr/bin/passwd mostrant la s, i find llistant tots els programes amb SUID](captures/29-permisos-nivell8-suid-passwd.png)
 
 Amb això ja he acabat els nou nivells de la missió; només em queden els
-reptes 4 a 8.
+reptes 7 i 8.
