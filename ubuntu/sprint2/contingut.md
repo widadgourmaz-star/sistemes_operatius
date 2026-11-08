@@ -329,7 +329,17 @@ rm /srv/pixelforge/compartit/de_pau.txt
 
 ![Terminal amb compartit a 777, pau creant un fitxer, i marc podent esborrar-lo (rm demana confirmació)](captures/17-permisos-nivell6-abans-sticky.png)
 
-Em falta posar el sticky bit i repetir la prova perquè en Marc ja no pugui
-esborrar el fitxer d'en Pau. Després em queden els nivells 7 (ACL per a en
+Vaig posar el sticky bit amb `chmod +t`: a `ls -ld` ja surt la `t` al final
+(`drwxrwxrwt`).
+```
+sudo chmod +t /srv/pixelforge/compartit
+ls -ld /srv/pixelforge/compartit
+```
+
+![Terminal amb chmod +t i ls -ld compartit mostrant drwxrwxrwt, amb la t al final](captures/23-permisos-nivell6-sticky-aplicat.png)
+
+Em falta repetir la prova d'en Pau i en Marc per comprovar que, ara sí,
+en Marc ja no pot esborrar el fitxer d'en Pau. Després em queden els
+nivells 7 (ACL per a en
 Marc a `codi`, sense posar-lo al grup) i 8 (`umask` i el SUID de
 `/usr/bin/passwd`), i els reptes 2 a 8.
