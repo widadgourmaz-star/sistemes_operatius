@@ -157,97 +157,46 @@ neutralitzar els intrusos amb els senyals adequats).
 
 ## Gestió de permisos
 
-Missió «PixelForge» (3a part): l'estudi de videojocs ja té els usuaris i els
-equips creats, però els permisos estan mal configurats — tothom pot llegir i
+Missió «PixelForge» (3a part): a l'estudi de videojocs tothom pot llegir i
 esborrar els fitxers de tothom, i el codi del joc ha quedat obert a tot
-l'estudi. Cal donar a cada equip la seva carpeta, fer que els fitxers nous
-siguin del grup correcte, protegir una carpeta compartida i donar accés
-puntual a algú de fora de l'equip.
+l'estudi. M'ha tocat posar-hi ordre: donar a cada equip la seva carpeta, fer
+que els fitxers nous surtin del grup correcte, protegir una carpeta
+compartida i donar accés puntual a algú de fora de l'equip.
 
-### Resum de teoria
+Cada fitxer té tres permisos (`r` llegir, `w` escriure, `x`
+executar/entrar-hi) per a tres destinataris: propietari (`u`), grup (`g`) i
+resta (`o`). Es poden escriure en lletres (`-rwxr-xr--`) o en número, sumant
+`r`=4, `w`=2, `x`=1 per cada grup de tres; així `chmod 750` és propietari
+`rwx`, grup `r-x`, resta sense res. A més hi ha tres permisos especials: el
+**SUID** fa que un programa s'executi amb la identitat del seu propietari;
+el **SGID** fa que els fitxers nous d'una carpeta heretin el grup de la
+carpeta; i el **sticky bit** deixa que tothom creï fitxers en una carpeta
+compartida però que cadascú només pugui esborrar els seus (com a `/tmp`).
 
-Cada fitxer i cada carpeta té tres **permisos** (`r` llegir, `w` escriure,
-`x` executar/entrar) que es poden donar a tres **destinataris**: `u`
-(propietari), `g` (grup) i `o` (resta). En una carpeta, `x` és el que permet
-entrar-hi (`cd`) i accedir als fitxers de dins; amb `r` però sense `x` només
-es veuen els noms.
-
-Una línia de `ls -l` com `-rwxr-xr--` es llegeix: tipus (`-` fitxer, `d`
-carpeta, `l` enllaç), després tres grups de `rwx` per a propietari, grup i
-resta.
-
-Els permisos també es poden escriure en número, sumant els valors de cada
-grup (`r`=4, `w`=2, `x`=1): `rwx`=7, `r-x`=5, `rw-`=6, `r--`=4, etc. Així
-`chmod 750` vol dir propietari `rwx`, grup `r-x`, resta `---`. Els més
-habituals: `755` (programes i carpetes públiques), `750` (carpeta d'un
-equip), `644` (fitxers normals), `640` (fitxers privats d'un equip).
-
-A més hi ha tres **permisos especials**, amb un quart dígit davant del
-número o com a lletra extra als permisos normals:
-
-- **SUID** (4, `u+s`): el programa s'executa amb la identitat del propietari,
-  no de qui el llança. Es veu com una `s` a la zona de l'usuari.
-- **SGID** (2, `g+s`): en una carpeta, els fitxers nous hereten el grup de
-  la carpeta. Es veu com una `s` a la zona del grup.
-- **Sticky bit** (1, `+t`): en una carpeta compartida, tothom hi pot crear
-  fitxers però cadascú només pot esborrar els seus. Es veu com una `t` al
-  final. El cas més conegut és `/tmp`.
-
-Ordres principals: `ls -l`/`ls -la` (llista amb permisos), `ls -ld carpeta`
-(permisos de la carpeta mateixa, no del que conté), `stat fitxer` (permisos
-en lletres i número), `getfacl fitxer` (permisos ACL); `chmod` (numèric o
-simbòlic, amb `u`/`g`/`o`/`a` i `+`/`-`/`=`); `chown usuari:grup` i `chgrp
-grup` (canviar propietari/grup, només amb `sudo`); `setfacl -m u:usuari:rwx`
-i `setfacl -x u:usuari` (donar/treure accés ACL a una persona concreta sense
-canviar-la de grup); `umask` (la màscara que decideix els permisos per
-defecte dels fitxers nous: es resta de 666 per a fitxers i 777 per a
-carpetes).
-
-### Preparació: usuaris i grups
-
-Com que encara no tenia creats els usuaris i grups de PixelForge, primer els
-vaig crear:
+Vaig començar creant els usuaris i grups que em feien falta, perquè encara
+no els tenia de cap pràctica anterior:
 ```
 sudo groupadd programadors
 sudo groupadd artistes
 sudo groupadd testers
-```
-
-![Terminal creant els grups programadors, artistes i testers amb groupadd](captures/18-permisos-prep-groupadd.png)
-
-```
 sudo adduser nvidal
-```
-
-![Terminal creant l'usuari nvidal amb adduser, amb la contrasenya i les dades opcionals](captures/19-permisos-prep-adduser-nvidal.png)
-
-```
 sudo adduser pau
 sudo adduser marc
-```
-
-![Terminal creant els usuaris pau i marc amb adduser](captures/20-permisos-prep-adduser-pau.png)
-
-```
 sudo adduser biel
-```
-
-![Terminal creant l'usuari biel amb adduser](captures/21-permisos-prep-adduser-marc-biel.png)
-
-```
 sudo usermod -aG programadors nvidal
 sudo usermod -aG programadors pau
 sudo usermod -aG testers marc
 ```
 
+![Terminal creant els grups programadors, artistes i testers amb groupadd](captures/18-permisos-prep-groupadd.png)
+![Terminal creant l'usuari nvidal amb adduser, amb la contrasenya i les dades opcionals](captures/19-permisos-prep-adduser-nvidal.png)
+![Terminal creant els usuaris pau i marc amb adduser](captures/20-permisos-prep-adduser-pau.png)
+![Terminal creant l'usuari biel amb adduser](captures/21-permisos-prep-adduser-marc-biel.png)
 ![Terminal afegint nvidal i pau al grup programadors, i marc al grup testers](captures/22-permisos-prep-usermod-grups.png)
 
-Després, la missió es fa en nou nivells, dins de `/srv/pixelforge`.
-
-### Nivell 0 · Muntar l'estudi
-
-Vaig crear la carpeta de l'estudi amb les quatre carpetes (una per equip i
-una de compartida) i un fitxer d'exemple a cada carpeta d'equip:
+**Nivell 0.** Vaig muntar l'estudi: una carpeta per `/srv/pixelforge` amb
+una subcarpeta per equip (`codi`, `art`, `proves`) i una de compartida, amb
+un fitxer d'exemple a cada una:
 ```
 sudo mkdir -p /srv/pixelforge
 cd /srv/pixelforge
@@ -258,14 +207,14 @@ ls -l /srv/pixelforge
 
 ![Terminal mostrant ls -l /srv/pixelforge amb les quatre carpetes art, codi, compartit i proves, totes de root root](captures/08-permisos-nivell0-muntar-estudi.png)
 
-Totes les carpetes són de `root root` perquè les he creat amb `sudo`; als
-nivells següents els donaré a cada equip.
+Tot surt de `root root` perquè ho he creat amb `sudo`; en els nivells
+següents ho vaig donant a cada equip.
 
-### Nivell 1 · Llegir permisos
-
-Abans de tocar res, vaig comprovar que sabia llegir els permisos: els del
-fitxer `joc.py`, els de la carpeta `codi` mateixa (amb `-d`) i els mateixos
-en lletres i en número amb `stat`:
+**Nivell 1.** Abans de canviar res, vaig practicar llegint permisos: els del
+fitxer `joc.py` (`644`, el propietari llegeix i escriu, la resta només
+llegeix), els de la carpeta `codi` mateixa amb `-d` (`755`, tothom hi entra
+però només `root` hi crea fitxers), i els mateixos amb `stat`, que els dona
+en lletres i en número alhora:
 ```
 ls -l /srv/pixelforge/codi/joc.py
 ls -ld /srv/pixelforge/codi
@@ -274,11 +223,10 @@ stat /srv/pixelforge/codi/joc.py
 
 ![Terminal amb ls -l del fitxer (644), ls -ld de la carpeta (755) i stat mostrant Access 0644](captures/09-permisos-nivell1-llegir.png)
 
-El fitxer és `644` (`rw-r--r--`): el propietari hi pot llegir i escriure, el
-grup i la resta només llegir. La carpeta és `755` (`rwxr-xr-x`): tothom hi
-pot entrar i llistar, però només `root` hi pot crear o esborrar fitxers.
-
-**Repte 1**: vaig comprovar els permisos de dos fitxers crítics del sistema:
+Pel repte 1 vaig mirar dos fitxers crítics del sistema. `/etc/shadow` és
+`640` del grup `shadow`: només `root` i els programes d'aquell grup (com
+`passwd`) el poden llegir. `/root` és `700`: ni tan sols el grup hi té cap
+permís, només el propietari.
 ```
 ls -l /etc/shadow
 ls -ld /root
@@ -286,16 +234,9 @@ ls -ld /root
 
 ![Terminal amb ls -l /etc/shadow (640, grup shadow) i ls -ld /root (700)](captures/10-permisos-repte1-shadow-root.png)
 
-`/etc/shadow` és `640` (`rw-r-----`), propietari `root` i grup `shadow`:
-només `root` (i els processos del grup `shadow`, com `passwd`) el poden
-llegir; la resta d'usuaris no hi té cap accés. `/root` és `700`
-(`rwx------`): només el propietari (`root`) hi pot entrar, llistar-ne el
-contingut o escriure-hi — ni tan sols el grup hi té cap permís.
-
-### Nivell 2 · chmod numèric
-
-Vaig posar `750` a `codi` (amb `-R`, perquè s'apliqui també al fitxer de
-dins), `755` a `art` i `640` al fitxer privat `proves/informe.txt`:
+**Nivell 2.** Amb números, vaig posar `750` a `codi` (amb `-R`, perquè
+s'apliqui també al fitxer de dins), `755` a `art` i `640` al fitxer privat
+`proves/informe.txt`:
 ```
 sudo chmod -R 750 /srv/pixelforge/codi
 ls -ld /srv/pixelforge/codi
@@ -307,9 +248,9 @@ ls -l /srv/pixelforge/proves
 
 ![Terminal amb codi a 750 (carpeta i joc.py), i informe.txt a 640](captures/11-permisos-nivell2-chmod-numeric.png)
 
-### Nivell 3 · chmod simbòlic
-
-Amb lletres, vaig canviar permisos un a un sense recalcular tot el número:
+**Nivell 3.** Amb lletres, en canvi, es poden tocar permisos un a un sense
+recalcular tot el número. A `art` vaig treure la `w` del propietari
+(`u-w`), i després vaig deixar la resta sense cap permís (`o=`):
 ```
 sudo chmod u-w /srv/pixelforge/art
 ls -ld /srv/pixelforge/art
@@ -321,12 +262,7 @@ sudo chmod g+rx,o-w /srv/pixelforge/art
 
 ![Terminal amb ls -ld d'art després de u-w (dr-xr-xr-x) i després de o= (drwxr-x---)](captures/12-permisos-nivell3-chmod-simbolic.png)
 
-Amb `u-w` ha desaparegut la `w` del propietari sense tocar la resta; amb
-`o=` la resta d'usuaris s'ha quedat sense cap permís.
-
-### Nivell 4 · chown i chgrp
-
-Vaig donar la carpeta `codi` a en Pau i al grup `programadors`, i vaig
+**Nivell 4.** Vaig donar `codi` a en Pau i al grup `programadors`, i vaig
 canviar només el grup de `proves` a `testers`:
 ```
 sudo chown -R pau:programadors /srv/pixelforge/codi
@@ -337,7 +273,8 @@ ls -ld /srv/pixelforge/proves
 
 ![Terminal amb ls -l /srv/pixelforge mostrant codi de pau:programadors i proves de root:testers](captures/13-permisos-nivell4-chown-chgrp.png)
 
-Després vaig entrar com a `pau` per comprovar-ho:
+Per comprovar-ho, vaig entrar com a `pau`: va poder crear un fitxer a
+`codi` sense problema, però a `proves` li va sortir `Permission denied`.
 ```
 su - pau
 cd /srv/pixelforge/codi
@@ -349,14 +286,9 @@ exit
 
 ![Terminal com a pau creant nivell1.py a codi correctament i rebent Permission denied a proves](captures/14-permisos-nivell4-prova-pau.png)
 
-En Pau, com a propietari de `codi`, hi pot crear fitxers sense problema; a
-`proves` no té cap permís i li surt `Permission denied`.
-
-### Nivell 5 · SGID a `codi`
-
-Primer vaig donar permís d'escriptura al grup i vaig comprovar el problema:
-quan la Núria (`nvidal`), que és del grup `programadors`, crea un fitxer, el
-grup del fitxer és el seu grup personal (`nvidal`), no `programadors`:
+**Nivell 5.** El problema de l'SGID: amb `codi` ja amb permís d'escriptura
+pel grup, quan la Núria (`nvidal`, del grup `programadors`) hi crea un
+fitxer, surt del seu grup personal (`nvidal`), no de `programadors`:
 ```
 sudo chmod g+w /srv/pixelforge/codi
 ls -ld /srv/pixelforge/codi
@@ -368,7 +300,9 @@ exit
 
 ![Terminal mostrant mapa.py creat per nvidal amb grup nvidal, dins de codi amb permís 770](captures/15-permisos-nivell5-sgid-abans.png)
 
-Després vaig posar el bit SGID a la carpeta i vaig repetir la prova:
+Posant el bit SGID a la carpeta (la `s` a `drwxrws---`), els fitxers nous ja
+surten del grup `programadors` — el fitxer antic `mapa.py` es queda com
+estava, perquè l'SGID només afecta el que es crea després:
 ```
 sudo chmod g+s /srv/pixelforge/codi
 ls -ld /srv/pixelforge/codi
@@ -380,15 +314,10 @@ exit
 
 ![Terminal amb la s a ls -ld codi (drwxrws---) i so.py ja amb grup programadors](captures/16-permisos-nivell5-sgid-despres.png)
 
-Amb l'SGID actiu (la `s` a la zona del grup), el fitxer nou `so.py` ja surt
-del grup `programadors`; el fitxer antic `mapa.py` es queda amb el grup
-`nvidal` perquè l'SGID només afecta els fitxers creats després.
-
-### Nivell 6 · Sticky bit a la carpeta compartida
-
-Primer vaig preparar `compartit` amb permisos `777` perquè tothom hi pogués
-escriure, i vaig comprovar el problema: sense sticky bit, qualsevol pot
-esborrar els fitxers dels altres (`rm` només demana confirmació):
+**Nivell 6.** Vaig preparar `compartit` amb `777` perquè tothom hi pogués
+escriure, i vaig comprovar el problema de no tenir sticky bit: en Marc va
+poder esborrar un fitxer d'en Pau només confirmant-ho (`rm` el deixa fer,
+només pregunta):
 ```
 sudo chmod 777 /srv/pixelforge/compartit
 su - pau
@@ -400,9 +329,7 @@ rm /srv/pixelforge/compartit/de_pau.txt
 
 ![Terminal amb compartit a 777, pau creant un fitxer, i marc podent esborrar-lo (rm demana confirmació)](captures/17-permisos-nivell6-abans-sticky.png)
 
-Encara em falta posar el sticky bit (`chmod +t`) i repetir la prova per
-veure que, aquesta vegada, en Marc no pot esborrar el fitxer d'en Pau.
-Després em queden per fer l'ACL per donar accés puntual a en Marc a `codi`
-sense posar-lo al grup `programadors`, i comparar els permisos per defecte
-amb `umask` i el bit SUID de `/usr/bin/passwd`. També em falten els reptes
-2 a 8, un per cada nivell.
+Em falta posar el sticky bit i repetir la prova perquè en Marc ja no pugui
+esborrar el fitxer d'en Pau. Després em queden els nivells 7 (ACL per a en
+Marc a `codi`, sense posar-lo al grup) i 8 (`umask` i el SUID de
+`/usr/bin/passwd`), i els reptes 2 a 8.
