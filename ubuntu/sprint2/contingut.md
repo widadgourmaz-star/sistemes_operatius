@@ -402,4 +402,17 @@ ls -ld prova2.txt prova2_dir
 
 ![Terminal amb umask 027 i ls -ld mostrant prova2.txt (640) i prova2_dir (750)](captures/28-permisos-nivell8-umask-027.png)
 
-Em queda la part B (el SUID de `/usr/bin/passwd`) i els reptes 2 a 8.
+**Nivell 8, part B.** `/usr/bin/passwd` té una `s` on aniria la `x` del
+propietari (`-rwsr-xr-x`): és el bit SUID, i el propietari és `root`. Per
+això, quan un usuari normal executa `passwd` per canviar la seva
+contrasenya (que vol dir escriure a `/etc/shadow`, que només `root` pot
+tocar), el programa s'executa momentàniament com a `root`.
+```
+ls -l /usr/bin/passwd
+find /usr/bin -perm -4000 2>/dev/null
+```
+
+![Terminal amb ls -l /usr/bin/passwd mostrant la s, i find llistant tots els programes amb SUID](captures/29-permisos-nivell8-suid-passwd.png)
+
+Amb això ja he acabat els nou nivells de la missió; només em queden els
+reptes 2 a 8.
