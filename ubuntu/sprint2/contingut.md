@@ -378,5 +378,28 @@ getfacl /srv/pixelforge/codi
 
 ![Terminal amb marc entrant a codi, i després setfacl -x i getfacl sense l'entrada de marc](captures/26-permisos-nivell7-acl-treta.png)
 
-Em queda el nivell 8 (`umask` i el SUID de `/usr/bin/passwd`), i els
-reptes 2 a 8.
+**Nivell 8, part A.** Amb la màscara per defecte (`0002`), un fitxer nou
+surt `664` i una carpeta `775` — el grup hi pot escriure perquè el meu
+grup personal només sóc jo. Canviant la màscara a `027`, en canvi, el
+fitxer surt `640` i la carpeta `750`: la resta d'usuaris es queda sense
+cap permís.
+```
+umask
+cd ~
+touch prova_umask.txt
+mkdir prova_umask_dir
+ls -ld prova_umask.txt prova_umask_dir
+```
+
+![Terminal amb umask 0002 i ls -ld mostrant prova_umask.txt (664) i prova_umask_dir (775)](captures/27-permisos-nivell8-umask-002.png)
+
+```
+umask 027
+touch prova2.txt
+mkdir prova2_dir
+ls -ld prova2.txt prova2_dir
+```
+
+![Terminal amb umask 027 i ls -ld mostrant prova2.txt (640) i prova2_dir (750)](captures/28-permisos-nivell8-umask-027.png)
+
+Em queda la part B (el SUID de `/usr/bin/passwd`) i els reptes 2 a 8.
