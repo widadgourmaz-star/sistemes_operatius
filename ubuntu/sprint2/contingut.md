@@ -22,36 +22,14 @@ fitxers) i finalment es **munta** en una carpeta de l'arbre de Linux.
 - **Punt de muntatge**: la carpeta de l'arbre de Linux on s'entra al contingut
   d'una partició (`/var/particio1`). A Linux no hi ha lletres com `C:` o `D:`.
 
-### Pla: l'exercici del disc del servidor de l'acadèmia
+### L'exercici del disc del servidor de l'acadèmia
 
-L'exercici consisteix a afegir un disc nou de 3 GB a la màquina virtual d'Ubuntu i
-crear-hi una taula GPT amb quatre particions:
-
-| Partició | Mida | Sistema | Bloc | Etiqueta | Punt de muntatge |
-|---|---|---|---|---|---|
-| sdc1 | 1 GiB | ext4 | 4096 | projectes | /srv/projectes |
-| sdc2 | 1 GiB | ext4 | 1024 | petits | /srv/petits |
-| sdc3 | 512 MiB | FAT32 | per defecte | INTERCANVI | /mnt/intercanvi |
-| sdc4 | la resta | swap | — | swapextra | (cap, la swap no en té) |
-
-Passos:
-
-1. Fer una instantània de la VM d'Ubuntu i afegir un disc nou de 3 GB al
-   controlador SATA.
-2. Anotar la mida del disc en bytes i en sectors, i la mida de sector lògic i
-   físic, amb `lsblk -o NAME,SIZE,LOG-SEC,PHY-SEC /dev/sdc` i `sudo fdisk -l
-   /dev/sdc`.
-3. Crear la taula GPT amb `sudo fdisk /dev/sdc` i les quatre particions de la
-   taula.
-4. Formatar cada partició amb el sistema i la mida de bloc indicats, i activar la
-   swap.
-5. Muntar-ho tot de forma permanent amb `/etc/fstab` (UUID i `nofail`), reiniciar
-   i comprovar-ho.
-6. Experiment de fragmentació interna: crear 1000 fitxers de 100 bytes a
-   `/srv/projectes` i a `/srv/petits`, i comparar amb `du` l'espai real ocupat a
-   cada partició.
-
-Encara no he començat aquest exercici.
+Encara em falta fer l'exercici d'afegir un disc nou de 3 GB a la màquina
+virtual, amb una taula GPT de quatre particions (una per a projectes grans,
+una per a molts fitxers petits, una per intercanviar fitxers amb Windows i
+una d'intercanvi de memòria), muntar-ho tot de forma permanent amb
+`/etc/fstab`, i fer l'experiment de fragmentació interna comparant l'espai
+que ocupen els mateixos fitxers amb mides de bloc diferents.
 
 ## Recuperació de fitxers després d'un formateig
 
@@ -170,30 +148,12 @@ pla** ocupa el terminal; en **segon pla** (`&`) el deixa lliure. Els **senyals**
 procés que acabi, que es pari o que continuï. La **prioritat** (`nice`/`renice`)
 decideix quant de CPU rep un procés quan n'hi ha diversos competint.
 
-Pla de la missió, en vuit nivells:
-
-1. **Preparar el cas**: crear la carpeta `~/missio` i cinc scripts (`minador`,
-   `espia`, `backup_nocturn`, `descarrega.sh`, `sospitosos.sh`), donar-los
-   permís d'execució i engegar el sabotatge.
-2. **Reconeixement**: veure els processos propis i de tot el sistema amb `ps` i
-   `pstree`, i localitzar els sospitosos penjant de `systemd`.
-3. **Qui consumeix més**: usar `top` per trobar que els dos `minador` es
-   reparteixen tota la CPU.
-4. **Interrogatori amb ps**: filtrar la llista amb `grep`/`pgrep` per obtenir
-   els PID de cada sospitós i les seves dades (`PPID`, estat, `%CPU`...).
-5. **La descàrrega urgent**: moure `descarrega.sh` entre primer pla, pausa
-   (`Ctrl+Z`) i segon pla (`bg`/`fg`) mentre es vigila el progrés en un segon
-   terminal.
-6. **Prioritat a la descàrrega**: pujar-li la prioritat amb `sudo renice` per
-   fer-la acabar abans que els `minador`.
-7. **Neutralitzar els intrusos**: aturar els `minador` amb `kill`, l'`espia`
-   amb `kill -9` (ignora `SIGTERM`), i pausar/reprendre el `backup_nocturn` amb
-   `kill -STOP`/`kill -CONT`.
-8. **Que la descàrrega no es perdi**: comprovar que tancar el terminal mata la
-   descàrrega (rep `SIGHUP`), i que executant-la amb `nohup ... &` sobreviu i
-   l'adopta `systemd`.
-
-En acabar, falta aturar tots els processos de la missió que quedin engegats.
+Vaig crear la carpeta `~/missio` i els cinc scripts del sabotatge (`minador`,
+`espia`, `backup_nocturn`, `descarrega.sh` i `sospitosos.sh`), però encara em
+falta fer i documentar tota la resta de la missió (reconeixement amb `ps` i
+`pstree`, trobar qui consumeix més amb `top`, filtrar amb `grep`/`pgrep`,
+moure la descàrrega entre primer i segon pla, pujar-li la prioritat, i
+neutralitzar els intrusos amb els senyals adequats).
 
 ## Gestió de permisos
 
@@ -243,10 +203,10 @@ canviar-la de grup); `umask` (la màscara que decideix els permisos per
 defecte dels fitxers nous: es resta de 666 per a fitxers i 777 per a
 carpetes).
 
-### Pla de la pràctica
+### Preparació: usuaris i grups
 
-Com que encara no tinc creats els usuaris i grups de PixelForge, primer cal
-crear-los:
+Com que encara no tenia creats els usuaris i grups de PixelForge, primer els
+vaig crear:
 ```
 sudo groupadd programadors
 sudo groupadd artistes
