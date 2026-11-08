@@ -248,6 +248,16 @@ ls -l /srv/pixelforge/proves
 
 ![Terminal amb codi a 750 (carpeta i joc.py), i informe.txt a 640](captures/11-permisos-nivell2-chmod-numeric.png)
 
+**Repte 2.** Calculant el número perquè el propietari fes de tot, el grup
+pogués entrar i crear fitxers (sense llegir) i la resta només entrar i
+llegir, em va sortir `735`:
+```
+sudo chmod 735 /srv/pixelforge/compartit
+ls -ld /srv/pixelforge/compartit
+```
+
+![Terminal amb chmod 735 i ls -ld compartit mostrant drwx-wxr-x](captures/30-permisos-repte2-compartit-735.png)
+
 **Nivell 3.** Amb lletres, en canvi, es poden tocar permisos un a un sense
 recalcular tot el número. A `art` vaig treure la `w` del propietari
 (`u-w`), i després vaig deixar la resta sense cap permís (`o=`):
@@ -261,6 +271,16 @@ sudo chmod g+rx,o-w /srv/pixelforge/art
 ```
 
 ![Terminal amb ls -ld d'art després de u-w (dr-xr-xr-x) i després de o= (drwxr-x---)](captures/12-permisos-nivell3-chmod-simbolic.png)
+
+**Repte 3.** Amb una sola ordre amb lletres, vaig deixar `informe.txt` amb
+propietari llegir+escriure, grup només llegir i resta sense res — coincideix
+amb `640`:
+```
+sudo chmod u=rw,g=r,o= /srv/pixelforge/proves/informe.txt
+ls -l /srv/pixelforge/proves/informe.txt
+```
+
+![Terminal amb chmod u=rw,g=r,o= i ls -l informe.txt mostrant rw-r-----](captures/31-permisos-repte3-informe-640.png)
 
 **Nivell 4.** Vaig donar `codi` a en Pau i al grup `programadors`, i vaig
 canviar només el grup de `proves` a `testers`:
@@ -415,4 +435,4 @@ find /usr/bin -perm -4000 2>/dev/null
 ![Terminal amb ls -l /usr/bin/passwd mostrant la s, i find llistant tots els programes amb SUID](captures/29-permisos-nivell8-suid-passwd.png)
 
 Amb això ja he acabat els nou nivells de la missió; només em queden els
-reptes 2 a 8.
+reptes 4 a 8.
