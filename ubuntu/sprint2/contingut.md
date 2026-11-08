@@ -490,5 +490,22 @@ find /usr/bin -perm -4000 2>/dev/null
 
 ![Terminal amb ls -l /usr/bin/passwd mostrant la s, i find llistant tots els programes amb SUID](captures/29-permisos-nivell8-suid-passwd.png)
 
-Amb això ja he acabat els nou nivells de la missió; només em queden els
-repte 8.
+**Repte 8.** Amb la màscara `137`, vaig calcular sobre paper que el fitxer
+sortiria `640` i la carpeta també `640` — sense la `x` del propietari. Ho
+vaig comprovar creant-los i intentant entrar-hi:
+```
+umask 137
+touch provaestranya.txt
+mkdir provaestranya_dir
+ls -ld provaestranya.txt provaestranya_dir
+cd provaestranya_dir
+```
+
+![Terminal amb umask 137, els dos ls -ld (640 el fitxer, drw-r----- la carpeta) i el cd fallant amb Permiso denegado](captures/37-permisos-repte8-umask137-cd-denegat.png)
+
+És una màscara estranya perquè, sense el bit `x`, ni tan sols la
+propietària pot entrar a la seva pròpia carpeta nova (`cd` dona
+`Permiso denegado`), tot i tenir-ne la propietat.
+
+Amb això la missió PixelForge (gestió de permisos) queda completament
+acabada: els nou nivells i els vuit reptes.
