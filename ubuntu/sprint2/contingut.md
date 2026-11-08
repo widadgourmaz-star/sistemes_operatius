@@ -338,8 +338,18 @@ ls -ld /srv/pixelforge/compartit
 
 ![Terminal amb chmod +t i ls -ld compartit mostrant drwxrwxrwt, amb la t al final](captures/23-permisos-nivell6-sticky-aplicat.png)
 
-Em falta repetir la prova d'en Pau i en Marc per comprovar que, ara sí,
-en Marc ja no pot esborrar el fitxer d'en Pau. Després em queden els
-nivells 7 (ACL per a en
-Marc a `codi`, sense posar-lo al grup) i 8 (`umask` i el SUID de
+Per comprovar-ho, en Pau va tornar a crear el fitxer i en Marc va provar
+d'esborrar-lo igual que abans. Aquesta vegada `rm` ho demana i, encara que
+respongui que sí, el sistema no ho deixa: `Operación no permitida`.
+```
+touch /srv/pixelforge/compartit/de_pau.txt
+exit
+su - marc
+rm /srv/pixelforge/compartit/de_pau.txt
+```
+
+![Terminal amb marc intentant esborrar de_pau.txt i rebent Operación no permitida](captures/24-permisos-nivell6-marc-operation-not-permitted.png)
+
+Em queden els nivells 7 (ACL per a en Marc a `codi`, sense posar-lo al
+grup) i 8 (`umask` i el SUID de
 `/usr/bin/passwd`), i els reptes 2 a 8.
