@@ -345,6 +345,26 @@ exit
 
 ![Terminal amb la s a ls -ld codi (drwxrws---) i so.py ja amb grup programadors](captures/16-permisos-nivell5-sgid-despres.png)
 
+**Repte 5.** Vaig fer el mateix amb `proves`: permís d'escriptura pel grup
+i SGID, i vaig comprovar amb en Marc que els fitxers nous ja surten del
+grup `testers`:
+```
+sudo chmod g+w /srv/pixelforge/proves
+sudo chmod g+s /srv/pixelforge/proves
+ls -ld /srv/pixelforge/proves
+su - marc
+touch /srv/pixelforge/proves/test1.py
+exit
+```
+
+![Terminal amb chmod g+w i g+s a proves, mostrant la s a drwxrwsr-x](captures/33-permisos-repte5-sgid-proves.png)
+
+```
+ls -l /srv/pixelforge/proves
+```
+
+![Terminal amb ls -l proves mostrant test1.py del grup testers](captures/34-permisos-repte5-test1-testers.png)
+
 **Nivell 6.** Vaig preparar `compartit` amb `777` perquè tothom hi pogués
 escriure, i vaig comprovar el problema de no tenir sticky bit: en Marc va
 poder esborrar un fitxer d'en Pau només confirmant-ho (`rm` el deixa fer,
