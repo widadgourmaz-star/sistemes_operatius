@@ -51,15 +51,7 @@ Passos:
    `/srv/projectes` i a `/srv/petits`, i comparar amb `du` l'espai real ocupat a
    cada partició.
 
-Cal lliurar:
-
-- Captura de `lsblk -o NAME,SIZE,LOG-SEC,PHY-SEC /dev/sdc` i de `sudo fdisk -l
-  /dev/sdc`.
-- Captura de `lsblk -f /dev/sdc` i de `cat /etc/fstab`.
-- Captura de `df -hT` i `swapon --show` fetes després de reiniciar.
-- Captura de les dues ordres `du` de l'experiment de fragmentació.
-- Respostes a les sis preguntes de l'exercici, amb la taula de fragmentació
-  plena.
+Encara no he començat aquest exercici.
 
 ## Recuperació de fitxers després d'un formateig
 
@@ -157,24 +149,12 @@ ls -d recup.*
 
 ![Terminal amb ls -d recup.* mostrant les carpetes recup.1 a recup.6](captures/07-recuperacio-ls-recup-carpetes.png)
 
-Pla per a la resta de la pràctica:
-
-1. Localitzar la foto i el PDF reals entre tots els falsos positius, i
-   comprovar amb `sha256sum` que són idèntics als originals, byte a byte.
-2. Buscar el text de `notes.txt` directament dins del disc amb `strings | grep`,
-   ja que `photorec` no reconeix fitxers de text sense capçalera.
-3. Omplir tot el disc de zeros (formateig de baix nivell) i tornar a provar
-   `photorec` i la cerca de text: aquesta vegada no ha de trobar res.
-
-Cal lliurar:
-
-- Captura dels hashes dels tres fitxers originals.
-- Captura del disc amb només `lost+found` després del formateig.
-- Captura dels hashes dels fitxers recuperats i dels originals, iguals.
-- Captura de la frase trobada dins del disc.
-- Captura de `photorec` sense cap fitxer i de `grep` sense resultat, després
-  d'omplir el disc de zeros.
-- Respostes a les sis preguntes de la pràctica.
+Encara em falta localitzar la foto i el PDF reals entre tots els falsos
+positius i comprovar amb `sha256sum` que són idèntics als originals, buscar
+el text de `notes.txt` directament dins del disc amb `strings | grep` (ja
+que `photorec` no reconeix fitxers de text sense capçalera), i finalment
+omplir tot el disc de zeros per comprovar que, aquesta vegada, ni `photorec`
+ni la cerca de text troben res.
 
 ## Gestió de processos
 
@@ -213,8 +193,7 @@ Pla de la missió, en vuit nivells:
    descàrrega (rep `SIGHUP`), i que executant-la amb `nohup ... &` sobreviu i
    l'adopta `systemd`.
 
-Cal lliurar vuit captures (una per nivell, segons indica la guia de la missió)
-i, en acabar, aturar tots els processos de la missió que quedin engegats.
+En acabar, falta aturar tots els processos de la missió que quedin engegats.
 
 ## Gestió de permisos
 
@@ -449,7 +428,6 @@ Pla per a la resta de la missió:
 2. **umask i SUID**: comparar els permisos per defecte amb `umask 002` i
    `umask 027`, i observar el bit SUID del fitxer `/usr/bin/passwd`.
 
-Cada nivell té un repte per fer sola, a més del pas guiat. Cal lliurar nou
-captures (una per nivell, amb els reptes inclosos) i, en acabar, es pot
+Cada nivell té un repte per fer sola, a més del pas guiat. En acabar, es pot
 esborrar la carpeta de proves (`sudo rm -r /srv/pixelforge`) però no els
 usuaris ni els grups.
