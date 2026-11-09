@@ -24,12 +24,42 @@ fitxers) i finalment es **munta** en una carpeta de l'arbre de Linux.
 
 ### L'exercici del disc del servidor de l'acadèmia
 
-Encara em falta fer l'exercici d'afegir un disc nou de 3 GB a la màquina
-virtual, amb una taula GPT de quatre particions (una per a projectes grans,
-una per a molts fitxers petits, una per intercanviar fitxers amb Windows i
-una d'intercanvi de memòria), muntar-ho tot de forma permanent amb
-`/etc/fstab`, i fer l'experiment de fragmentació interna comparant l'espai
-que ocupen els mateixos fitxers amb mides de bloc diferents.
+A classe hem fet primer la demostració de la fragmentació interna amb un
+fitxer de prova. He creat `prova.txt` amb només 5 bytes i he mirat la seva
+mida amb diferents ordres:
+
+![Mida real amb du -b i mida en blocs amb du -h](captures/38-particions-blocsize-dush-prova.png)
+
+Amb `ls -l` i `du -b`/`du -bh` es veu la mida real del fitxer (5 bytes),
+però amb `du -h`/`du -sh` surt 4,0K: el sistema de fitxers no reserva mai
+menys d'un bloc sencer per a un fitxer, encara que només hi càpiguen 5
+bytes. Ho he confirmat mirant la mida de bloc del disc:
+
+![tune2fs mostrant la mida de bloc de 4096 bytes](captures/39-particions-blocsize-tune2fs.png)
+
+`tune2fs -l /dev/sdb2 | grep Block` diu que la mida de bloc és de 4096
+bytes, que són exactament els 4,0K que es veien amb `du -h`. Aquí és on es
+nota la fragmentació interna: els 4091 bytes que sobren dins d'aquell bloc
+es perden, no es poden fer servir per a cap altre fitxer.
+
+![Llistat de la carpeta de l'usuari amb el fitxer de prova](captures/40-particions-blocsize-ls-home.png)
+
+Una cosa que m'ha confós és que `prova.txt` surt com a propietat de `root`
+(l'he creat amb `sudo`) però es troba dins de la carpeta de l'usuari
+`alumnat`, no dins de `/root`:
+
+![echo ~ com a root i com a alumnat](captures/41-particions-blocsize-echo-home.png)
+
+Amb `echo ~` es veu que el `HOME` de `root` és `/root` i el de `alumnat` és
+`/home/alumnat`, però `sudo` només canvia qui és el propietari del fitxer
+que es crea, no la carpeta on es crea: el fitxer apareix allà on estava
+situat el terminal en aquell moment, no al `HOME` de `root`.
+
+Encara em falta fer la resta de l'exercici: afegir un disc nou de 3 GB a la
+màquina virtual, amb una taula GPT de quatre particions (una per a
+projectes grans, una per a molts fitxers petits, una per intercanviar
+fitxers amb Windows i una d'intercanvi de memòria), i muntar-ho tot de
+forma permanent amb `/etc/fstab`.
 
 ## Recuperació de fitxers després d'un formateig
 
