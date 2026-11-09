@@ -164,6 +164,11 @@ que `photorec` no reconeix fitxers de text sense capçalera), i finalment
 omplir tot el disc de zeros per comprovar que, aquesta vegada, ni `photorec`
 ni la cerca de text troben res.
 
+També he instal·lat el paquet `testdisk` (que porta el `photorec`) en un
+altre ordinador, per tenir-lo a mà per si el faig servir en aquesta part:
+
+![Terminal instal·lant el paquet testdisk amb apt](captures/42-recuperacio-install-testdisk.png)
+
 ## Gestió de processos
 
 Missió «El servidor va lent»: com a administrador d'un servidor Ubuntu, cal
