@@ -169,6 +169,39 @@ altre ordinador, per tenir-lo a mà per si el faig servir en aquesta part:
 
 ![Terminal instal·lant el paquet testdisk amb apt](captures/42-recuperacio-install-testdisk.png)
 
+### Repetició de la pràctica a l'ordinador de l'institut
+
+Vaig continuar aquesta part a l'ordinador de l'institut, repetint des de
+zero la preparació perquè és una màquina diferent del meu portàtil. Vaig
+crear la carpeta `~/practica` i hi vaig tornar a posar els mateixos tres
+fitxers:
+```
+mkdir -p ~/practica
+cd ~/practica
+pwd
+```
+
+![Terminal creant i entrant a la carpeta practica, amb pwd confirmant el camí](captures/43-recuperacio-insebre-mkdir-practica.png)
+
+```
+echo "El meu secret és que m'encanta la pizza amb pinya" > notes.txt
+```
+
+![Terminal creant notes.txt amb echo](captures/44-recuperacio-insebre-echo-notes.png)
+
+![Terminal amb ls -l mostrant apunts.pdf, foto.jpg i notes.txt dins de practica](captures/45-recuperacio-insebre-ls-tres-fitxers.png)
+
+Després vaig tornar a crear i formatar el disc virtual de 200 MB:
+```
+dd if=/dev/zero of=disc.img bs=1M count=200 status=progress
+ls -lh disc.img
+mkfs.ext4 disc.img
+```
+
+![Terminal creant disc.img de 200 MB amb dd](captures/46-recuperacio-insebre-dd-disc-img.png)
+
+![Terminal formatant disc.img amb mkfs.ext4](captures/47-recuperacio-insebre-mkfs-ext4.png)
+
 ## Gestió de processos
 
 Missió «El servidor va lent»: com a administrador d'un servidor Ubuntu, cal
