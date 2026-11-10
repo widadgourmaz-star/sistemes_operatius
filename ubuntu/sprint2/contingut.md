@@ -100,8 +100,22 @@ Dispositiu   Comienzo    Final  Sectores Tamaño Tipo
 
 Amb `w` ho vaig desar al disc.
 
-Encara em falta formatar-les totes i muntar-ho tot de forma permanent amb
-`/etc/fstab`.
+En voler formatar les particions, totes quatre em van sortir com a
+"aparentement en ús pel sistema" (ni `partprobe` ni mirar amb `fuser` qui
+les tenia bloquejades hi van trobar cap procés), així que vaig haver de
+reiniciar la màquina. Després del reinici ja es van poder formatar sense
+problema:
+```
+sudo mkfs.ext4 -b 4096 -L projectes /dev/sdc1
+sudo mkfs.ext4 -b 1024 -L petits /dev/sdc2
+```
+
+![Terminal formatant sdc1 amb ext4 i blocs de 4096](captures/50-particions-mkfs-ext4-sdc1.png)
+
+![Terminal formatant sdc2 amb ext4 de blocs d'1024 i començant sdc3 amb vfat](captures/51-particions-mkfs-ext4-sdc2-vfat-sdc3.png)
+
+Encara em falta acabar de formatar la partició 3 (FAT32) i la 4 (swap), i
+muntar-ho tot de forma permanent amb `/etc/fstab`.
 
 ## Recuperació de fitxers després d'un formateig
 
