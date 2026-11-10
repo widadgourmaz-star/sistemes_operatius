@@ -82,8 +82,26 @@ n [Enter] [Enter] [Enter]
 
 ![Terminal creant la taula GPT i les particions sdc1 i sdc2 d'1 GiB cadascuna](captures/48-particions-fdisk-sdc1-sdc2-creades.png)
 
-Encara em falta canviar el tipus de les particions 3 i 4 (`t`), formatar-
-les totes, i muntar-ho tot de forma permanent amb `/etc/fstab`.
+Després vaig canviar el tipus de la partició 3 a **Microsoft basic data**
+i el de la 4 a **Linux swap** (ordre `t`, i `L` per buscar el número de
+cada tipus a la llista). El resultat final, abans de desar:
+```
+p
+```
+```
+Dispositiu   Comienzo    Final  Sectores Tamaño Tipo
+/dev/sdc1        2048  2099199   2097152     1G Sistema de ficheros de Linux
+/dev/sdc2     2099200  4196351   2097152     1G Sistema de ficheros de Linux
+/dev/sdc3     4196352  5244927   1048576   512M Datos básicos de Microsoft
+/dev/sdc4     5244928  8046591   2801664   1,3G Linux swap
+```
+
+![Taula de particions GPT completa amb les 4 particions i els seus tipus](captures/49-particions-taula-gpt-completa.png)
+
+Amb `w` ho vaig desar al disc.
+
+Encara em falta formatar-les totes i muntar-ho tot de forma permanent amb
+`/etc/fstab`.
 
 ## Recuperació de fitxers després d'un formateig
 
