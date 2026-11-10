@@ -55,11 +55,35 @@ Amb `echo ~` es veu que el `HOME` de `root` és `/root` i el de `alumnat` és
 que es crea, no la carpeta on es crea: el fitxer apareix allà on estava
 situat el terminal en aquell moment, no al `HOME` de `root`.
 
-Encara em falta fer la resta de l'exercici: afegir un disc nou de 3 GB a la
-màquina virtual, amb una taula GPT de quatre particions (una per a
-projectes grans, una per a molts fitxers petits, una per intercanviar
-fitxers amb Windows i una d'intercanvi de memòria), i muntar-ho tot de
-forma permanent amb `/etc/fstab`.
+### L'exercici del disc de 3 GB
+
+Vaig afegir un disc nou al controlador SATA de la màquina virtual. La
+primera vegada el vaig crear amb una mida equivocada (4 MB en comptes de
+3 GB) i, a sobre, com a mida fixa, que no es pot redimensionar; el vaig
+haver d'eliminar i tornar a crear bé, com a **assignat dinàmicament** i
+amb 3072 MB:
+```
+sudo fdisk -l /dev/sdc
+```
+```
+Disco /dev/sdc: 3,84 GiB, 4120576000 bytes, 8048000 sectores
+```
+
+Amb el disc ja bé, vaig crear la taula de particions **GPT** i les quatre
+particions amb `sudo fdisk /dev/sdc` (ordre `g` per la taula, `n` per cada
+partició nova):
+```
+g
+n [Enter] [Enter] +1G
+n [Enter] [Enter] +1G
+n [Enter] [Enter] +512M
+n [Enter] [Enter] [Enter]
+```
+
+![Terminal creant la taula GPT i les particions sdc1 i sdc2 d'1 GiB cadascuna](captures/48-particions-fdisk-sdc1-sdc2-creades.png)
+
+Encara em falta canviar el tipus de les particions 3 i 4 (`t`), formatar-
+les totes, i muntar-ho tot de forma permanent amb `/etc/fstab`.
 
 ## Recuperació de fitxers després d'un formateig
 
