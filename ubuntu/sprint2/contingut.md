@@ -166,8 +166,24 @@ swapon --show
 
 ![swapon --show mostrant /dev/sdc4 de 1,3G actiu com a swap](captures/56-particions-swapon-show.png)
 
-Encara em falta fer la prova final reiniciant la màquina, per veure que
-tot es munta sol sense fer `mount -a` a mà.
+Vaig fer la prova final reiniciant la màquina:
+```
+sudo reboot
+```
+```
+df -hT | grep sdc
+swapon --show
+```
+
+![Després de reiniciar, df -hT i swapon --show mostrant-ho tot muntat i actiu sense fer res més](captures/57-particions-reinici-df-swapon.png)
+
+Tot es munta sol després de reiniciar, sense haver de fer `mount -a` a mà
+ni tornar a activar la swap: les tres particions (`sdc1`, `sdc2`, `sdc3`)
+surten muntades i `sdc4` surt activa com a swap.
+
+Encara em falta fer l'experiment de fragmentació interna (comparar
+l'espai ocupat amb mides de bloc diferents creant 1000 fitxers petits) i
+respondre les preguntes de l'exercici.
 
 ## Recuperació de fitxers després d'un formateig
 
