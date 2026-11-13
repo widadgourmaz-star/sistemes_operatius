@@ -181,9 +181,38 @@ Tot es munta sol després de reiniciar, sense haver de fer `mount -a` a mà
 ni tornar a activar la swap: les tres particions (`sdc1`, `sdc2`, `sdc3`)
 surten muntades i `sdc4` surt activa com a swap.
 
-Encara em falta fer l'experiment de fragmentació interna (comparar
-l'espai ocupat amb mides de bloc diferents creant 1000 fitxers petits) i
-respondre les preguntes de l'exercici.
+Per acabar, vaig fer l'experiment de fragmentació interna: crear 1000
+fitxers de 100 bytes a cada partició ext4 i comparar l'espai real amb
+l'espai ocupat:
+```
+sudo chown $USER:$USER /srv/projectes /srv/petits
+cd /srv/projectes
+for i in $(seq 1 1000); do head -c 100 /dev/urandom > fitxer_$i; done
+cd /srv/petits
+for i in $(seq 1 1000); do head -c 100 /dev/urandom > fitxer_$i; done
+cd ~
+```
+
+![Terminal creant els 1000 fitxers a /srv/projectes i /srv/petits](captures/58-particions-fragmentacio-crear-fitxers.png)
+
+```
+du -sh /srv/projectes /srv/petits
+du -sh --apparent-size /srv/projectes /srv/petits
+```
+
+![du -sh (espai ocupat) i du -sh --apparent-size (mida real) de les dues carpetes](captures/59-particions-fragmentacio-du-resultats.png)
+
+| Partició | Bloc | Mida real | Espai ocupat | Espai perdut |
+|---|---|---|---|---|
+| /srv/projectes | 4096 | 98K | 4,0M | ~3,9M |
+| /srv/petits | 1024 | 98K | 1,1M | ~1,0M |
+
+Amb les mateixes dades (1000 fitxers de 100 bytes), la partició amb blocs
+de 4096 bytes en perd molts més perquè cada fitxer deixa 3996 bytes buits
+dins del seu bloc, mentre que amb blocs d'1024 només en deixa 924. Per
+això els blocs petits van millor per a moltes dades petites, i els blocs
+grans per a fitxers grans (on el cost de gestionar més blocs pesa més que
+l'espai perdut).
 
 ## Recuperació de fitxers després d'un formateig
 
