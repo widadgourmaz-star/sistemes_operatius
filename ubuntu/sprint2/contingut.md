@@ -214,6 +214,60 @@ això els blocs petits van millor per a moltes dades petites, i els blocs
 grans per a fitxers grans (on el cost de gestionar més blocs pesa més que
 l'espai perdut).
 
+### Preguntes
+
+**1. Quina mida té el disc en bytes, en sectors i en GB decimals? Quines
+ordres has fet servir?**
+
+Amb `sudo fdisk -l /dev/sdc` i `lsblk -e7` vaig veure que el disc fa
+4.120.576.000 bytes, 8.048.000 sectors (de 512 bytes) i 3,84 GiB en
+binari. En GB decimals són 4.120.576.000 / 1.000.000.000 = **4,12 GB**.
+
+**2. Amb MBR, podries haver fet aquestes quatre particions? I una
+cinquena?**
+
+Sí: MBR permet fins a 4 particions primàries, així que les 4 d'aquest
+exercici hi càpien totes com a primàries. Per a una cinquena, no
+directament: una de les quatre primàries s'hauria de convertir en
+**estesa** i crear-hi la cinquena com a lògica (`sdc5`). Amb GPT, com el
+que he fet servir, no cal: en permet fins a 128 sense necessitat
+d'estendre res.
+
+**3. Omple la taula i explica per què les dues particions ocupen tan
+diferent amb les mateixes dades.**
+
+La taula ja és més amunt. Totes dues guarden els mateixos 1000 fitxers
+de 100 bytes (98 K reals en total), però `/srv/projectes` (blocs de 4096)
+ocupa 4,0 M perquè cada fitxer, per petit que sigui, reserva un bloc
+sencer de 4096 bytes; `/srv/petits` (blocs d'1024) només ocupa 1,1 M
+perquè el seu bloc és 4 vegades més petit i, per tant, desaprofita molt
+menys espai per fitxer.
+
+**4. Per a quin tipus de fitxers triaries blocs de 4096? I de 1024?**
+
+Blocs de 4096 per a fitxers grans (vídeos, bases de dades, imatges de
+disc): són més ràpids perquè calen menys blocs per gestionar el mateix
+fitxer. Blocs d'1024 per a moltes dades petites (codi font, correu,
+fitxers de configuració): es perd molt menys espai per fragmentació
+interna.
+
+**5. Per què fem servir l'UUID a `/etc/fstab`? Per a què serveix
+`nofail`?**
+
+Perquè el nom del disc (`/dev/sdc`) pot canviar si s'afegeix o es treu
+algun altre disc (podria passar a dir-se `/dev/sdd`, per exemple),
+mentre que l'UUID es crea en formatar la partició i no canvia mai. I
+`nofail` fa que la màquina arrenqui igualment encara que aquell disc no
+hi sigui en aquell moment, en comptes de quedar-se penjada esperant-lo.
+
+**6. Per què la swap no té punt de muntatge? Com comproves que està
+activa?**
+
+Perquè la swap no té un sistema de fitxers amb carpetes a dins: el nucli
+la fa servir directament com a memòria addicional, no com un espai on
+guardar fitxers llegibles; per això el seu punt de muntatge és `none`.
+Es comprova que està activa amb `swapon --show` (o `free -h`).
+
 ## Recuperació de fitxers després d'un formateig
 
 Pràctica independent per comprovar que formatar un disc no esborra els fitxers
