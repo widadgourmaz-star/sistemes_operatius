@@ -124,7 +124,40 @@ sudo mkdir -p /srv/projectes /srv/petits /mnt/intercanvi
 
 ![Terminal formatant sdc3 amb FAT32, activant la swap a sdc4 i creant els punts de muntatge](captures/52-particions-mkfs-vfat-mkswap-swapon.png)
 
-Encara em falta muntar-ho tot de forma permanent amb `/etc/fstab`.
+Per muntar-ho de forma permanent, vaig consultar el UUID de cada partició i
+afegir-los a `/etc/fstab`:
+```
+sudo blkid /dev/sdc1 /dev/sdc2 /dev/sdc3 /dev/sdc4
+sudo nano /etc/fstab
+```
+
+![Editant /etc/fstab amb nano, afegint les quatre línies noves](captures/53-particions-fstab-nano.png)
+
+```
+UUID=2b2c18b6-5eb8-40d8-b5c6-b94d0c2f9178  /srv/projectes    ext4  defaults,nofail                             0 2
+UUID=ab7233d1-c20e-41d5-ab52-a1f52a18259b  /srv/petits       ext4  defaults,nofail                             0 2
+UUID=266D-A34D                             /mnt/intercanvi   vfat  defaults,nofail,uid=1000,gid=1000,umask=022  0 0
+UUID=8413f71b-89d9-40d7-b1ee-de828bd0e7ed  none              swap  sw,nofail                                   0 0
+```
+
+Després ho vaig comprovar sense reiniciar:
+```
+sudo systemctl daemon-reload
+sudo findmnt --verify
+sudo mount -a
+df -hT | grep sdc
+```
+
+![findmnt --verify amb només avisos, mount -a i df -hT mostrant les tres particions muntades](captures/54-particions-findmnt-mount-df.png)
+
+`findmnt --verify` només va donar dos avisos normals (tenir dues entrades
+de swap amb `none` com a destí, i l'avís de l'swap.img que ja hi havia
+abans d'Ubuntu), cap error. `df -hT` confirma que `sdc1`, `sdc2` i `sdc3`
+ja estan muntats al seu lloc.
+
+Encara em falta comprovar la swap amb `swapon --show` i fer la prova
+final reiniciant la màquina, per veure que tot es munta sol sense fer
+`mount -a` a mà.
 
 ## Recuperació de fitxers després d'un formateig
 
