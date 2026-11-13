@@ -155,9 +155,19 @@ de swap amb `none` com a destí, i l'avís de l'swap.img que ja hi havia
 abans d'Ubuntu), cap error. `df -hT` confirma que `sdc1`, `sdc2` i `sdc3`
 ja estan muntats al seu lloc.
 
-Encara em falta comprovar la swap amb `swapon --show` i fer la prova
-final reiniciant la màquina, per veure que tot es munta sol sense fer
-`mount -a` a mà.
+Amb `cat /etc/fstab` vaig revisar que les quatre línies havien quedat bé:
+
+![cat /etc/fstab mostrant les quatre línies noves senceres](captures/55-particions-cat-fstab.png)
+
+I amb `swapon --show` vaig confirmar que la swap nova ja estava activa:
+```
+swapon --show
+```
+
+![swapon --show mostrant /dev/sdc4 de 1,3G actiu com a swap](captures/56-particions-swapon-show.png)
+
+Encara em falta fer la prova final reiniciant la màquina, per veure que
+tot es munta sol sense fer `mount -a` a mà.
 
 ## Recuperació de fitxers després d'un formateig
 
