@@ -114,8 +114,17 @@ sudo mkfs.ext4 -b 1024 -L petits /dev/sdc2
 
 ![Terminal formatant sdc2 amb ext4 de blocs d'1024 i començant sdc3 amb vfat](captures/51-particions-mkfs-ext4-sdc2-vfat-sdc3.png)
 
-Encara em falta acabar de formatar la partició 3 (FAT32) i la 4 (swap), i
-muntar-ho tot de forma permanent amb `/etc/fstab`.
+Vaig acabar de formatar la partició 3 (FAT32) i activar la 4 com a swap:
+```
+sudo mkfs.vfat -F 32 -n INTERCANVI /dev/sdc3
+sudo mkswap -L swapextra /dev/sdc4
+sudo swapon /dev/sdc4
+sudo mkdir -p /srv/projectes /srv/petits /mnt/intercanvi
+```
+
+![Terminal formatant sdc3 amb FAT32, activant la swap a sdc4 i creant els punts de muntatge](captures/52-particions-mkfs-vfat-mkswap-swapon.png)
+
+Encara em falta muntar-ho tot de forma permanent amb `/etc/fstab`.
 
 ## Recuperació de fitxers després d'un formateig
 
