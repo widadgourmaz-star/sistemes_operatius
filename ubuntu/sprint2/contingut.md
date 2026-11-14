@@ -424,11 +424,92 @@ procés que acabi, que es pari o que continuï. La **prioritat** (`nice`/`renice
 decideix quant de CPU rep un procés quan n'hi ha diversos competint.
 
 Vaig crear la carpeta `~/missio` i els cinc scripts del sabotatge (`minador`,
-`espia`, `backup_nocturn`, `descarrega.sh` i `sospitosos.sh`), però encara em
-falta fer i documentar tota la resta de la missió (reconeixement amb `ps` i
-`pstree`, trobar qui consumeix més amb `top`, filtrar amb `grep`/`pgrep`,
-moure la descàrrega entre primer i segon pla, pujar-li la prioritat, i
-neutralitzar els intrusos amb els senyals adequats).
+`espia`, `backup_nocturn`, `descarrega.sh` i `sospitosos.sh`), els vaig fer
+executables amb `chmod +x` i vaig engegar el sabotatge amb `./sospitosos.sh`:
+
+![Terminal amb ls -l mostrant els cinc scripts amb permís d'execució, i la sortida de sospitosos.sh](captures/60-processos-sospitosos-engegats.png)
+
+### Reconeixement: on s'amaguen els sospitosos
+
+Amb `pstree -p $USER` vaig buscar els sospitosos a l'arbre de processos i no
+els vaig trobar penjats del meu `bash`: havien quedat **orfes** (el
+`sospitosos.sh` que els va crear ja havia acabat) i els havia adoptat el
+`systemd --user` de la meva sessió, exactament com diu la teoria.
+
+![pstree -p $USER filtrat: backup_nocturn, espia i els dos minador pengen directament de systemd](captures/61-processos-pstree-systemd.png)
+
+### Qui consumeix més CPU
+
+Amb `top` vaig veure que els dos `minador` eren els processos que més CPU
+feien servir, repartint-se-la al 50% cadascun perquè els vaig engegar amb
+`taskset -c 0`, forçats a compartir la mateixa CPU. Filtrant `top` pels seus
+dos PID (`top -b -n 1 -p PID1,PID2`) es veu clarament:
+
+![Pantalla de top filtrada pels dos minador, cadascun al 50% de CPU](captures/62-processos-top-minadors.png)
+
+### Filtrar amb ps i pgrep
+
+Amb `pgrep -l 'minador|espia|backup'` vaig trobar els PID dels quatre
+sospitosos alhora, i amb
+`ps -o pid,ppid,user,stat,etime,%cpu,comm -C minador,espia,backup_nocturn`
+vaig veure que tots quatre tenen el mateix **PPID**; comprovant-lo amb
+`ps -o pid,comm -p` surt `systemd`, confirmant el que ja havia vist amb
+`pstree`.
+
+![Sortida de pgrep -l i ps -o ...-C confirmant que el pare de tots els sospitosos és systemd](captures/63-processos-pgrep-ps-filtrat.png)
+
+### Primer pla, segon pla i prioritat
+
+A un segon terminal vaig deixar `watch -n 1 cat progres.txt` mostrant el
+progrés d'una descàrrega legítima (`descarrega.sh`). Al primer terminal la
+vaig engegar en primer pla: el terminal va quedar ocupat i el percentatge
+pujava. Amb `Ctrl+Z` la vaig deixar **aturada** (`[1]+ Aturat`) i el
+percentatge es va congelar; amb `jobs -l` en vaig apuntar el PID. Després la
+vaig fer continuar en segon pla amb `bg %1` (torna a pujar el percentatge i
+el terminal queda lliure), la vaig tornar a primer pla amb `fg %1`, i
+finalment la vaig deixar definitivament en segon pla fent `Ctrl+Z` una altra
+vegada i `bg %1`. `jobs` confirma que queda **Funcionant**:
+
+![Seqüència completa: ./descarrega.sh, Ctrl+Z, jobs -l, bg, fg, Ctrl+Z, bg i jobs, amb el progrés pujant a l'altre terminal](captures/64-processos-fg-bg-ctrlz.png)
+
+Vaig intentar pujar la prioritat de la descàrrega amb `renice -n -10`, però
+com a usuari normal em va sortir "S'ha denegat el permís": només `root` pot
+pujar la prioritat d'un procés. En lloc de fer servir `sudo`, vaig aplicar el
+pla alternatiu de **baixar** la dels dos `minador` amb `renice -n 19 -p`. El
+resultat és el mateix: la descàrrega passa a fer servir el 100% d'una CPU
+(els `minador` queden a `NI 19`) i el percentatge puja molt més ràpid:
+
+![top després del renice: la descàrrega al 100% de CPU i els minador baixats a NI 19](captures/65-processos-renice-prioritat.png)
+
+### Neutralitzar els intrusos
+
+Vaig matar els dos `minador` amb `kill` (SIGTERM) i van desaparèixer a la
+primera. Amb l'**espia** no va funcionar: `pgrep -l espia` el seguia
+mostrant després del `kill` perquè el seu `trap` li fa ignorar el SIGTERM;
+només va desaparèixer amb `kill -9` (SIGKILL, que no es pot ignorar). Al
+`backup_nocturn`, que és un procés legítim, no el vaig matar: el vaig posar
+en pausa amb `kill -STOP` (estat `T`) i el vaig fer continuar amb
+`kill -CONT` (torna a l'estat `S`, dormint normal):
+
+![L'espia sobreviu al kill normal i desapareix amb kill -9; el backup_nocturn passa d'estat T a S](captures/66-processos-kill-sigterm-sigkill.png)
+
+### Que la descàrrega no es perdi
+
+Vaig obrir un terminal nou i hi vaig engegar una descàrrega en segon pla,
+**sense** `nohup`. En tancar la finestra, el procés va morir a l'instant: el
+`SIGHUP` que envia el terminal en tancar-se el va matar perquè no l'estava
+ignorant. Vaig repetir-ho amb `nohup ./descarrega.sh &`: en tancar la
+finestra, aquesta vegada la descàrrega **va continuar**, adoptada per
+`systemd` igual que els sospitosos inicials. Un `pstree -ps` fet mentre
+encara corria ho confirma: `systemd(1)──systemd(2773)──descarrega.sh`, i
+l'altre terminal va acabar mostrant "ubuntu.iso COMPLETADA" encara que la
+finestra que l'havia engegat ja no existia:
+
+![pstree -ps confirmant que el pare és systemd, i l'altre terminal mostrant la descàrrega COMPLETADA](captures/67-processos-nohup-completada.png)
+
+Per acabar vaig matar tots els processos de la missió que encara quedaven
+amb `pkill 'minador|espia|backup_nocturn|descarrega'` i vaig comprovar amb
+`pgrep` que no en quedava cap.
 
 ## Gestió de permisos
 
