@@ -207,6 +207,8 @@ mkdir practica
 cd practica
 ```
 
+![Terminal amb cd Desktop, mkdir practica i cd practica](captures/21-cmd-cd-mkdir-practica.png)
+
 Dins seu vaig crear un fitxer de text amb `echo` i vaig comprovar amb `dir` que s'havia
 creat (al primer intent vaig oblidar-me el `> nota.txt` i no es va crear res; repetint-ho
 bé ja va sortir el fitxer amb 7 bytes):

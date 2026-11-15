@@ -251,12 +251,19 @@ que dibuixa un tren al terminal.
    l'arxiu era a la meva carpeta personal i el vaig instal·lar amb
    `sudo dpkg -i sl_*.deb`:
 
-2. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
+   <video controls muted preload="metadata" src="videos/01-dpkg-instal-lar-sl.webm"></video>
+
+2. Després de desinstal·lar-lo, vaig comprovar-ho amb `dpkg -s sl`.
+   Em va sortir que el paquet **no estava instal·lat** i, quan vaig
+   escriure `sl`, el terminal em va dir que l'arxiu no existia:
+
+   <video controls muted preload="metadata" src="videos/02-dpkg-comprovar-sl.webm"></video>
+
+3. Amb el paquet instal·lat, en escriure `sl` em va aparèixer el tren
    passant pel terminal. Així vaig veure que la instal·lació havia
    funcionat:
-[Enregistrament de pantalla del 2026-10-11 18-41-42.webm](https://github.com/user-attachments/assets/c39921cc-fc17-4f18-9db0-50d42f3d4f14)
 
-<video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
+   <video controls muted preload="metadata" src="videos/03-sl-executant.webm"></video>
 
 ## Gestor d'arrencada (GRUB2)
 
