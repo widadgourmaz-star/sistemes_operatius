@@ -22,6 +22,26 @@ fitxers) i finalment es **munta** en una carpeta de l'arbre de Linux.
 - **Punt de muntatge**: la carpeta de l'arbre de Linux on s'entra al contingut
   d'una partició (`/var/particio1`). A Linux no hi ha lletres com `C:` o `D:`.
 
+### El sector
+
+Abans de tocar res, a classe hem mirat el sector amb el disc del propi
+sistema (`sda`), amb ordres que només consulten i no canvien res:
+
+```
+lsblk -e7
+sudo fdisk -l /dev/sda
+```
+
+![Terminal amb fdisk -l /dev/sda mostrant la taula GPT, sda1 i sda2, i la mida de sector de 512 bytes](captures/68-particions-sector-sda.png)
+
+El disc té 104.857.600 sectors de 512 bytes cadascun: 104.857.600 × 512 =
+53.687.091.200 bytes, els 50 GiB que surten a `lsblk`. La taula és **GPT**,
+amb `sda1` d'1 MiB (partició d'arrencada) i `sda2` amb la resta (50 GiB,
+on hi ha el sistema de fitxers arrel). `fdisk -l` dona a més la mida de
+sector lògic i físic (512/512 en aquest disc virtual): als discos moderns
+sol ser 512 bytes lògics i 4096 físics, però com que `sda` és un disc
+virtual de VirtualBox, aquí els dos surten iguals.
+
 ### L'exercici del disc del servidor de l'acadèmia
 
 A classe hem fet primer la demostració de la fragmentació interna amb un
@@ -54,6 +74,171 @@ Amb `echo ~` es veu que el `HOME` de `root` és `/root` i el de `alumnat` és
 `/home/alumnat`, però `sudo` només canvia qui és el propietari del fitxer
 que es crea, no la carpeta on es crea: el fitxer apareix allà on estava
 situat el terminal en aquell moment, no al `HOME` de `root`.
+
+### Pràctica guiada: particions MBR amb ext4 i NTFS
+
+Aquesta és la pràctica guiada que hem fet pas a pas a la meva màquina
+`ubuntu26original`. Abans de començar vaig apagar la màquina (no
+suspendre-la) i vaig fer una instantània anomenada `abans-particions`, i
+després vaig afegir un disc nou al controlador SATA: tipus VDI, reservat
+dinàmicament, 2 GB, amb el nom `disc-particions`.
+
+**Pas 2. Identificar el disc nou.** Amb la màquina engegada i un terminal
+obert, vaig mirar quins discos hi havia:
+
+```
+lsblk -e7
+sudo fdisk -l /dev/sdd
+```
+
+![lsblk -e7 i fdisk -l /dev/sdd mostrant el disc nou de 2 GiB sense particions](captures/70-particions-lsblk-sdd-nou.png)
+
+El disc nou ha sortit com a `sdd` (a la meva màquina ja hi havia altres
+discs afegits d'altres exercicis, per això no és `sdb`), de 2 GiB i sense
+cap partició encara — `fdisk -l` no diu res de `Disklabel type` perquè
+encara no té taula.
+
+**Pas 3. Crear la taula de particions i les particions.** Amb `sudo fdisk
+/dev/sdd` he creat una taula **MBR** (ordre `o`) amb dues particions
+primàries: `sdd1` d'1 GiB i `sdd2` amb la resta (uns 1023 MiB), i després
+li he canviat el tipus a la segona amb `t` i codi `7` (HPFS/NTFS/exFAT):
+
+```
+o
+n
+p
+[Enter]
+[Enter]
++1G
+n
+p
+[Enter]
+[Enter]
+[Enter]
+t
+2
+7
+p
+w
+```
+
+![fdisk -l /dev/sdd després de desar, amb sdd1 de 1G tipus Linux i sdd2 de 1023M tipus HPFS/NTFS/exFAT](captures/71-particions-fdisk-l-sdd-taula.png)
+
+`fdisk` no escriu res al disc fins que no es prem `w`: amb `q` s'hauria
+sortit sense desar cap canvi. La primera partició comença al sector 2048
+(el primer MiB es deixa lliure per a la taula i per alinear), i com que
+`sdd1` ocupa exactament 2.097.152 sectors (1 GiB), `sdd2` ja només pot
+començar a partir del sector 2.099.200.
+
+**Pas 4. Formatar les particions.** `sdd1` amb `ext4` i mida de bloc de
+2048 bytes (en comptes del 4096 per defecte, per veure que es pot triar),
+i `sdd2` amb `NTFS`:
+
+```
+sudo mkfs.ext4 -b 2048 -L particio1 /dev/sdd1
+sudo mkfs.ntfs -f -L particio2 /dev/sdd2
+lsblk -f /dev/sdd
+sudo tune2fs -l /dev/sdd1 | grep "Block size"
+```
+
+![lsblk -f mostrant sdd1 com ext4 i sdd2 com ntfs, cadascuna amb etiqueta i UUID, i tune2fs confirmant el Block size de 2048](captures/72-particions-format-ext4-ntfs.png)
+
+**Pas 5. Muntar a mà i comprovar.** Primer he creat els punts de muntatge
+i he fet l'experiment de què passa amb un fitxer que ja hi havia abans de
+muntar:
+
+```
+sudo mkdir -p /var/particio1 /var/particio2
+sudo touch /var/particio1/abans_de_muntar.txt
+ls /var/particio1
+sudo mount -t ext4 /dev/sdd1 /var/particio1
+ls /var/particio1
+sudo mount -t ntfs-3g /dev/sdd2 /var/particio2
+df -hT | grep sdd
+```
+
+![abans de muntar surt abans_de_muntar.txt, després de muntar només lost+found, i df -hT amb les dues particions muntades](captures/73-particions-muntar-abans-despres.png)
+
+El fitxer `abans_de_muntar.txt` no s'ha esborrat: continua existint al
+disc del sistema, només que ara queda amagat sota la partició que hi he
+muntat a sobre. El `lost+found` és una carpeta que crea `ext4` per si
+`fsck` hagués de recuperar trossos de fitxers. A `df -hT`, `sdd2` surt amb
+el tipus `fuseblk` perquè l'NTFS es munta a través de FUSE amb el
+programa `ntfs-3g`, no amb un driver natiu del nucli.
+
+Després he escrit un fitxer com a usuari normal i he desmuntat per
+comprovar que `abans_de_muntar.txt` torna a aparèixer:
+
+```
+sudo chown widad:widad /var/particio1
+echo "hola" > /var/particio1/prova.txt
+cd ~
+sudo umount /var/particio1
+ls /var/particio1
+```
+
+![després de fer umount, abans_de_muntar.txt torna a aparèixer a /var/particio1](captures/74-particions-umount-reapareix-abans.png)
+
+He tret l'`abans_de_muntar.txt` (ja havia fet la seva funció de
+demostració) i he desmuntat també `sdd2` abans de passar al muntatge
+permanent.
+
+**Pas 6. Muntatge permanent amb `/etc/fstab`.** Primer una còpia de
+seguretat de `/etc/fstab` (un error aquí pot deixar la màquina sense
+arrencar) i l'UUID de cada partició:
+
+```
+sudo cp /etc/fstab /etc/fstab.bak
+sudo blkid /dev/sdd1 /dev/sdd2
+```
+
+![blkid mostrant l'UUID i l'etiqueta de sdd1 i sdd2](captures/75-particions-blkid-uuid.png)
+
+Amb els UUID he afegit aquestes dues línies a `/etc/fstab`:
+
+```
+UUID=ac70f431-53b6-4d35-8bc7-2965d7669838   /var/particio1   ext4      defaults,nofail                     0   2
+UUID=4001A4953737383A                       /var/particio2   ntfs-3g   defaults,nofail,uid=1000,gid=1000   0   0
+```
+
+![les dues línies noves afegides al final de /etc/fstab](captures/76-particions-fstab-linies-noves.png)
+
+He fet servir l'UUID i no `/dev/sdd1` perquè el nom `sdd` depèn de l'ordre
+en què el sistema detecta els discos: si en trec o en poso un altre, la
+partició pot acabar dient-se `sde` i l'entrada de `fstab` muntaria el que
+no toca (o fallaria). L'UUID es crea en formatar i no canvia mai.
+
+Abans de reiniciar, ho he comprovat sense arriscar-me:
+
+```
+sudo systemctl daemon-reload
+sudo findmnt --verify
+sudo mount -a
+df -hT | grep sdd
+```
+
+![findmnt --verify amb 0 errors (només avisos sobre ntfs-3g, que no són greus) i mount -a muntant les dues particions sense queixar-se](captures/77-particions-findmnt-mount-a.png)
+
+`findmnt --verify` ha donat 0 errors de sintaxi i només avisos, el de
+`ntfs-3g` inclòs (és normal, el nucli no porta suport natiu per escriure
+NTFS, per això es fa servir FUSE). Amb `mount -a` les dues particions
+s'han muntat soles sense dir res, que vol dir que `fstab` és correcte.
+
+Finalment, el moment de la veritat — reiniciar i comprovar que es munta
+tot sol:
+
+```
+sudo reboot
+df -hT | grep sdd
+ls -l /var/particio1 /var/particio2
+```
+
+![després de reiniciar, df -hT mostra sdd1 i sdd2 muntades sense haver fet cap mount, i ls -l ensenya prova.txt de l'usuari widad dins de particio1](captures/78-particions-reboot-fstab-persistent.png)
+
+Després de reiniciar, `/var/particio1` i `/var/particio2` ja hi són
+muntades soles, sense haver escrit cap ordre `mount`. El `prova.txt` que
+havia escrit al Pas 5 continua allà i és propietat de l'usuari `widad`
+gràcies al `uid`/`gid` que vaig posar a les opcions de `sdd2`.
 
 ### L'exercici del disc de 3 GB
 
